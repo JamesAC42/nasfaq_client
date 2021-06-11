@@ -1,0 +1,182 @@
+@import "../settings.scss";
+
+div.room-container {
+
+    position:relative;
+    flex:1;
+    height:calc(100vh - #{$nav-height});
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    align-items:stretch;
+
+    .dark & {
+        background:rgb(19, 22, 29);
+    }
+
+    .room-header {
+        top:0;
+        min-height:50px;
+        display:flex;
+        flex-direction:row;
+        justify-content:left;
+        align-items:center;
+        border-bottom:2px solid rgb(114, 114, 114);
+        background:$ui-light;
+        box-shadow: 0px 7px 18px -14px $shadow-color;
+        z-index:1500;
+        .dark & {
+            background:$ui-dark;
+            color:$text-light;
+        }
+        div {
+            padding:0 20px;
+            &.room-name {
+                font-family:WorkSansSemiBold;
+                font-size:20px;
+                white-space:nowrap;
+                overflow:hidden;
+                text-overflow: ellipsis;
+            }
+            &.collapse-room-list {
+                padding:0 20px;
+                margin-left:auto;
+                cursor:pointer;
+                svg {
+                    font-size:30px;
+                }
+                &:hover {
+                    color:rgb(81, 92, 250);
+                }
+                @media (min-width: 1000px) {
+                    display:none;
+                }
+            }
+        }
+        .remove-room {
+            font-size:18px;
+            transform:translateY(-1px);
+            cursor:pointer;
+            &:hover {
+                color:$error;
+            }
+        }
+    }
+
+}
+
+.message-input {
+    position:fixed;
+    bottom:0;
+    right:1.1vw;
+    transition:width .1s ease-in-out;
+    width:80px;
+    overflow:hidden;
+    
+    z-index:15000;
+    
+    //filter:blur(2px);
+    @media (max-width: 1500px) {
+        right:18px;
+    }
+
+    .message-input-inner {
+        position:relative;
+        float:right;
+        width:30vw;
+        min-width:350px;
+        height:25vh;
+        border-radius:0 0 0 10px;
+        padding:10px;
+        z-index:2000;
+        display:flex;
+        transform:translateX(100%);
+        flex-direction:row;
+        align-items:stretch;
+        background:$ui-light;
+        transition:transform .15s ease-in-out;
+        border:1px solid rgb(197, 197, 197);
+        border-right:none;
+        .dark & {
+            border-color:rgb(55, 60, 78);
+            background:rgb(28, 31, 41);
+        }
+    }
+
+    &.message-input-visible {
+
+        width:calc(30vw + 80px);
+        min-width:calc(350px + 80px);
+        .message-input-inner {
+            transform:translateX(0);
+        }
+    }
+    textarea {
+        margin:0;
+        flex:1;
+        resize:none;
+        overflow-y:scroll;
+        line-height:18px;
+        padding:10px 15px;
+        font-size:14px;
+        font-family:WorkSans;
+        border:1px solid $ui-subtle;
+        outline:none;
+        border-radius:10px;
+        box-sizing: padding-box;
+        .dark & {
+            border-color:rgb(41, 45, 56);
+            background:rgb(23, 26, 34);
+            color:$text-light;
+        }
+    }
+    .input-control {
+        width:8vw;
+        padding:5px;
+        margin-left:10px;
+        color:$text-dark;
+        display:flex;
+        flex-direction: column;
+        align-items:center;
+        .dark & {
+            color:$text-light;
+        }
+        .character-count {
+            width:100%;
+            flex:1;
+            text-align:left;
+        }
+        .send-message {
+            height:30px;
+            width:100px;
+            margin:15px 0;
+            border:3px solid #fff;
+            text-align:center;
+            line-height:30px;
+            border-radius:10px;
+        }
+    }
+}
+
+.toggle-message-input {
+    position:absolute;
+    top:-1px;
+    color:rgb(44, 80, 177);
+    left:0;
+    text-align:center;
+    z-index:2500;
+    line-height:56px;
+    font-size:28px;
+    cursor:pointer;
+    transform:translateX(-100%);
+    height:50px;width:50px;
+    background:$ui-light;
+    border-radius:10px 0 0 10px;
+    border:1px solid rgb(197, 197, 197);
+    border-right:none;
+    .dark & {
+        border-color:rgb(55, 60, 78);
+        color:rgb(121, 154, 245);
+        background:rgb(28, 31, 41);
+    }
+}

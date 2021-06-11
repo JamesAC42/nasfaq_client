@@ -1,0 +1,50 @@
+@import "../settings.scss";
+
+div.floor-outer {
+    overflow-y:hidden;
+    border-top:1px solid $ui-subtle;
+    //z-index:1000;
+    .dark & {
+        border-color: $ui-dark-subtle;
+    }
+}
+
+div.floor-container {
+    display:flex;
+    flex-direction:row;
+    align-items:stretch;
+}
+
+.submit-message-button {
+    margin:10px auto;
+    padding:6px 12px;
+    font-size:16px;
+    color:$default;
+    height:20px;line-height:20px;
+    border:2px solid $default;
+    border-radius:15px;
+    transition:all .1s ease-in-out;
+    font-family:WorkSansSemiBold;
+    overflow:hidden;
+    white-space:nowrap;
+    cursor:pointer;
+    &:hover {
+        background:$default;
+        color:$text-light;
+    }
+    .dark &:hover {
+        color:$ui-dark;
+    }
+    span.cooldown-timer {
+        margin-left:10px;
+        padding-left:10px;
+        border-left:2px solid $default;
+    }
+}
+
+.error-msg {
+    line-height:12px;
+    font-size:12px;
+    color:$error;
+    text-align:center;
+}

@@ -1,0 +1,58 @@
+@import 'settings.scss';
+
+@keyframes enter-announcement {
+    0% {
+        transform:translate(-50%, -100%);
+    }
+    100% {
+        transform:translateX(-50%);
+    }
+}
+
+div.announcement-panel {
+    z-index:900;
+    position:fixed;
+    top:$nav-height;
+    left:50%;
+    transform:translateX(-50%);
+    border-radius:0 0 10px 10px;
+    padding:20px;
+    display:flex;
+    flex-direction:row;
+    align-items:center;
+    background:#fff;
+    border:3px solid rgb(93, 135, 250);
+    border-top:none;
+    color:$text-dark;
+
+    animation:enter-announcement .1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 1;
+
+    .dark & {
+        background:$ui-dark;
+        color:$text-light;
+    }
+
+    div.announcement-info {
+        padding:0 10px;
+        div.announcement-header {
+            font-family:WorkSansSemiBold;
+            font-size:20px;
+        }
+        div.announcement-message,
+        div.announcement-date {
+            font-size:16px;
+        }
+        div.announcement-message {
+            white-space:pre-wrap;
+        }
+    }
+
+    div.announcement-close {
+        cursor:pointer;
+        padding:0 10px;
+        transform:translateY(-3px);
+        svg {
+            font-size:20px;
+        }
+    }
+}

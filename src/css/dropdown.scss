@@ -1,0 +1,101 @@
+@import "settings.scss";
+
+div.dropdown-container {
+    cursor:pointer;
+    height:40px;
+    min-width:100px;
+}
+
+div.dropdown-label {
+    flex:1;
+    color:$text-dark;
+    text-align:center;
+    .dark & {
+        color:$text-light;
+    }
+}
+
+div.dropdown-outer {
+    position:relative;
+    min-width:110px;
+}
+
+div.dropdown-selected {
+    position:relative;
+    width:auto;
+    margin:0;
+    padding:0;
+    line-height:40px;
+    z-index:100;
+    border:1px solid rgb(112, 150, 255);
+    border-radius:6px;
+}
+
+div.selected-option {
+    position:relative;
+    flex:1;
+    text-align:left;
+    padding:0 10px;
+    font-size:16px;
+}
+
+div.dropdown-arrow {
+    position:relative;
+    height:40px;
+    width:30px;
+    margin:0;
+    margin-right:5px;
+    padding:0;
+    text-align:right;
+}
+
+div.selected-option,
+div.dropdown-arrow {
+    color:$text-dark;
+    .dark & {
+        color:$text-light;
+    }
+}
+
+div.dropdown-options {
+    position:absolute;
+    top:0;
+    left:0;
+    transform:translateY(50px);
+    width:100%;
+    box-shadow: 0px 4px 20px -9px rgba(0,0,0,0.75);
+    border-radius:5px;
+    background:#fff;
+    z-index:1050;
+    overflow-x:hidden;
+    .dark & {
+        box-shadow: 0px 4px 20px -9px rgba(0, 0, 0, 0.884);
+    }
+}
+
+div.dark div.dropdown-options {
+    background: $ui-dark;
+    color:$text-light;
+}
+
+div.dropdown-option {
+    position:relative;
+    float:left;
+    height:40px;
+    line-height:40px;
+    width:100%;
+    margin:0;
+    padding:0 10px;
+    font-size:16px;
+    text-align:left;
+    transition:all .05s ease-out;
+}
+
+div.dropdown-option-hidden {
+    display:none;
+}
+
+div.dropdown-option:hover {
+    background:rgb(82, 84, 182);
+    color:#fff;
+}

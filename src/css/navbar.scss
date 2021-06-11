@@ -1,0 +1,240 @@
+@import 'settings.scss';
+
+.navbar {
+  position:fixed;
+  display:flex;
+  //justify-content:flex-end;
+  flex-direction: row;
+  align-items: stretch;
+  top:0;
+  left:0;
+  background: $ui-light;
+  height: $nav-height;
+  width:100vw;
+  margin:0;
+  padding:0;
+  z-index:1000;
+  
+  &.navbar-shadow {
+    box-shadow: 0px 7px 32px -14px $shadow-color;
+  }
+
+  .dark & {
+    background: $ui-dark;
+  }
+
+  .navbar-collapse {
+    display:none !important;
+    text-align:center;
+    color:$text-dark;
+    cursor:pointer;
+    .dark & {
+      color:$text-light;
+    }
+    svg {
+      font-size:30px;
+    }
+    @media (max-width:1500px) {
+      & {
+        display:block !important;
+      }
+    }
+  }
+  
+  .nav-item, .nav-dropdown {
+    line-height: $nav-height;
+    padding: 0 20px;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    //justify-content: center;
+    a {
+      text-decoration: none;
+      color: $text-dark;
+      .dark & {
+        color: $text-light;
+      }
+    }
+    .nav-dropdown {
+      justify-content: left;
+    }
+  }
+
+  .nav-dropdown {
+    position:relative;
+    color:$text-dark;
+    cursor:pointer;
+    //overflow:hidden;
+    img, svg {transform:translateY(2px);margin:0 5px;}
+    .dark & {
+      color:$text-light;
+    }
+    .nav-dropdown-header {
+      width:100%;
+    }
+    .nav-dropdown-inner {
+      position:relative;
+      
+      width:100%;
+      text-align:left;
+      background:$ui-light;
+      transform:translate(0, 100%);
+      box-shadow: 0px 10px 19px -8px #696969;
+      border-radius:0 0 5px 5px;
+      .dark & {
+        background:$ui-dark;
+        box-shadow: 0px 10px 19px -8px #141414;
+      }
+    }
+    &.nav-dropdown-visible {
+      overflow:visible;
+      .nav-dropdown-inner {
+        position:relative;
+      }
+    }
+  }
+
+  .nav-pages {
+    display:flex;
+    flex-direction:row;
+    justify-content:flex-end;
+
+
+    @media (max-width: 1500px) {
+      & {
+        transform:translate(-100%, 0);
+        transition:transform .1s ease-in-out;
+        position:fixed;
+        top:$nav-height;
+        background:$ui-light;
+
+        .dark & {
+          background:$ui-dark;
+        }
+
+        flex-direction: column !important;
+        left:0;
+        justify-content:flex-start !important;
+        box-shadow: 0px 32px 32px -14px $shadow-color;
+        width:20vw;
+        min-width:200px;
+        height:calc(100vh - #{$nav-height});
+        z-index:15000;
+
+        .nav-item, .nav-dropdown {
+          cursor:pointer;
+          height:60px;
+          line-height:60px;
+          transition:all .1s ease-in-out;
+          a {
+            transition:all .1s ease-in-out;
+            width:100%;
+            height:60px;
+          }
+          &:first-child {
+            border-top:1px solid $ui-subtle;
+            .dark & {
+              border-color:$ui-dark-subtle;
+            }
+          }
+          &:hover {
+            background:rgb(169, 189, 255);
+            a {color:#fff;}
+            .dark & {
+              background:rgb(20, 19, 19);
+            }
+          }
+
+          &.nav-item-toggle-dark {
+            margin-top:auto;
+            height:100px;
+            &:hover {
+              background:none;
+            }
+          }
+        }
+
+        .nav-dropdown {
+          text-align:left;
+          height:mozilla-fit-content;
+          .nav-dropdown-inner {
+            position:relative;
+            transform:0;
+          }
+        }
+      }
+      &.visible {
+        transform:translate(0, 0);
+      }
+    }
+    
+  }
+
+  span.username-nav {
+    font-family:WorkSansBold;
+    font-size:18px;
+    color:$text-dark;
+    max-width:350px;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+    overflow:hidden;
+    .dark & {color:$text-light;}
+  }
+  .balance-tag {
+    color:$success;
+    font-family:WorkSansSemiBold;
+    .amt-negative {
+      color:$error;
+    }
+    .amt-positive {
+      color:$success;
+    }
+    white-space:nowrap;
+    text-overflow:ellipsis;
+    overflow:hidden;
+  }
+  .datetime {
+    color:$text-dark;
+    line-height:20px;
+    font-size:16px;
+    .dark & {
+      color:$text-light;
+    }
+    max-height:calc(#{$nav-height});
+    overflow:hidden;
+    margin:0 auto;
+    @media (max-width:665px) {
+        display:none;
+    }
+
+  }
+  .nav-title {
+    font-size: 30px;
+    font-family: Chicago;
+    a {
+      color:$default;
+      .dark & { 
+        color: $default;
+      }
+    }
+  }
+}
+
+img.darkmode-img {
+  height: 35px; // Does this need to be converted to rem?
+  cursor: pointer;
+  transition: opacity .1s ease-in-out;
+  :hover {
+    opacity: 0.5;
+  }
+}
+
+div.market-closed-banner {
+  font-family:WorkSansSemiBold;
+  font-size:18px;
+  max-width:100px;
+  background:$error;
+  color:$text-light;
+  z-index:15000;
+  text-align:center;
+}

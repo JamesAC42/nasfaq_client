@@ -1,0 +1,9 @@
+@import 'settings.scss';
+
+.notfound-message {
+    font-family:WorkSansSemiBold;
+    color:$text-dark;
+    .dark & {
+        color:$text-light;
+    }
+}

@@ -1,0 +1,66 @@
+div.loading-small-outer {
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%);
+    width:100px;
+    height:30px;
+    margin:0;
+    padding:0;
+    display:flex;
+    flex-direction:row;
+    align-content: stretch;
+    z-index:1000;
+}
+
+div.loading-small-section {
+    position:relative;
+    flex-grow:1;
+    height:30px;
+    margin:0;
+}
+
+@keyframes wave {
+    0% {
+        transform:translate(-50%, -100%);
+    }
+    50% {
+        transform:translate(-50%, 0%);
+    }
+    100% {
+        transform:translate(-50%, -100%);
+    }
+}
+
+div.loading-small-bubble {
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    height:15px;
+    width:15px;
+    border-radius:50%;
+    border:1px solid #fff;
+    background:rgb(85, 122, 245);
+}
+
+div.dark div.loading-small-bubble {
+    border:1px solid rgb(54, 51, 109);
+    background:rgb(123, 175, 253);
+}
+
+div.loading-small-section:first-child > div.loading-small-bubble {
+    animation:wave 0.6s ease-in-out 0s infinite;
+}
+
+div.loading-small-section:nth-child(2) > div.loading-small-bubble {
+    animation:wave 0.6s ease-in-out 0.1s infinite;
+}
+
+div.loading-small-section:nth-child(3) > div.loading-small-bubble  {
+    animation:wave 0.6s ease-in-out 0.2s infinite;
+}
+
+div.loading-small-section:last-child > div.loading-small-bubble  {
+    animation:wave 0.6s ease-in-out 0.3s infinite;
+}

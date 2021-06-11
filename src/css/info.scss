@@ -1,0 +1,39 @@
+@import 'settings.scss';
+
+div.nasfaq {
+    font-size: 50px;
+    font-family: Chicago;
+    color:$default;
+    @media (max-width:1300px) {
+       font-size:40px; 
+    }
+}
+
+img.okayu-question {
+    z-index:1000;
+    margin-right:17px;
+}
+
+div.kofi-container {
+    text-align:center;
+    img {
+        margin-top:15px;
+    }
+}
+
+li {
+    line-height:25px;
+    font-size:18px;
+    color:$text-dark;
+    @media (max-width:1300px) {
+        line-height:20px;
+        font-size:16px; 
+    }
+    .dark & {
+        color:$text-light;
+    }
+    a {
+        color:$default;
+        .dark & {color:$primary}
+    }
+}

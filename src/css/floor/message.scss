@@ -1,0 +1,128 @@
+@import "../settings.scss";
+
+.message {
+    width:fit-content;
+    width:-moz-fit-content;
+    position:relative;
+    padding:15px;
+    margin:5px 5px;
+    background:rgb(252, 252, 252);
+    color:rgb(19, 23, 36);
+    border:1px solid $ui-subtle;
+    border-radius:4px;
+    font-family:WorkSans;
+    font-size:13px;
+    .message-info {
+        display:flex;
+        div {
+            height:25px;
+            line-height:20px;
+            margin-right:10px;
+        }
+        .message-user {
+            font-size:14px;
+            font-family:WorkSansSemiBold;
+        }
+        .message-id {
+            cursor:pointer;
+            &:hover {
+                color:$primary;
+            }
+        }
+        .report-msg-btn {
+            cursor:pointer;
+            position:relative;
+            .report-btn-confirm {
+                position:absolute;
+                bottom:0;left:0;
+                height:20px;
+                line-height:20px;
+                font-size:14px;
+                transform:translateY(100%);
+                text-align:center;
+                padding:6px 10px;
+                white-space:nowrap;
+                background:$ui-light;
+                color:$text-dark;
+                border:1px solid rgb(95, 124, 255);
+                border-radius:4px;
+                .dark & {
+                    color:$text-light;
+                    background:$ui-dark;
+                }
+                &:hover {
+                    filter:brightness(0.8);
+                }
+            }
+        }
+        .delete-message {
+            font-size:16px;
+            line-height:16px;
+            cursor:pointer;
+            &:hover {
+                color:$error;
+            }
+        }
+    }
+    .message-text {
+        white-space: pre-wrap;
+        word-break:break-word;
+        line-height:15px;
+        a {text-decoration: underline;}
+
+        span.quotation {color: rgb(6, 148, 18);}
+        a.mention {color:rgb(87, 88, 172);}
+        a.msg-link {color:rgb(76, 88, 250);}
+        
+        .dark & {
+            span.quotation {color:rgb(100, 248, 113);}
+            a.mention {color:rgb(131, 160, 253);}
+            a.msg-link {color:rgb(136, 197, 255);}
+        }
+    }
+    .message-replies {
+        margin-top:5px;
+        color:rgb(128, 128, 128);
+        .dark & {
+            color:rgb(167, 167, 167);
+        }
+        span.message-replies-inner {
+            cursor:pointer;
+        }
+    }
+    .dark & {
+        background:rgb(43, 43, 51);
+        color:$text-light;
+        border-color:rgb(22, 22, 22);
+    }
+
+    &.op {
+        background:rgb(47, 75, 133);
+        border-color:rgb(72, 74, 194);
+        color:#fff;
+        .message-text {color:#fff;}
+        span.quotation {color:rgb(170, 255, 189);}
+        .message-replies {color:rgb(231, 231, 231);}
+        a.mention {color:rgb(167, 230, 255);}
+        a.msg-link {color:rgb(123, 235, 255);}
+        .dark & {
+            background:rgb(62, 66, 110);
+            border-color:rgb(97, 99, 255);
+            a.mention {color:rgb(146, 172, 255);}
+            a.msg-link {color:rgb(238, 220, 255);}
+        }
+    }
+
+    &.you, &.me {
+        border-width:2px;
+        border-color:rgb(80, 106, 255);
+        .dark & {
+            border-color:rgb(137, 154, 255);
+        }
+    }
+
+    &.me {
+        border-style:dotted;
+    }
+
+}

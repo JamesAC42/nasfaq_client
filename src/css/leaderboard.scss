@@ -1,0 +1,339 @@
+@import "./settings.scss";
+
+$row-height: 90px;
+
+div.user-row {
+    flex-basis:100%;
+    position:relative;
+    display:flex;
+    flex-direction:column;
+    align-items:stretch;
+    border-bottom: 1px solid $ui-subtle;
+    &.user-row-me {
+        .user-rank-info {
+            background:rgb(95, 164, 253);
+            color:#fff;
+            .net-worth {
+                color:rgb(181, 255, 172);
+                &.debt {
+                    color: rgb(240, 34, 96);
+                }
+            }
+            .dark & {
+                background:rgb(35, 92, 179);
+                .net-worth {
+                    color:rgb(181, 255, 172);
+                    &.debt {
+                        color: rgb(255, 138, 173);
+                    }
+                }
+            }
+        }
+    }
+    .dark & {
+        border-color:$ui-dark-subtle;
+        .net-worth, .user-rank {
+            border-color:$ui-dark-subtle;
+        }
+    }
+}
+
+div.user-rank-wallet {
+    position:relative;
+    overflow:hidden;
+    div.wallet-inner {
+        display:flex;
+        flex-direction:column;
+        align-items:stretch;
+        padding:10px 20px 30px 20px;
+
+        .wallet-inner-coins {
+            flex:1;
+            display:flex;
+            flex-direction: row;
+            flex-wrap:wrap;
+            justify-content: center;
+        }
+        .wallet-item {
+            display:flex;
+            flex-direction:row;
+            align-items:center;
+            margin:10px;
+            margin-right:0;
+            .coin {
+                height:40px;
+                width:50px;
+                border-radius:10px;
+                border-width:2px;
+                border-bottom-width:4px;
+                img {height:60%;}
+                @media (max-width:1300px) {
+                   height:35px;
+                   width:45px;
+                }
+            }
+            .wallet-coin-amt {
+                width:30px;
+                text-align:left;
+                padding-left:10px;
+                color:rgb(79, 105, 255);
+                font-size:18px;
+                font-family:WorkSansSemiBold;
+                @media (max-width:1300px) {
+                   font-size:16px; 
+                }
+                .dark & {
+                    color:rgb(191, 211, 255);
+                }
+            }
+        }
+        .wallet-statistics {
+            height:70px;
+            font-size:20px;
+            font-family:WorkSansSemiBold;
+            color:$text-dark;
+            @media (max-width:1300px) {
+                height:60px;
+                font-size:18px; 
+            }
+            .dark & {
+                color:$text-light;
+            }
+            .wallet-stat-item {
+                padding:0 15px;
+                span.stat-number {
+                    color:rgb(93, 136, 255);
+                    .dark & {color:$primary}
+                }
+            }
+        }
+    }
+
+    div.loading-container {
+        height:100px;
+    }
+}
+
+div.user-rank-info {
+    position:relative;
+    flex-basis:100%;
+    max-width:100%;
+    display:flex;
+    flex-direction:row;
+    height:$row-height;
+    align-items:center;
+    justify-content:center;
+    color:$text-dark;
+    .dark & {
+        color:$text-light;
+    }
+    &:last-child {
+        border-bottom:none;
+    }
+    .user-rank, .username, .net-worth {
+        height:$row-height;
+        line-height:$row-height;
+    }
+    .user-rank, .net-worth {
+        text-align:center;
+    }
+    .username, .net-worth {
+        font-family:WorkSansSemiBold;
+        font-size:24px;
+        @media (max-width:1300px) {
+           font-size:18px; 
+        }
+    }
+    .user-rank {
+        width:100px;
+        font-family:WorkSansBold;
+        font-size:26px;
+        border-right:1px solid $ui-subtle;
+        @media (max-width:1300px) {
+           width:80px;
+           font-size:20px; 
+        }
+    }
+    .user-icon {
+        position:relative;
+        width:120px;
+        padding:0;
+        @media (max-width:1300px) {
+           width:100px;
+        }
+        .coin {
+            margin-left:auto;
+            height:55px;
+            width:85px;
+            img, svg {
+                width:40px;
+            }
+            @media (max-width:1300px) {
+               height:40px;
+               width:70px;
+               border-width:3px;
+               border-radius:15px;
+               border-bottom-width:8px;
+               img, svg {
+                   width:30px;
+               }
+            }
+        }
+    }
+    .username {
+        flex:1;
+        padding:0 30px;
+        .username-inner {
+            max-width:30vw;
+            text-align:left;
+            white-space:nowrap;
+            text-overflow:ellipsis;
+            overflow:hidden;
+        }
+    }
+    .show-wallet {
+        width:50px;
+        font-size:25px;
+        @media (max-width:1300px) {
+           width:40px;
+           font-size:20px; 
+        }
+        cursor:pointer;
+        transition:opacity .1s ease-in-out;
+        &:hover {
+            opacity:0.5;
+        }
+    }
+    .net-worth {
+        width:300px;
+        border-left:1px solid $ui-subtle;
+        color:$success;
+        @media (max-width:1300px) {
+           width:250px;
+        }
+        &.debt {
+            color:$error;
+        }
+    }
+
+}
+
+div.oshiboard-description {
+    text-align:center;
+    font-family:WorkSans;
+    font-size:20px;
+    padding:30px 0;
+}
+
+div.oshiboard-item {
+    position:relative;
+    padding:30px 0;
+    border-bottom:1px solid rgb(207, 207, 207);
+    .dark & {
+        border-color:rgb(107, 107, 107);
+    }
+    .oshi-info {
+        justify-content:center;
+        width:30%;
+        text-align:center;
+        .oshi-coin {
+            .coin {
+                height:80px;
+                width:160px;
+                border-radius:12px;
+                border-width:3px;
+                img, svg {
+                    width:25%;
+                }
+                margin-bottom:8px;
+            }
+        }
+        .oshi-name {
+            font-family:WorkSansSemiBold;
+            font-size:22px;
+            color:rgb(64, 96, 202);
+            .dark & {
+                color:rgb(187, 197, 255);
+            }
+        }
+        border-right:1px solid rgb(202, 202, 202);
+        margin-right:20px;
+        .dark & {
+            border-color:rgb(83, 83, 83);
+        }
+    }
+    .directors {
+        flex:1;
+        .no-directors {
+            text-align:center;
+            font-family:WorkSansSemiBold;
+            margin:auto 0;
+        }
+        .director {
+            padding:10px 0;
+            gap:10px;
+            .director-badge {
+                width:30px;
+                text-align:center;
+                img {
+                    width:30px;
+                }
+            }
+            .director-icon {
+                position:relative;
+                .coin {
+                    height:45px;
+                    width:85px;
+                    border-radius:10px;
+                    border-width:2px;
+                    border-bottom-width:7px;
+                    img, svg {
+                        width:40%;
+                    }
+                }
+            }
+            .director-username {
+                width:300px;
+                white-space:nowrap;
+                text-overflow:ellipsis;
+                overflow:hidden;
+                font-family:WorkSansSemiBold;
+                font-size:18px;
+            }
+            div.director-amt-owned,
+            div.director-percent-share {
+                flex:1;
+                font-family:WorkSans;
+                font-size:16px;
+            }
+
+            div.director-amt-owned {
+                text-align:right;
+                padding-right:10px;
+                border-right:1px solid rgb(160, 160, 160);
+            }
+
+            div.director-percent-share {
+                text-align:left;
+            }
+
+            &:first-child {
+                .director-username {
+                    font-size:23px;
+                    color:rgb(45, 136, 255);
+                    .dark & {
+                        color:rgb(151, 208, 255);
+                    }
+                }
+            }
+        }
+    }
+    
+    span.oshi-stat {
+        font-family:WorkSansSemiBold;
+        color:rgb(61, 72, 228);
+        .dark & {
+            color:rgb(157, 178, 247);
+        }
+    }
+}

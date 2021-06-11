@@ -1,0 +1,213 @@
+@import 'settings.scss';
+
+.login-outer {
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%, -48%);
+}
+
+.login-inner {
+  position:relative;
+  height:60vh;
+  width:60vw;
+  margin:0;
+  @media (max-width: 1150px) {
+    width:65vw;
+    height:80vh;
+  }
+  &.login-inner-admin {
+    height:70vh;
+    width:40vw;
+  }
+  &.login-inner-pwreset {
+    height:80vh;
+    width:40vw;
+  }
+}
+
+.login-backdrop {
+  position:absolute;
+  left:-20px;
+  bottom:-20px;
+  background: linear-gradient(135deg, rgba(123,250,255,1) 0%, rgba(110,156,252,1) 100%);
+  height:60vh;
+  width:60vw;
+  border-radius: 10px;
+  @media (max-width: 1150px) {
+    width:65vw;
+    height:80vh;
+  }
+  .login-inner-admin & {
+    height:70vh;
+    width:40vw;
+  }
+  .login-inner-pwreset & {
+    height:80vh;
+    width:40vw;
+  }
+}
+
+.login-modal {
+  border:5px solid $default;
+  height: 60vh;
+  width: 60vw;
+  justify-content: center;
+  z-index:100;
+  background:$ui-light;
+  overflow:hidden;
+  @media (max-width: 1150px) {
+    flex-direction:column;
+    justify-content: start;
+    width:65vw;
+    height:80vh;
+  }
+  .login-inner-admin & {
+    height:70vh;
+    width:40vw;
+  }
+  .login-inner-pwreset & {
+    height:80vh;
+    width:40vw;
+  }
+}
+
+div.login, div.register {
+  position:relative;
+  flex: 1;
+  justify-content: center;
+  background:$ui-light;
+  .dark & {
+    background:$ui-dark;
+  }
+  @media (max-width: 1150px) {
+    justify-content: start;
+  }
+}
+
+div.login {
+  z-index:110;
+  border-right: 2px solid $contrast;
+  .dark & {
+    border-right: 2px solid $contrast-dark;
+  }
+}
+
+div.register {
+  z-index:100;
+  position:relative;
+  transition:transform .2s cubic-bezier(0.77, 0, 0.175, 1);
+  &.show-filter {
+    transform:translateY(-100%);
+  }
+  div.register-filter {
+    position:absolute;
+    height:100%;
+    width:100%;
+    transform:translate(0, 100%);
+    bottom:0;left:0;
+    div.register-filter-inner {
+      position:relative;
+      height:100%;width:100%;
+      flex-direction: column;
+    }
+    div.hide-filter-pane {
+      height:50px;width:50px;
+      position:absolute;
+      top:0;left:0;
+      text-align:center;
+      margin:10px;
+      color:$primary;
+      font-size:2.5rem;
+      cursor:pointer;
+    }
+  }
+}
+
+div.login-header, div.register-header {
+  height: 10vh;
+  line-height: 10vh;
+  text-align: center;
+  @media (max-width: 1150px) {
+    height: 7vh;
+    line-height: 7vh;
+  }
+}
+
+div.login-input-container {
+  height: 30vh;
+  justify-content: center;
+  padding:0 50px;
+  @media (max-width: 1150px) {
+    height:fit-content;
+    height:-moz-max-content;
+  }
+  .login-inner-admin &,
+  .login-inner-pwreset & {
+    height:auto;
+  }
+}
+
+div.login-submit-container {
+  height: 10vh;
+  
+  @media only screen and (max-height: $medium-height) {
+    margin-top: auto;
+  }
+  @media (max-width: 1150px) {
+    height:8vh;
+  }
+}
+
+div.login-error,
+div.code-result {
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  font-size: 16px;
+  @media (max-width: 1150px) {
+    height:30px;
+    line-height:30px;
+    font-size:14px;
+  }
+
+  @media only screen and (max-height: $medium-height) {
+    height: 40px;
+    line-height: 40px;
+    margin-top: 0;
+  }
+}
+
+div.reset-link,
+div.placeholder-link {
+  text-align:center;
+  a {
+    color:rgb(49, 69, 180);
+    text-decoration:none;
+    &:hover { text-decoration: underline;}
+  }
+  .dark & {
+    a {color:rgb(134, 168, 230);}
+  }
+  &.placeholder-link {
+    a {color:$ui-light}
+    .dark & {
+      a {color:$ui-dark}
+    }
+  }
+}
+
+div.login-error,
+div.reset-error {
+  text-align:center;
+  color: $error;
+  .dark & {
+    color: $error-dark;
+  }
+}
+
+div.code-result,
+div.reset-result {
+  text-align:center;
+  color: $primary;
+}

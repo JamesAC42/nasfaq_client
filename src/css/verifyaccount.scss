@@ -1,0 +1,11 @@
+@import 'settings.scss';
+
+.verification-msg {
+    color:$text-dark;
+    font-family:WorkSansSemiBold;
+    font-size:20px;
+    margin:10px;
+    .dark & {
+        color:$text-light;
+    }
+}

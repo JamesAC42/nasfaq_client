@@ -1,0 +1,756 @@
+@import 'settings.scss';
+
+.flex-col {
+  display:flex;
+  flex-direction:column;
+}
+
+.flex-stretch {
+  align-items:stretch;
+}
+
+.flex-center {
+  align-items:center;
+}
+
+.flex-row {
+  display:flex;
+  flex-direction:row;
+}
+
+.center-child {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.button {
+  position:relative;
+  height:50px;
+  width:100px;
+  cursor:pointer;
+  transition:all .1s ease-in-out;
+  @media (max-width:1300px), (max-height:900px) {
+      height:40px;
+      width:80px;
+  }
+
+  .button-background {
+    position:absolute;
+    left:-8px;
+    bottom:-12px;
+    background:$ui-light;
+
+    background: rgb(124,224,252);
+    background: linear-gradient(33deg, rgba(124,224,252,1) 0%, rgba(255,255,255,1) 38%);
+    
+    z-index:100;
+    transition: 
+      left .1s ease-in-out,
+      bottom .1s ease-in-out;
+  }
+
+  .button-timer {
+    position:absolute;
+    z-index:10001;
+    height:100%;
+    top:0;right:0;
+    border-radius: 0px;
+    transition:width .1s ease-in-out;
+    margin:0;
+    background:rgba(88, 90, 99, 0.726);
+    .dark & {
+      background:rgba(18, 20, 27, 0.829);
+    }
+  }
+
+  .button-container {
+    position:relative;
+    left:0;
+    bottom:0;
+    border-width: 3px;
+    border-style: solid;
+    border-color: $ui-light;
+    font-size:18px;
+    font-family:WorkSansBold;
+    text-align:center;
+    line-height:50px;
+    background:$primary;
+    color:$text-light;
+    z-index:10000;
+    user-select: none;
+    transition: 
+      left .05s linear,
+      bottom .05s linear;
+    @media (max-width:1300px), (max-height:900px) {
+        line-height:40px;
+        font-size:14px;
+    }
+  }
+
+  .button-container, .button-background {
+    height:50px;
+    width:100px;
+    border-radius:5px;
+    @media (max-width:1300px), (max-height:900px) {
+      height:40px;
+      width:80px;
+    }
+  }
+
+  &.inverse {
+    .button-background {
+      background:$primary;
+      background: linear-gradient(135deg, rgba(123,250,255,1) 0%, rgba(110,156,252,1) 100%);
+    
+    }
+    .button-container {
+      border-color: $primary;
+      background: $ui-light;
+      color: $primary;
+    }
+    .dark & {
+      .button-container {
+        background: $ui-dark;
+      }
+    }
+    &.red {
+      .button-background {
+        background: linear-gradient(135deg, rgba(255,59,59,1) 0%, rgba(172,110,252,1) 100%);
+      }
+      .button-container {
+        border-color:  rgba(255,59,59,1);
+        color: rgba(255,59,59,1);
+      }
+    }
+    &.green {
+      .button-background {
+        background: linear-gradient(135deg, rgba(67,254,123,1) 0%, rgba(120,216,255,1) 100%);      }
+      .button-container {
+        border-color: #2ce062;
+        color: #20f15f;
+      }
+    }
+  }
+
+  &:hover {
+    .button-background {
+      left:-12px;
+      bottom:-18px;
+    }
+  }
+
+  &.active {
+    .button-container {
+      left:-9px;
+      bottom:-9px;
+    }
+  }
+
+  &.disabled {
+    opacity: 0.4;
+    filter: brightness(0.5);
+  }
+
+}
+
+.input-label {
+  height:40px;
+  line-height:50px;
+  font-size:16px;
+  color:$text-subtle;
+  white-space:nowrap;
+
+  .dark & {
+    color:$text-dark-subtle;
+  }
+
+  @media only screen and (max-height: $medium-height) {
+    height:30px;
+    line-height:40px;
+    font-size:14px;
+  }
+}
+
+input.text-input {
+  font-family:Syne;
+  padding:0 20px;
+  height:30px;
+  line-height:30px;
+  font-size:16px;
+  color:$text-dark;
+  border:1px solid $ui-subtle;
+  border-radius:5px;
+  transition:border .1s ease-in-out;
+
+  &:focus {
+    border:1px solid $primary;
+    outline:none;
+  }
+
+  .dark & {
+    color:$text-light;
+    background:$ui-dark;
+    border-color:$ui-dark-subtle;
+    &:focus {
+      border:1px solid $primary;
+    }
+  }
+
+  @media only screen and (max-height:$medium-height) {
+    height:25px;
+    line-height:25px;
+    font-size:14px;
+  }
+}
+
+.modal {
+  position:fixed;
+  top:50%;
+  left:50%;
+  transform:translate(-50%, -50%);
+  background:$ui-light;
+  border-radius: 10px;
+
+  .dark & {
+    background:$ui-dark;
+  }
+}
+
+.modal-header {
+  margin:0;
+  height:80px;
+  line-height:80px;
+  font-size:26px;
+  color:$ui-dark;
+  text-align:center;
+  font-family:WorkSansSemiBold;
+  border-bottom:1px solid $ui-subtle;
+
+  .dark & {
+    color:$text-light;
+    border-bottom:1px solid $ui-dark-subtle;
+  }
+}
+
+
+.container {
+  position: fixed;
+  overflow-y: scroll;
+  overflow-x:hidden;
+
+  top: $nav-height; // Necessary to remove the default padding added by many browsers
+  left: 0;
+  width: 100vw;
+  height: calc(100vh - #{$nav-height});
+
+  &.fill {
+    overflow-y: hidden;
+    overflow-x: hidden;
+  }
+
+  background-color: $ui-light;
+
+  .container-inner {
+    position:relative;
+    top:0;
+    left:0;
+    height:calc(100vh - #{$nav-height});
+    width:100vw;
+    padding:0;
+  }
+  
+  .dark & {
+    background-color: $ui-dark;
+  }
+
+  &.guttered { // Add these selectors if this element also has the .guttered class
+    // Use percents so that it is reusable in many situations, including if the container isn't as wide as the page
+    width: 80%;
+    left:50%; // Center the container
+    transform: translate(-50%);
+  }
+
+  & .container-content {
+    width:70vw;
+    margin:0 auto;
+    display:flex;
+    flex-direction:column;
+    align-items:stretch;
+    z-index:1;
+
+    .container-section {
+      margin-top:50px;
+      position:relative;
+      .section-background {
+          position:absolute;
+          width:100%;
+          height:100%;
+          background:$primary;
+          background: linear-gradient(135deg, rgba(123,250,255,1) 0%, rgba(110,156,252,1) 100%);
+          border-radius:5px;
+          left:-20px;
+          bottom:-20px;
+          z-index:1;
+      }
+      .section-content {
+          border:5px solid $default;
+          border-radius:5px;
+          padding:15px;
+          background:$ui-light;
+          position:relative;
+          z-index:100;
+          .dark & {
+            background:$ui-dark;
+          }
+      }
+  }
+
+    & .header {
+        height:80px;
+        text-align:center;
+        font-family:WorkSansSemiBold;
+        line-height:80px;
+        color: rgb(0, 0, 0);
+        font-size:32px;
+        border-bottom:1px solid rgb(117, 117, 117);
+        .dark & {
+            color: #fff;
+        }
+    }
+
+    & .subheader {
+      height:40px;
+      line-height:80px;
+      padding:20px;
+      text-align:left;
+      font-family:WorkSansSemiBold;
+      color:$text-dark;
+      font-size:24px;
+      .dark & {
+        color:$text-light;
+      }
+    }
+    & p {
+      font-family:WorkSans;
+      font-size:18px;
+      padding:20px;
+      margin:0;
+      color:$text-dark;
+      line-height:25px;
+      @media (max-width:1300px) {
+        font-size:16px;
+      }
+      .dark & {
+        color:$text-light;
+      }
+      span.broker {
+        font-size:20px;
+        color:rgb(60, 42, 158);
+        @media (max-width:1300px) {
+           font-size:16px; 
+        }
+        .dark & {
+          color:rgb(166, 164, 255);
+        }
+      }
+      span.code {
+        display:inline-block;
+        padding:0 10px;
+        margin:0 5px;
+        height:20px;
+        border-radius:5px;
+        line-height:20px;
+        background:rgb(36, 25, 85);
+        color:rgb(43, 255, 191);
+        font-size:14px;
+        font-family: OverpassMono, monospace;
+      }
+      a {
+        color:$default;
+      }
+    }
+  }
+
+  &.scroll-space::after {
+    content:"";
+    display:block;
+    height:50px;
+    width:100%;
+  }
+
+}
+
+img.corner-img {
+  position:fixed;
+  height:250px;
+  margin:0;
+  &.br {
+    bottom:0;right:0;
+    margin-right:17px;
+  }
+  &.bl {
+    bottom:0;left:0;
+    margin-left:17px;
+  }
+  @media (max-width:1300px) {
+     height:200px;
+  }
+}
+
+.vertical-tab {
+  height:50px;
+  line-height:50px;
+  text-align: right;
+  font-size:18px;
+  padding-right:15px;
+  color:$text-dark;
+  background:$ui-light;
+  border-bottom:1px solid $ui-subtle;
+  border-right:1px solid $ui-subtle;
+  box-shadow: 0px 9px 21px -8px rgba(163,163,163,1);
+  cursor:pointer;
+  transition:border .1s ease-in-out;
+
+  &.vertical-tab-active {
+    border-right: 3px solid $active;
+  }
+
+  .dark & {
+    color:$text-light;
+    background:rgb(41, 41, 46);
+    border-bottom:1px solid $ui-dark-subtle;
+    border-right:1px solid $ui-dark-subtle;
+    box-shadow: 0px 9px 21px -8px rgb(0, 0, 0);
+
+    &.vertical-tab-active {
+      border-right: 3px solid $active-dark;
+    }
+  }
+}
+
+.coin {
+    height:70px;
+    width:90px;
+    line-height:100px;
+    text-align:center;
+    font-size:50px;
+    border-radius:20px;
+    //box-shadow: 0px 10px 21px -7px rgba(0,0,0,0.75);
+    color:rgb(61, 61, 61);
+    border-width:4px;
+    border-bottom-width:10px;
+    border-style: solid;
+    img {
+      width:60%;
+      font-size:12px;
+    }
+    .dark & {
+      color: rgb(230, 230, 230);
+    }
+
+  }
+
+  .toggle-outer {
+    margin:5px;
+    height:30px;
+    display:flex;flex-direction:row;
+    align-items:center;
+    background:$ui-light;
+    .dark & { background: $ui-dark }
+    .tp-label {
+        height:30px;
+        line-height:30px;
+        text-align:center;
+        padding:0 10px;
+        font-size:14px;
+        color:$text-dark;
+        .dark & { color:$text-light }
+        cursor:pointer;
+    }
+    .tp-switch-outer {
+        position:relative;
+        height:30px;
+        width:50px;
+        margin:0;padding:0;
+        cursor:pointer;
+        & div {
+            position:absolute;
+            top:50%; left:50%;
+        }
+        .tp-switch-bar {
+            height:10px;
+            width:30px;
+            background:rgb(201, 201, 201);
+            border-radius: 3px;
+            transform:translate(-50%, -50%)
+        }
+        .tp-switch-circle {
+            height:20px;
+            width:20px;
+            border-radius: 50%;
+            background: $default;
+            transition:transform 0.1s ease-in-out;
+            transform:translate(calc(-50% + 15px), -50%);
+            &.on {
+                transform:translate(calc(-50% - 15px), -50%);
+            }
+        }
+    }
+}
+
+.gura {
+    background:$gg-primary;
+    border-color:$gg-secondary;
+}
+
+.kiara {
+    background:$tk-primary;
+    border-color:$tk-secondary;
+}
+
+.calliope {
+    background:$mc-primary;
+    border-color:$mc-secondary;
+}
+
+.inanis {
+    background:$ni-primary;
+    border-color:$ni-secondary;
+}
+
+.amelia {
+    background:$wa-primary;
+    border-color:$wa-secondary;
+}
+
+.polka {
+    background:$op-primary;
+    border-color:$op-secondary;
+}
+
+.botan {
+    background:$sb-primary;
+    border-color:$sb-secondary;
+}
+
+.nene {
+    background:$mn-primary;
+    border-color:$mn-secondary;
+}
+
+.lamy {
+    background:$yl-primary;
+    border-color:$yl-secondary;
+}
+
+.sora {
+    background:$ts-primary;
+    border-color:$ts-secondary;
+}
+
+.roboco {
+    background:$rb-primary;
+    border-color:$rb-secondary;
+}
+
+.miko {
+    background:$sm-primary;
+    border-color:$sm-secondary;
+}
+
+.mel {
+    background:$ym-primary;
+    border-color:$ym-secondary;
+}
+
+.flare {
+    background:$sf-primary;
+    border-color:$sf-secondary;
+}
+
+.matsuri {
+    background:$nm-primary;
+    border-color:$nm-secondary;
+}
+
+.haato {
+    background:$ah-primary;
+    border-color:$ah-secondary;
+}
+
+.hololive {
+  background: $ho-primary;
+  border-color: $ho-secondary;
+}
+
+.reine {
+  background: $pr-primary;
+  border-color: $pr-secondary;
+}
+
+.risu {
+    background:$ar-primary;
+    border-color:$ar-secondary;
+}
+
+.aqua {
+    background:$ma-primary;
+    border-color:$ma-secondary;
+}
+
+.ayame {
+    background:$na-primary;
+    border-color:$na-secondary;
+}
+
+.choco {
+    background:$yc-primary;
+    border-color:$yc-secondary;
+    color:rgb(22, 21, 24);
+}
+
+.shion {
+    background:$ms-primary;
+    border-color:$ms-secondary;
+}
+
+.subaru {
+    background:$os-primary;
+    border-color:$os-secondary;
+    color:rgb(50, 28, 179);
+}
+
+.mio {
+    background:$om-primary;
+    border-color:$om-secondary;
+}
+
+.okayu {
+    background:$no-primary;
+    border-color:$no-secondary;
+}
+
+.ollie {
+  background:$ko-primary;
+  border-color:$ko-secondary;
+}
+
+.korone {
+    background:$ik-primary;
+    border-color:$ik-secondary;
+    color:rgb(33, 100, 201);
+}
+
+.fubuki {
+    background:$fu-primary;
+    border-color:$fu-secondary;
+}
+
+.noel {
+    background:$sn-primary;
+    border-color:$sn-secondary;
+}
+
+.marine {
+    background:$hm-primary;
+    border-color:$hm-secondary;
+}
+
+.melfissa {
+  background:$am-primary;
+  border-color:$am-secondary;
+}
+
+.pekora {
+    background:$up-primary;
+    border-color:$up-secondary;
+}
+
+.rushia {
+    background:$ur-primary;
+    border-color:$ur-secondary;
+    color:rgb(11, 105, 74);
+}
+
+.suisei {
+    background:$hs-primary;
+    border-color:$hs-secondary;
+}
+
+.aki {
+    background:$ak-primary;
+    border-color:$ak-secondary;
+    color:rgb(29, 28, 68);
+}
+
+.coco {
+    background:$kc-primary;
+    border-color:$kc-secondary;
+}
+
+.watame {
+    background:$tw-primary;
+    border-color:$tw-secondary;
+    color:rgb(145, 42, 81);
+}
+
+.kanata {
+    background:$ka-primary;
+    border-color:$ka-secondary;
+}
+
+.towa {
+    background:$tt-primary;
+    border-color:$tt-secondary;
+}
+
+.luna {
+    background:$hl-primary;
+    border-color:$hl-secondary;
+}
+
+.azki {
+    background:$az-primary;
+    border-color:$az-secondary;
+}
+
+.civia {
+    background:$cv-primary;
+    border-color:$cv-secondary;
+}
+
+.iofi {
+    background:$ai-primary;
+    border-color:$ai-secondary;
+}
+
+.moona {
+    background:$mh-primary;
+    border-color:$mh-secondary;
+}
+
+.risu {
+    background:$ar-primary;
+    border-color:$ar-secondary;
+}
+
+.nana {
+    background:$nk-primary;
+    border-color:$nk-secondary;
+}
+
+.ui {
+  background: $su-primary;
+  border-color:$su-secondary;
+}
+
+.pochimaru {
+  background: $pm-primary;
+  border-color: $pm-secondary;
+}
+
+.ayamy {
+  background:$ay-primary;
+  border-color:$ay-secondary;
+}

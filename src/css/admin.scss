@@ -1,0 +1,390 @@
+@import 'settings.scss';
+
+.admin-header {
+    height:70px;
+    line-height:100px;
+    text-align:center;
+    font-size:20px;
+    color:$text-dark;
+    font-family:WorkSansSemiBold;
+    border-bottom:1px solid $ui-subtle;
+    .dark & {
+        color:$text-light;
+        border-color:$ui-dark-subtle;
+    }
+}
+
+.admin-space {
+    flex:1;
+}
+
+.word-filters-container, 
+.reports-container, 
+.admin-users-pane {
+    padding:10px 20px;
+}
+
+.word-filters-container,
+.reports-container {
+    border-right:1px solid $ui-subtle;
+    .dark & {
+        border-color:$ui-dark-subtle;
+    }
+}
+
+.word-filters-container {
+    width:14vw;
+}
+.reports-container {
+    width:20vw;
+    min-width:200px;
+    .no-reports {
+        height:100px;
+        line-height:100px;
+        text-align:center;
+        color:$text-dark;
+        .dark & {
+            color:$text-light;
+        }
+    }
+}
+
+.reports-inner,
+.admin-users-container {
+    margin-top:15px;
+    max-height:75vh;
+    overflow-y:scroll;
+    border-top:1px solid $ui-subtle;
+    .dark & {
+        border-color:$ui-dark-subtle;
+    }
+}
+
+.admin-users-container {
+    overflow-x:scroll;
+}
+
+.admin-users-pane {
+    flex:1;
+    position:relative;
+    overflow-x:scroll;
+}
+
+.control-header, .control-description {
+    color:$text-dark;
+    text-align:center;
+    margin:5px 0;
+    .dark & {
+        color:$text-light;
+    }
+}
+
+.control-header {
+    font-family:WorkSansSemiBold;
+    font-size:18px;
+    height:20px;
+}
+
+.control-description {
+    font-size:14px;
+}
+
+textarea.admin-textarea {
+    padding:10px;
+    resize:none;
+    background:$ui-light;
+    border:1px solid rgb(158, 158, 158);
+    font-family:WorkSans;
+    font-size:16px;
+    line-height:20px;
+    color:$text-dark;
+    outline:none;
+    border-radius:5px;
+    .dark & {
+        background:$ui-dark;
+        color:$text-light;
+        border-color:$ui-dark-subtle;
+    }
+}
+
+.filter-textarea {
+    flex:1;
+    padding:10px 0;
+    width:100%;
+    textarea {
+        width:100%;
+    }
+}
+
+.save-button {
+    padding-bottom:30px;
+    .button {
+        margin:15px 0;
+    }
+}
+
+.report-item {
+    position:relative;
+    margin:10px 0;
+    padding:10px 5px;
+    border:1px solid $ui-subtle;
+    border-radius:5px;
+    color:$text-dark;
+    font-size:14px;
+    .dark & {
+        color:$text-light;
+        border-color:$ui-dark-subtle;
+    }
+    &:first-child {
+        margin-top:0;
+    }
+    .report-message-text {
+        padding:6px;
+        margin:5px 0;
+        font-size:14px;
+        background:#eee;
+        white-space: pre-wrap;
+        word-break:break-word;
+        line-height:15px;
+        border-radius:4px;
+        .dark & {
+            background:rgb(58, 58, 58);
+        }
+    }
+    .report-message-link,
+    .report-message-text {
+        a {
+            text-decoration: underline;
+            color:rgb(107, 177, 243);
+        }
+    }
+    .report-actions {
+        .delete-report,
+        .delete-reported-message {
+            cursor:pointer;
+            flex:1;
+            padding:8px 0;
+            text-align:center;
+            border-radius:5px;
+            transition:all .1s ease-in-out;
+            font-size:18px;
+        }
+        .delete-report {
+            &:hover {
+                background:rgb(78, 224, 151);
+                color:#fff;
+            }
+        }
+        .delete-reported-message {
+            &:hover {
+                background:rgb(255, 65, 65);
+                color:#fff;
+            }
+        }
+    }
+    .report-delete-message-results {
+        text-align:center;
+        color:$error;
+        padding:5px 0;
+    }
+    span.report-label {
+        font-family:WorkSansSemiBold;
+    }
+}
+
+.admin-users-container {
+    position:relative;
+    table {
+        width:100%;
+        border-collapse:collapse;
+        tr, thead {
+            td, th {
+                border:1px solid $ui-subtle;
+                padding:5px 9px;
+                color:$text-dark;
+                font-size:14px;
+                .dark & {
+                    color:$text-light;
+                    border-color:$ui-dark-subtle;
+                }
+            }
+            td.table-username,
+            td.table-id,
+            td.table-ip,
+            td.table-email {
+                word-wrap: break-word;
+                white-space:none;
+            }
+            td.table-username {
+                max-width:100px;
+            }
+            td.table-id {
+                max-width:100px;
+            }
+            td.table-ip {
+                max-width:200px;
+            }
+            td.table-email {
+                max-width:150px;
+            }
+            td.table-muted {
+                max-width:200px;
+            }
+            td.table-action-item {
+                display:table-cell;
+                width:100px;
+                text-align:center;
+                vertical-align:middle;
+                .user-action-btn {
+                    height:30px;
+                    line-height:30px;
+                    width:90px;
+                    display:inline-block;
+                    vertical-align:top;
+                    cursor:pointer;
+                    color:$text-dark;
+                    border:1px solid #ddd;
+                    border-radius:5px;
+                    transition:all .1s ease-in-out;
+                    .dark & {
+                        color:$text-light;
+                        border-color:rgb(112, 112, 112);
+                    }
+                    &.delete-user {
+                        color:rgb(255, 65, 65);
+                        border-color:rgb(255, 65, 65);
+                    }
+                    &.mute-user {
+                        color:rgb(112, 91, 235);
+                        border-color:rgb(112, 91, 235);
+                    }
+                    &.delete-user:hover {
+                        color:#fff;
+                        background:rgb(255, 65, 65);
+                    }
+                    &.mute-user:hover {
+                        color:#fff;
+                        background:rgb(112, 91, 235);
+                    }
+                }
+            }
+        }
+    }
+}
+
+@keyframes admin-dialogue-slidein {
+    0% {
+        //transform:translate(-50%,-100vh);
+        opacity:0;
+    }
+    100% {
+        //transform:translate(-50%,calc(-50% - 80px));
+        opacity:1;
+    }
+}
+
+.delete-dialogue,
+.mute-dialogue {
+    position:absolute;
+    top:50%;left:50%;
+    transform:translate(-50%,calc(-50% - 50px));
+    animation: admin-dialogue-slidein .15s ease-in-out 1;
+    padding:50px;
+    border-radius:10px;
+    background:$ui-light;
+    box-shadow: 0px 4px 15px -5px #505050;
+    .dark & {
+        background:rgb(24, 24, 24);
+        color:$text-light;
+        box-shadow: 0px 4px 15px -5px #070707;
+    }
+}
+
+.delete-dialogue {
+    gap:50px;
+    .delete-button-confirm-container {
+        gap:50px;
+    }
+}
+
+.mute-dialogue {
+    gap:20px;
+    width:60%;
+    .mute-dialogue-header {
+        text-align:center;
+        font-family:WorkSansSemiBold;
+        margin-bottom:10px;
+        font-size:20px;
+        overflow:hidden;
+        white-space:nowrap;
+        text-overflow:ellipsis;
+    }
+    .mute-dialogue-actions {
+        width:100%;
+    }
+    .mute-message,
+    .mute-until {
+        flex:1;
+        text-align:center;
+    }
+    .mute-message-header,
+    .mute-until-header {
+        margin-bottom:10px;
+    }
+    .mute-message {
+        position:relative;
+        textarea {
+            width:90%;
+            flex:1;
+            background:$ui-light;
+            .dark & {
+                background:rgb(24, 24, 24);
+            }
+        }
+    }
+    .mute-until-input {
+        .date-updater-calendar {
+            button {
+                background:$ui-light;
+                .dark & {
+                    background:rgb(24, 24, 24);
+                    &:hover {
+                        background:rgb(94, 94, 94);
+                    }
+                }
+            }
+            .react-calendar__tile--active {
+                background:$default;
+                color:$text-light;
+                .dark & {
+                    background:$default;
+                }
+            }
+        }
+    }
+    .mute-confirm {
+        gap:40px;
+        justify-content:center;
+    }
+}
+
+.market-switch {
+    position:absolute;
+    top:0;
+    right:0;
+    padding:20px;
+    z-index:1000;
+    color:$text-dark;
+    background:none !important;
+    .dark & {
+        color:$text-light;
+    }
+    .market-switch-header,
+    .market-switch-label {
+        font-family:WorkSans;
+        font-size:16px;
+    }
+    .market-switch-header {
+        padding:0 15px;
+    }
+}

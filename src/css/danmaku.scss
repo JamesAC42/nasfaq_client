@@ -1,0 +1,53 @@
+@import "settings.scss";
+
+$container-height: calc(100vh - #{$nav-height});
+.superchat-danmaku-container {
+    position:fixed;
+    top:$nav-height;left:0;
+    height:$container-height;
+    width:100vw;
+    .superchat-danmaku-inner {
+        position:relative;
+        height:$container-height;
+        width:100vw;
+    }
+}
+
+@keyframes danmaku-scroll {
+    0% {
+        right:0;
+    }
+    100% {
+        right:150vw;
+    }
+}
+
+.bullet-container {
+    position:fixed;
+    z-index:20000;
+    transform:translate(100%, 0);
+    transition:all 1.1s linear;
+    padding:none;
+    //pointer-events:none;
+    height:0;width:0;
+    
+    .superchat {
+        margin:none;
+        width:400px;
+        &:hover {
+            opacity:0.5;
+        }
+
+        .coin {
+            svg {
+                color:#fff;
+            }
+        }
+
+        &.sc-blue {transform:scale(0.85)}
+        &.sc-green {transform:scale(0.9)}
+        &.sc-yellow {transform:scale(1)}
+        &.sc-magenta {transform:scale(1.1)}
+        &.sc-red {transform:scale(1.2)}
+    }
+}

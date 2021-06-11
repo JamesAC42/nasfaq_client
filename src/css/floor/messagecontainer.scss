@@ -1,0 +1,84 @@
+@import "../settings.scss";
+
+.message-container {
+    position:relative;
+    margin:0;
+    min-height:calc(100vh - #{$nav-height} - 166px);
+    flex:1;
+    overflow-y:scroll;
+    overflow-x:hidden;
+    
+    .message-container-inner {
+        position:relative;
+        width:100%;
+        z-index:1100;
+        padding:0 0 10px 0;
+        border-radius:7px;
+
+        .messages {
+            padding:0;
+            margin:0;
+            .message:first-child {
+                margin-top:10px;
+            }
+            .no-messages {
+                height:100px;
+                line-height:100px;
+                text-align:center;
+                color:$text-dark;
+                .dark & {
+                    color:$text-light;
+                }
+            }
+            &.blur {
+                filter:blur(2px);
+            }
+        }
+
+        .loading-outer {
+            width:100%;
+            height:70vh;
+            .loading {
+                transform:translate(-50%, -50%) rotate(45deg);
+            }
+        }
+        .no-room {
+            width:100%;
+            height:calc(50vh);
+            font-size:16px;
+            font-family:WorkSansSemiBold;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color:$text-dark;
+            .dark & {
+                color:$text-light;
+            }
+        }
+        
+        .new-messages-notif {
+            position:sticky;
+            top:0;
+            height:20px;
+            z-index:5000;
+            text-align:center;
+            background:rgb(179, 203, 255);
+            color:$ui-dark;
+            .dark & {
+                color:$ui-light;
+                background:rgb(98, 115, 194);
+            }
+        }
+        
+        .message-container-background {
+            position:absolute;
+            height:100%;width:100%;
+            top:0;
+            left:0;
+            transform:translate(-15px, 15px);
+            background: linear-gradient(135deg, rgba(123,250,255,1) 0%, rgba(110,156,252,1) 100%);
+            border-radius:5px;
+        }
+    }
+}

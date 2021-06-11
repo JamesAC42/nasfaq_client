@@ -1,0 +1,189 @@
+
+///////// COLORS ///////////////////////////////////////////////////////////////
+// Light and dark colors for backgrounds and UI components and such
+$ui-light: rgb(255, 255, 255);
+$ui-subtle: rgb(211, 211, 211);
+$ui-dark: rgb(46, 45, 49);
+$ui-dark-subtle: rgb(77, 77, 77);
+
+$text-light: rgb(255, 255, 255);
+$text-subtle:rgb(71, 71, 71);
+$text-dark: rgb(0, 0, 0);
+$text-dark-subtle:rgb(196, 196, 196);
+
+$primary:#75D5F7;
+$primary-light:#7CE0FC;
+
+$contrast: rgb(137, 156, 243);
+$contrast-dark: rgb(27, 27, 27);
+
+$default: #38B6F6;
+$default-dark: #38B6F6;
+
+$success: rgb(77, 182, 108);
+$success-dark: rgb(158, 253, 201);
+
+$active: rgb(157, 131, 250);
+$active-dark: rgb(205, 191, 255);
+
+$error: rgb(255, 108, 108);
+$error-dark: rgb(255, 130, 130);
+
+$shadow-color: rgba(0,0,0,0.75);
+
+
+///// CHUBA COLORS ///////////////////////////////////////////////////////////
+
+$gg-primary: rgb(60, 114, 231);
+$gg-secondary: rgb(169, 163, 255);
+
+$tk-primary: rgb(231, 71, 60);
+$tk-secondary:  rgb(252, 145, 84);
+
+$mc-primary: rgb(231, 60, 117);
+$mc-secondary: rgb(248, 106, 229);
+
+$ni-primary: rgb(73, 43, 97);
+$ni-secondary:  rgb(218, 163, 255);
+
+$wa-primary:rgb(255, 237, 132);
+$wa-secondary: rgb(95, 65, 65);
+
+$op-primary: rgb(59, 95, 255);
+$op-secondary: rgb(255, 68, 68);
+
+$sb-primary: rgb(187, 187, 187);
+$sb-secondary: rgb(82, 82, 82);
+
+$mn-primary: rgb(255, 140, 45);
+$mn-secondary: rgb(96, 209, 243);
+
+$yl-primary: rgb(255, 255, 255);
+$yl-secondary: rgb(107, 208, 255);
+
+$ts-primary: rgb(255, 122, 204);
+$ts-secondary: rgb(112, 114, 233);
+
+$rb-primary: rgb(35, 36, 39);
+$rb-secondary: rgb(206, 35, 35);
+
+$sm-primary: rgb(247, 85, 185);
+$sm-secondary: rgb(197, 27, 78);
+
+$ym-primary: rgb(255, 239, 166);
+$ym-secondary: rgb(255, 140, 46);
+
+$fu-primary: rgb(255, 255, 255);
+$fu-secondary: rgb(143, 204, 255);
+
+$nm-primary: rgb(255, 174, 68);
+$nm-secondary: rgb(109, 197, 26);
+
+$ah-primary: rgb(255, 161, 208);
+$ah-secondary: rgb(29, 60, 235);
+
+$ma-primary: rgb(198, 124, 241);
+$ma-secondary: rgb(151, 230, 250);
+
+$na-primary: rgb(228, 66, 60);
+$na-secondary: rgb(250, 196, 49);
+
+$yc-primary: rgb(255, 241, 111);
+$yc-secondary: rgb(255, 183, 251);
+
+$ms-primary: rgb(116, 65, 163);
+$ms-secondary: rgb(88, 219, 116);
+
+$os-primary: rgb(197, 248, 115);
+$os-secondary: rgb(255, 91, 41);
+
+$om-primary: rgb(32, 32, 32);
+$om-secondary: rgb(197, 35, 35);
+
+$no-primary: rgb(210, 170, 255);
+$no-secondary: rgb(110, 110, 110);
+
+$ik-primary: rgb(242, 245, 90);
+$ik-secondary: rgb(252, 85, 85);
+
+$sf-primary: rgb(41, 51, 107);
+$sf-secondary: rgb(207, 69, 64);
+
+$sn-primary: rgb(41, 49, 77);
+$sn-secondary: rgb(212, 165, 103);
+
+$hm-primary: rgb(194, 59, 100);
+$hm-secondary: rgb(73, 39, 39);
+
+$up-primary: rgb(159, 185, 255);
+$up-secondary: rgb(255, 154, 60);
+
+$ur-primary: rgb(64, 235, 192);
+$ur-secondary: rgb(41, 53, 158);
+
+$hs-primary: rgb(95, 170, 255);
+$hs-secondary: rgb(95, 95, 95);
+
+$ak-primary: rgb(104, 255, 210);
+$ak-secondary: rgb(104, 138, 233);
+
+$kc-primary: rgb(252, 139, 34);
+$kc-secondary: rgb(253, 232, 42);
+
+$ka-primary: rgb(34, 185, 255);
+$ka-secondary: rgb(212, 212, 212);
+
+$tw-primary: rgb(255, 253, 151);
+$tw-secondary: rgb(255, 164, 240);
+
+$tt-primary: rgb(152, 255, 149);
+$tt-secondary: rgb(165, 25, 201);
+
+$hl-primary: rgb(255, 155, 202);
+$hl-secondary: rgb(218, 153, 255);
+
+$az-primary: rgb(245, 42, 110);
+$az-secondary: rgb(81, 248, 184);
+
+$cv-primary: rgb(131, 185, 255);
+$cv-secondary: rgb(255, 254, 198);
+
+$ai-primary: rgb(250, 91, 144);
+$ai-secondary: rgb(162, 233, 168);
+
+$mh-primary: rgb(115, 97, 216);
+$mh-secondary: rgb(37, 37, 37);
+
+$ar-primary: rgb(247, 220, 226);
+$ar-secondary: rgb(226, 49, 167);
+
+$nk-primary: rgb(205, 222, 241);
+$nk-secondary: rgb(231, 35, 35);
+
+$ho-primary: rgb(255, 255, 255);
+$ho-secondary: rgb(45, 189, 255);
+
+$am-primary: rgb(255, 249, 158);
+$am-secondary: rgb(36, 20, 63);
+
+$ko-primary: rgb(201, 201, 201);
+$ko-secondary: rgb(206, 32, 26);
+
+$pr-primary: rgb(65, 116, 255);
+$pr-secondary: rgb(56, 218, 129);
+
+$su-primary: rgb(255, 255, 255);
+$su-secondary: rgb(76, 101, 241);
+
+$pm-primary: rgb(255, 209, 109);
+$pm-secondary: rgb(83, 142, 167);
+
+$ay-primary: rgb(255, 175, 244);
+$ay-secondary: rgb(111, 169, 255);
+
+///////// SIZES ////////////////////////////////////////////////////////////////
+$standard-gutter: 1.5rem;
+
+$nav-height: 4.5rem; // Height of the navbar
+
+$medium-height: 850px;
