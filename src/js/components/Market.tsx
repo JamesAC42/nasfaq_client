@@ -36,6 +36,7 @@ import {
 import { Loading } from './Loading';
 import { ICoinDataCollection, ICoinHistory } from '../interfaces/ICoinInfo';
 import CompactBoardItem from './CompactBoardItem';
+import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 
 const mapMarketStateToProps = (state:any, props:any) => ({
     userinfo: state.userinfo,
@@ -576,7 +577,7 @@ class MarketBind extends Component<MarketProps> {
         }
     }
 
-    renderBoardItem(coin:any) {
+    renderBoardItem(coin:any, index:number) {
         let coinname:string;
         let range:boolean;
         if((typeof coin) === "string") {
@@ -590,6 +591,7 @@ class MarketBind extends Component<MarketProps> {
             <BoardItem 
                 toggleRangeToday={(c:string, setTo:boolean) => 
                     this.toggleCoinRange(c, setTo)}
+                index={index}
                 rangeToday={range}
                 closeBoard={() => this.toggleCoin(coinname)}
                 name={coinname}
@@ -597,7 +599,7 @@ class MarketBind extends Component<MarketProps> {
         )
     }
 
-    renderCompactBoardItem(coin:any) {
+    renderCompactBoardItem(coin:any, index:number) {
         let coinname:string;
         if((typeof coin) === "string") {
             coinname = coin;
@@ -608,8 +610,37 @@ class MarketBind extends Component<MarketProps> {
             <CompactBoardItem
                 closeBoard={() => this.toggleCoin(coinname)}
                 name={coinname}
+                index={index}
                 key={coinname} />
         )
+    }
+
+    onDragEnd(result:any) {
+        
+        const {destination, source, draggableId} = result;
+        if(!destination) return;
+        if(
+            destination.droppableId === source.droppableId &&
+            destination.index === source.index
+        ) return;
+
+        let active = [...this.state.activeCoins];
+        let thing:any;
+        if(typeof active[source.index] === "string") {
+            thing = active[source.index];
+        } else {
+            thing = {...active[source.index]}
+        }
+        active.splice(source.index, 1);
+        active.splice(destination.index, 0, thing);
+        this.setState({
+            activeCoins:active
+        });
+        
+        if(this.state.storageAvailable) {
+            localStorage.setItem("nasfaq:activeCoins", JSON.stringify(active));
+        }
+        
     }
 
     renderBoards() {
@@ -618,43 +649,52 @@ class MarketBind extends Component<MarketProps> {
         if(this.state.compactView) {
             return(
                 this.state.activeCoins.length > 0 ?
-                <div className="compact-board-container">
-                    <table>
-                        <thead>
-                            <tr className="compact-board-header">
-                                <th></th>
-                                <th></th>
-                                <th onClick={() => this.compactSort(SortMethod.ALPH)}></th>
-                                {this.props.session.loggedin ? <th></th> : null}
-                                {this.props.session.loggedin ? <th></th> : null}
-                                <th onClick={() => this.compactSort(SortMethod.PRICE)}>Ask</th>
-                                <th onClick={() => this.compactSort(SortMethod.PRICE)}>Bid</th>
-                                <th onClick={() => this.compactSort(SortMethod.CHANGE)}>Change</th>
-                                <th onClick={() => this.compactSort(SortMethod.PCHANGE)}>% Change</th>
-                                {
-                                    this.props.session.loggedin ? 
-                                    <th onClick={() => this.compactSort(SortMethod.MINE)}>
-                                        My Shares
-                                    </th> : null
-                                }
-                                <th onClick={() => this.compactSort(SortMethod.VOLUME)}>Volume</th>
-                                <th onClick={() => this.compactSort(SortMethod.SUBS)}>Subscribers</th>
-                                <th onClick={() => this.compactSort(SortMethod.DSUBS)}>Daily Subs</th>
-                                <th onClick={() => this.compactSort(SortMethod.WSUBS)}>Weekly Subs</th>
-                                <th onClick={() => this.compactSort(SortMethod.VIEWS)}>Views</th>
-                                <th onClick={() => this.compactSort(SortMethod.DVIEWS)}>Daily Views</th>
-                                <th onClick={() => this.compactSort(SortMethod.WVIEWS)}>Weekly Views</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                this.state.activeCoins.map((item:any, index:number) => 
-                                    this.renderCompactBoardItem(item)
-                                )
-                            }
-                        </tbody>
-                    </table>
-                </div>
+                <DragDropContext
+                    onDragEnd={(result:any) => this.onDragEnd(result)}>
+                    <div className="compact-board-container">
+                        <table>
+                            <thead>
+                                <tr className="compact-board-header">
+                                    <th></th>
+                                    <th></th>
+                                    <th onClick={() => this.compactSort(SortMethod.ALPH)}></th>
+                                    {this.props.session.loggedin ? <th></th> : null}
+                                    {this.props.session.loggedin ? <th></th> : null}
+                                    <th onClick={() => this.compactSort(SortMethod.PRICE)}>Ask</th>
+                                    <th onClick={() => this.compactSort(SortMethod.PRICE)}>Bid</th>
+                                    <th onClick={() => this.compactSort(SortMethod.CHANGE)}>Change</th>
+                                    <th onClick={() => this.compactSort(SortMethod.PCHANGE)}>% Change</th>
+                                    {
+                                        this.props.session.loggedin ? 
+                                        <th onClick={() => this.compactSort(SortMethod.MINE)}>
+                                            My Shares
+                                        </th> : null
+                                    }
+                                    <th onClick={() => this.compactSort(SortMethod.VOLUME)}>Volume</th>
+                                    <th onClick={() => this.compactSort(SortMethod.SUBS)}>Subscribers</th>
+                                    <th onClick={() => this.compactSort(SortMethod.DSUBS)}>Daily Subs</th>
+                                    <th onClick={() => this.compactSort(SortMethod.WSUBS)}>Weekly Subs</th>
+                                    <th onClick={() => this.compactSort(SortMethod.VIEWS)}>Views</th>
+                                    <th onClick={() => this.compactSort(SortMethod.DVIEWS)}>Daily Views</th>
+                                    <th onClick={() => this.compactSort(SortMethod.WVIEWS)}>Weekly Views</th>
+                                </tr>
+                            </thead>
+                            <Droppable droppableId={"compact-board-items"}>
+                                {(provided) => (
+                                <tbody
+                                    ref={provided.innerRef} 
+                                    {...provided.droppableProps}>
+                                    {
+                                        this.state.activeCoins.map((item:any, index:number) => 
+                                            this.renderCompactBoardItem(item, index)
+                                        )
+                                    }
+                                </tbody>
+                                )}
+                            </Droppable>
+                        </table>
+                    </div>
+                </DragDropContext>
                 :
                 <div className="no-coins">NO COINS SELECTED</div>
             )
@@ -664,7 +704,7 @@ class MarketBind extends Component<MarketProps> {
                 <div className="board-container">
                     {
                         this.state.activeCoins.map((item:any, index:number) => 
-                            this.renderBoardItem(item)
+                            this.renderBoardItem(item, index)
                         )
                     }
                 </div>

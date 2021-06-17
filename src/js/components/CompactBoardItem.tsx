@@ -18,8 +18,11 @@ import Coin from './Coin';
 import Button from './Button';
 import getTransactionStatus from '../getTransactionStatus';
 import numberWithCommas from '../numberWithCommas';
+import { buyCoin, sellCoin } from '../TradeActions';
+import { Draggable } from 'react-beautiful-dnd';
 interface CompactBoardItemProps {
     name: string;
+    index: number;
     session: {
         loggedin: boolean
     },
@@ -168,24 +171,7 @@ class CompactBoardItemBind extends Component<CompactBoardItemProps> {
             return;
         }
         let name = this.filterName(this.props.name);
-        fetch('/api/buyCoin/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                coin: name
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if(data.success) {
-                //this.updateTransactionStatus();
-            }
-        })
-        .catch(error => {
-            console.error('Error: ' +  error);
-        })
+        buyCoin(name);
     }
 
     sell() {
@@ -199,24 +185,7 @@ class CompactBoardItemBind extends Component<CompactBoardItemProps> {
             return;
         }
         let name = this.filterName(this.props.name);
-        fetch('/api/sellCoin/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                coin:name
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if(data.success) {
-                //this.updateTransactionStatus();
-            }
-        })
-        .catch(error => {
-            console.error('Error: ' +  error);
-        })
+        sellCoin(name);
     }
 
     render() {
@@ -257,7 +226,7 @@ class CompactBoardItemBind extends Component<CompactBoardItemProps> {
         const fullClass = this.props.session.loggedin ? "":"full";
         */
         let amtOwned = "";
-        let meanPurchasePrice = null;
+        let meanPurchasePrice:number;
         if(this.props.userinfo.loaded) {
             let coins = this.props.userinfo.wallet.coins;
             let name = this.filterName(this.props.name);
@@ -280,66 +249,78 @@ class CompactBoardItemBind extends Component<CompactBoardItemProps> {
         if(delta === 0) dirClass = "stagnant";
         dirClass += " compact-price";
         return(
-            <tr className="board-item-compact">
-                <td 
-                    className="compact-close"
-                    onClick={() => this.props.closeBoard()}>
-                    <IoMdCloseCircleOutline style={{verticalAlign:"middle"}}/>
-                </td>
-                <td>
-                    <Coin name={displayName} />
-                </td>
-                <td className="compact-name">{displayName.toUpperCase()}</td>
-                {
-                    this.props.session.loggedin ? 
-                    <td>
-                        <Button
-                            timeRemaining={this.state.timeRemaining}
-                            className={`inverse green ${buyDisabled} umami--click--buy`}
-                            onClick={() => this.buy()}>
-                                BUY
-                        </Button>
-                    </td> : null
-                }
-                {
-                    this.props.session.loggedin ?
-                    <td>
-                        <Button 
-                            timeRemaining={this.state.timeRemaining}
-                            className={`inverse red ${sellDisabled} umami--click--sell`}
-                            onClick={() => this.sell()}>
-                                SELL
-                        </Button>
-                    </td> : null
-                }
-                <td 
-                    className={dirClass}
-                    title={meanPurchasePrice !== null ? `Mean purchase price: $${meanPurchasePrice}` : undefined}>
-                        ${numberWithCommas(price)}</td>
-                <td 
-                    className={dirClass}
-                    title={meanPurchasePrice !== null ? `Mean purchase price: $${meanPurchasePrice}` : undefined}>
-                        ${numberWithCommas(saleValue)}</td>
-                <td className={dirClass}>
-                    {this.priceDirectionIcon(delta)}
-                    ${numberWithCommas(Math.abs(delta))}
-                </td>
-                <td className={dirClass}>
-                    {this.priceDirectionIcon(delta)}
-                    {numberWithCommas(Math.abs(deltaP))}%
-                </td>
-                {
-                    this.props.session.loggedin ?
-                    <td className="compact-volume">{amtOwned}</td> : null
-                }
-                <td className="compact-volume">{totalOwned}</td>
-                <td>{numberWithCommas(subscriberCount)}</td>
-                <td>{numberWithCommas(dailySubscriberCount)}</td>
-                <td>{numberWithCommas(weeklySubscriberCount)}</td>
-                <td>{numberWithCommas(viewCount)}</td>
-                <td>{numberWithCommas(dailyViewCount)}</td>
-                <td>{numberWithCommas(weeklyViewCount)}</td>
-            </tr>
+            <Draggable
+                draggableId={this.props.name}
+                index={this.props.index}
+                key={this.props.name}>
+
+                {(providedDrag:any) => (
+                <tr 
+                    className="board-item-compact"
+                    {...providedDrag.draggableProps}
+                    ref={providedDrag.innerRef}>
+                    <td 
+                        className="compact-close"
+                        onClick={() => this.props.closeBoard()}>
+                        <IoMdCloseCircleOutline style={{verticalAlign:"middle"}}/>
+                    </td>
+                    <td
+                        {...providedDrag.dragHandleProps}>
+                        <Coin name={displayName} />
+                    </td>
+                    <td className="compact-name">{displayName.toUpperCase()}</td>
+                    {
+                        this.props.session.loggedin ? 
+                        <td>
+                            <Button
+                                timeRemaining={this.state.timeRemaining}
+                                className={`inverse green ${buyDisabled} umami--click--buy`}
+                                onClick={() => this.buy()}>
+                                    BUY
+                            </Button>
+                        </td> : null
+                    }
+                    {
+                        this.props.session.loggedin ?
+                        <td>
+                            <Button 
+                                timeRemaining={this.state.timeRemaining}
+                                className={`inverse red ${sellDisabled} umami--click--sell`}
+                                onClick={() => this.sell()}>
+                                    SELL
+                            </Button>
+                        </td> : null
+                    }
+                    <td 
+                        className={dirClass}
+                        title={meanPurchasePrice !== null ? `Mean purchase price: $${meanPurchasePrice}` : undefined}>
+                            ${numberWithCommas(price)}</td>
+                    <td 
+                        className={dirClass}
+                        title={meanPurchasePrice !== null ? `Mean purchase price: $${meanPurchasePrice}` : undefined}>
+                            ${numberWithCommas(saleValue)}</td>
+                    <td className={dirClass}>
+                        {this.priceDirectionIcon(delta)}
+                        ${numberWithCommas(Math.abs(delta))}
+                    </td>
+                    <td className={dirClass}>
+                        {this.priceDirectionIcon(delta)}
+                        {numberWithCommas(Math.abs(deltaP))}%
+                    </td>
+                    {
+                        this.props.session.loggedin ?
+                        <td className="compact-volume">{amtOwned}</td> : null
+                    }
+                    <td className="compact-volume">{totalOwned}</td>
+                    <td>{numberWithCommas(subscriberCount)}</td>
+                    <td>{numberWithCommas(dailySubscriberCount)}</td>
+                    <td>{numberWithCommas(weeklySubscriberCount)}</td>
+                    <td>{numberWithCommas(viewCount)}</td>
+                    <td>{numberWithCommas(dailyViewCount)}</td>
+                    <td>{numberWithCommas(weeklyViewCount)}</td>
+                </tr>
+                )}
+            </Draggable>
         )
     }
 }

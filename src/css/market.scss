@@ -274,7 +274,11 @@ div.board-outer {
             tr {
                 position:relative;
                 border-bottom:1px solid rgb(180, 180, 180);
+                background:$ui-light;
+                transform:translate(0,0);
+                margin-bottom:10px;
                 .dark & {
+                    background:$ui-dark;
                     border-color:rgb(100, 100, 100);
                 }
             }
@@ -338,6 +342,7 @@ div.board-outer {
     max-height:450px;
     width:40vw;
     margin:15px;
+    transform:translate(0,0);
     @media (max-width:1000px) {
         width:70vw;
     }
