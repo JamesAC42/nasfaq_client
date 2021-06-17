@@ -24,6 +24,7 @@ import graphEntryFromTodayPrices from '../graphEntryFromTodayPrices';
 import { ICoinDataCollection, ICoinHistory } from '../interfaces/ICoinInfo';
 import getTransactionStatus from '../getTransactionStatus';
 import ToggleSwitch from './ToggleSwitch';
+import { buyCoin, sellCoin } from '../TradeActions';
 
 interface BoardItemProps {
     name: string;
@@ -188,24 +189,7 @@ class BoardItemBind extends Component<BoardItemProps> {
             return;
         }
         let name = this.filterName(this.props.name);
-        fetch('/api/buyCoin/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                coin: name
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if(data.success) {
-                //this.updateTransactionStatus();
-            }
-        })
-        .catch(error => {
-            console.error('Error: ' +  error);
-        })
+        buyCoin(name);
     }
 
     sell() {
@@ -219,24 +203,7 @@ class BoardItemBind extends Component<BoardItemProps> {
             return;
         }
         let name = this.filterName(this.props.name);
-        fetch('/api/sellCoin/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                coin:name
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if(data.success) {
-                //this.updateTransactionStatus();
-            }
-        })
-        .catch(error => {
-            console.error('Error: ' +  error);
-        })
+        sellCoin(name);
     }
 
     setGraphData(type:string) {

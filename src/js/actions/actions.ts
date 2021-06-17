@@ -3,7 +3,8 @@ import { createActions } from 'redux-actions';
 export const settingsActions = createActions(
     {
         TOGGLE_DARKMODE: enabled => ({ enabled }),
-        SET_MARKET_SWITCH: open => ({ open })
+        SET_MARKET_SWITCH: open => ({ open }),
+        SET_TRADE_NOTIFICATIONS: tradeNotifications => ({ tradeNotifications })
     }
 )
 
@@ -69,5 +70,12 @@ export const superchatsActions = createActions(
         SET_SUPA_DAILY: daily => ({ daily }),
         SET_SUPA_HISTORY: history => ({ history }),
         SET_ENABLE_DANMAKU: enableDanmaku => ({ enableDanmaku })
+    }
+)
+
+export const autotraderActions = createActions(
+    {
+        SET_RUNNING: running => ({ running }),
+        SET_RULES: rules => ({ rules })
     }
 )

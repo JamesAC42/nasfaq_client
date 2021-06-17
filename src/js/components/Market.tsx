@@ -12,12 +12,18 @@ import tako from '../../images/tako.png';
 import BoardItem from './BoardItem';
 import DropdownInput from './DropdownInput';
 
+import AutoTraderEditor from './autotrader/AutoTraderEditor';
+
 import CoinSidebar from './CoinSidebar';
 
 import {
     FaSortAmountDownAlt,
     FaSortAmountUpAlt
 } from 'react-icons/fa';
+
+import {
+    AiFillSchedule
+} from 'react-icons/ai';
 
 import {
     RiLayoutGridFill
@@ -82,7 +88,8 @@ class MarketState {
     reverseSort:boolean;
     filterAbove:number;
     filterBelow:number;
-    compactView:false;
+    compactView:boolean;
+    showAutoTrader:boolean;
     constructor() { 
         this.activeCoins = [];
         this.storageAvailable = false;
@@ -94,6 +101,7 @@ class MarketState {
         this.filterAbove = Number.NEGATIVE_INFINITY;
         this.filterBelow = Number.POSITIVE_INFINITY;
         this.compactView = false;
+        this.showAutoTrader = false;
     }
 }
 
@@ -132,6 +140,12 @@ class MarketBind extends Component<MarketProps> {
             coinMatch.scrollIntoView(options);
         }
 
+    }
+
+    toggleAutoTrader() {
+        this.setState({
+            showAutoTrader: !this.state.showAutoTrader
+        });
     }
 
     getCoinPrice(coin:string) {
@@ -668,6 +682,14 @@ class MarketBind extends Component<MarketProps> {
         return(
             <div className="container fill">
                 <div className="container-inner">
+
+                    {
+                        this.state.showAutoTrader ?
+                        <AutoTraderEditor 
+                            toggleVisible={() => this.toggleAutoTrader()}/> 
+                        : null
+                    }
+
                     <div className="tako-box">
                         <img src={tako} alt="tako" className="tako"/>
                     </div>
@@ -754,6 +776,13 @@ class MarketBind extends Component<MarketProps> {
                                         :
                                         <RiLayoutGridFill style={{verticalAlign:"middle"}}/>
                                     }
+                                </div>
+                            </div>
+                            <div className="toggle-auto-trader flex flex-row flex-center">
+                                <div
+                                    onClick={() => this.toggleAutoTrader()} 
+                                    className="toggle-auto-trader-button">
+                                    <AiFillSchedule />
                                 </div>
                             </div>
                             

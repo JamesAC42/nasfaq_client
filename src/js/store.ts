@@ -10,11 +10,13 @@ import userinfo from './reducers/userinfo';
 import transactions from './reducers/transactions';
 import floor from './reducers/floor';
 import superchats from './reducers/superchats';
+import autotrader from './reducers/autotrader';
 
 let initState = {
     settings: {
         darkMode: false,
-        marketSwitch: true
+        marketSwitch: true,
+        tradeNotifications: true
     },
     session: {
         loggedin: undefined,
@@ -63,6 +65,10 @@ let initState = {
         history: undefined,
         enableDanmaku: false,
         cooldown: 0
+    },
+    autotrader: {
+        running:false,
+        rules:[]
     }
 }
 
@@ -73,7 +79,8 @@ const holoReducer = combineReducers({
     userinfo,
     floor,
     transactions,
-    superchats
+    superchats,
+    autotrader
 });
 
 const configureStore = (reducer:any, initState:{}) => {

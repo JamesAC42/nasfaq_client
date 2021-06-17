@@ -158,6 +158,22 @@ div.coin-searchbar {
             }
         }
 
+        .toggle-auto-trader {
+            margin-bottom:10px;
+            justify-content:center;
+            .toggle-auto-trader-button {
+                padding:0 20px;
+                cursor:pointer;
+                font-size:38px;
+                color:rgb(58, 110, 255);
+                text-align:center;
+                transition:color .1s ease-in-out;
+                &:hover {
+                    color:rgb(74, 64, 219);
+                }
+            }
+        }
+
         .searchbar-tab {
             position:absolute;
             top:0;right:0;

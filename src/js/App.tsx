@@ -19,6 +19,7 @@ import Announcement from './components/Announcement';
 import ResetPassword from './components/ResetPassword';
 import Superchats from './components/superchats/Superchats';
 import SuperchatDanmaku from './components/superchats/SuperchatDanmaku';
+import AutoTrader from './components/autotrader/AutoTrader';
 
 import SessionHandler from './components/SessionHandler';
 import SocketHandler from './components/SocketHandler';
@@ -178,6 +179,8 @@ class AppBind extends Component<AppProps> {
 
         <TransactionUpdater />
         <SuperchatDanmaku />
+
+        <AutoTrader />
 
         <Announcement />
 

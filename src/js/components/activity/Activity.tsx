@@ -115,6 +115,10 @@ class ActivityBind extends Component<ActivityProps> {
                 let transactions:Array<ITransaction> = data.history.transactions;
                 transactions.reverse();
 
+                transactions.filter((t:ITransaction) => {
+                    return t.coin !== "choco_alt";
+                });
+
                 let recentHistory:Array<ITransaction> = [];
                 let nowDate:Date = new Date();
                 let nowMinutes = nowDate.getMinutes();

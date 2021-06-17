@@ -16,6 +16,7 @@ import {
 } from 'react-icons/go';
 import { ICoinData, ICoinDataCollection, ICoinHistory } from '../../interfaces/ICoinInfo';
 import getTransactionStatus from '../../getTransactionStatus';
+import { buyCoin, sellCoin } from '../../TradeActions';
 
 const mapStateToProps = (state:any, props:any) => ({
     stats: state.stats,
@@ -75,48 +76,14 @@ class AssetBind extends Component<AssetProps> {
         
         let name = coin;
         if(name === "luna") name = "himemoriluna";
-        fetch('/api/buyCoin/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                coin: name
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if(!data.success) {
-                console.log(data);
-            }
-        })
-        .catch(error => {
-            console.error('Error: ' +  error);
-        })
+        buyCoin(name);
     }
 
     sell(coin:string) {
         if(this.state.sellDisabled || this.state.timeRemaining > 0) return;
         let name = coin;
         if(name === "luna") name = "himemoriluna";
-        fetch('/api/sellCoin/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                coin:name
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if(!data.success) {
-                console.log(data);
-            }
-        })
-        .catch(error => {
-            console.error('Error: ' +  error);
-        })
+        sellCoin(name);
     }
 
     componentDidMount() {
