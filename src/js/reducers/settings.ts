@@ -13,11 +13,18 @@ const settings = handleActions(
                 ...state,
                 marketSwitch: action.payload.open
             }
+        },
+        SET_TRADE_NOTIFICATIONS: (state:any, action:any) => {
+            return {
+                ...state,
+                tradeNotifications: action.payload.tradeNotifications
+            }
         }
     },
     {
         darkMode: false,
-        marketSwitch: true
+        marketSwitch: true,
+        tradeNotifications: true
     }
 )
 

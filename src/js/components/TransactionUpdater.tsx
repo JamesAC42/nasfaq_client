@@ -5,21 +5,29 @@ import { connect } from 'react-redux';
 import Coin from './Coin';
 
 import {
+    settingsActions,
     transactionActions
 } from '../actions/actions';
 import { ITransaction, TransactionType } from '../interfaces/ITransaction';
+import storageAvailable from '../checkStorage';
 
 const mapStateToProps = (state:any, props:any) => ({
-    transactions:state.transactions
+    transactions:state.transactions,
+    settings:state.settings
 });
 
 const mapDispatchToProps = {
-    removeTransaction: transactionActions.removeTransaction
+    removeTransaction: transactionActions.removeTransaction,
+    setTradeNotifications: settingsActions.setTradeNotifications
 }
 
 interface TransactionUpdaterProps {
     transactions: Array<ITransaction>,
-    removeTransaction: () => {}
+    settings: {
+        tradeNotifications: boolean
+    },
+    removeTransaction: () => {},
+    setTradeNotifications: (tradeNotifications:boolean) => {}
 }
 
 interface TransactionItemProps {
@@ -62,6 +70,12 @@ class TransactionItem extends Component<TransactionItemProps> {
 class TransactionUpdaterBind extends Component<TransactionUpdaterProps> {
 
     componentDidMount() {
+        if(storageAvailable()) {
+            let storedNotif = localStorage.getItem("nasfaq:tradeNotifications");
+            if(storedNotif !== null) {
+                this.props.setTradeNotifications(JSON.parse(storedNotif));
+            }
+        }
         setInterval(() => {
             if(this.props.transactions.length > 0) {
                 if(this.props.transactions !== undefined) {
@@ -75,6 +89,8 @@ class TransactionUpdaterBind extends Component<TransactionUpdaterProps> {
     }
 
     render() {
+
+        if(!this.props.settings.tradeNotifications) return <div></div>;
 
         return (
             <div className="transactions-container">

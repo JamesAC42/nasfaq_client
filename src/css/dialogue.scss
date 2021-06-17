@@ -121,7 +121,7 @@
         .settings-row {
             display:flex;
             flex-direction: row;
-            height:100px;
+            height:60px;
             align-items:center;
             padding:0 15px;
             justify-content: center;
@@ -132,10 +132,14 @@
             }
             .settings-control {
                 flex:1;
+                display:flex;
+                flex-direction: row;
+                justify-content: center;
             }
             &.save-row {
                 height:auto;
                 padding-bottom:35px;
+                margin-top:10px;
                 align-items:baseline;   
             }
         }

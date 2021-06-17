@@ -1,17 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { userinfoActions } from '../../actions/actions';
+import { settingsActions, userinfoActions } from '../../actions/actions';
 import {
     BiX
 } from 'react-icons/bi';
 import Button from '../Button';
 import ToggleSwitch from '../ToggleSwitch';
+import storageAvailable from '../../checkStorage';
 
 const mapDispatchToProps = {
-    setSettings: userinfoActions.setSettings
+    setSettings: userinfoActions.setSettings,
+    setTradeNotifications: settingsActions.setTradeNotifications
 }
 const mapStateToProps = (state:any, props:any) => ({
-    userinfo: state.userinfo
+    userinfo: state.userinfo,
+    settings: state.settings
 });
 
 interface SettingsDialogueProps {
@@ -19,8 +22,12 @@ interface SettingsDialogueProps {
     userinfo: {
         settings:any
     },
+    settings: {
+        tradeNotifications:boolean
+    },
     toggle: () => void,
-    setSettings: (settings:string) => {}
+    setSettings: (settings:string) => {},
+    setTradeNotifications: (tradeNotifications:boolean) => {}
 }
 
 class SettingsDialogueState {
@@ -76,6 +83,14 @@ class SettingsDialogueBind extends Component<SettingsDialogueProps> {
         });
     }
 
+    toggleTradeNotifications(set?:boolean) {
+        let newStatus = (set === undefined) ? !this.props.settings.tradeNotifications : set;
+        this.props.setTradeNotifications(newStatus);
+        if(storageAvailable()) {
+            localStorage.setItem("nasfaq:tradeNotifications", JSON.stringify(newStatus));
+        }
+    }
+
     render() {
         if(!this.props.visible) return null;
         let walletIsPublic = this.state.walletIsPublic;
@@ -103,6 +118,18 @@ class SettingsDialogueBind extends Component<SettingsDialogueProps> {
                                 offLabel={"Private"}
                                 switchState={walletIsPublic}
                                 onToggle={(setTo?:boolean) => this.toggleWalletPublic(setTo)} />
+                        </div>
+                    </div>
+                    <div className="settings-row">
+                        <div className="settings-label">
+                            Trade Notifications
+                        </div>
+                        <div className="settings-control">
+                            <ToggleSwitch
+                                onLabel={"On"}
+                                offLabel={"Off"}
+                                switchState={this.props.settings.tradeNotifications}
+                                onToggle={(setTo?:boolean) => this.toggleTradeNotifications(setTo)} />
                         </div>
                     </div>
                     <div className="settings-row save-row">
