@@ -233,8 +233,11 @@
 div.transaction-pagenav {
     display:flex;
     flex-direction: row;
+    flex-wrap: wrap;
     justify-content: center;
+    margin:0 auto;
     margin-bottom:10px;
+    max-width:65vw;
     .page-select {
         margin:8px 1px;
         padding:8px 12px;
