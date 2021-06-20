@@ -131,6 +131,22 @@
                 }
             }
         }
+        .clear-all-coins {
+            width:70px;
+            margin:10px;
+            padding:5px 10px;
+            border:1px solid $error;
+            text-align:center;
+            font-size:16px;
+            border-radius: 6px;
+            cursor:pointer;
+            color:$error;
+            transition:all .1s ease-in-out;
+            &:hover {
+                background:$error;
+                color:#fff;
+            }
+        }
     }
     .trade-rules-list {
         flex:1;

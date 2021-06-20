@@ -115,6 +115,12 @@ class AutoTraderEditorBind extends Component<AutoTraderEditorProps> {
 
     }
 
+    clearAllCoins() {
+        let newRules:Array<AutoTraderRule> = [];
+        this.props.setRules(newRules);
+        this.saveRules(newRules, this.props.autotrader.running);
+    }
+
     toggleAutoTrader(setTo?:boolean) {
         let newStatus = setTo === undefined ?
             !this.props.autotrader.running : setTo;
@@ -233,6 +239,11 @@ class AutoTraderEditorBind extends Component<AutoTraderEditorProps> {
                                         </div>
                                     )
                                     }
+                                </div>
+                                <div 
+                                    className="clear-all-coins"
+                                    onClick={() => this.clearAllCoins()}>
+                                    Clear All
                                 </div>
                             </div>
                             {
