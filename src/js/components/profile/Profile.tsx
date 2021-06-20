@@ -106,8 +106,10 @@ class ProfileBind extends Component<ProfileProps> {
         let coins = Object.keys(wallet.coins);
         let netWorth:number = wallet.balance;
         coins.forEach((coin:string) => {
-            let value = this.props.stats.coinInfo.data[coin].price;
-            netWorth += value * wallet.coins[coin].amt;
+            if(this.props.stats.coinInfo.data[coin] !== undefined) {
+                let value = this.props.stats.coinInfo.data[coin].price;
+                netWorth += value * wallet.coins[coin].amt;
+            }
         })
         return Math.round(netWorth * 100) / 100;
     }

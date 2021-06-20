@@ -108,6 +108,7 @@ class AssetBind extends Component<AssetProps> {
         
         let name = this.props.coin;
         let coinData:ICoinData = this.props.stats.coinInfo.data[name];
+        if(coinData === undefined) return;
         let {
             timeRemaining,
             buyDisabled,
@@ -150,6 +151,7 @@ class AssetBind extends Component<AssetProps> {
         let name = this.props.coin;
         let coinData:ICoinData = this.props.stats.coinInfo.data[this.props.coin];
         if(name === "himemoriluna") name = "luna";
+        if(coinData === undefined) return null;
 
         const ask = coinData.price;
         const bid = coinData.saleValue;
