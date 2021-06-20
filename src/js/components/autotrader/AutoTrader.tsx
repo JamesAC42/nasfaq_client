@@ -84,7 +84,6 @@ class AutoTraderBind extends Component<AutoTraderProps> {
         if(!this.props.session.loggedin) return;
         if(!this.props.userinfo.loaded) return;
         const rules = [...this.props.autotrader.rules];
-
         let wallet:IWallet = {...this.props.userinfo.wallet};
         let delayT = 0;
         for(let i = 0; i < rules.length; i++) {
@@ -131,6 +130,14 @@ class AutoTraderBind extends Component<AutoTraderProps> {
                 clearInterval(this.intervalId);
             }
         }
+        if(prevProps.autotrader.rules !== this.props.autotrader.rules) {
+            if(this.props.autotrader.running) {
+                clearInterval(this.intervalId);
+                this.intervalId = setInterval(() => {
+                    this.makeTrades();
+                }, 5000);
+            }
+        }
         if(!prevProps.userinfo.loaded && this.props.userinfo.loaded) {
             this.loadSave();
         }
@@ -142,7 +149,7 @@ class AutoTraderBind extends Component<AutoTraderProps> {
                 const storedData = JSON.parse(storageAutoTrader);
                 const {running, rules} = storedData;
                 this.props.setRules(rules);
-                this.props.setRunning(running);
+                this.props.setRunning(false);
             }
         }
     }
