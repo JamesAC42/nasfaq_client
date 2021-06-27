@@ -18,21 +18,32 @@ class CoinProps {
 
 class Coin extends Component<CoinProps> {
 
+    returnImage(coin:string) {
+        if(coin === "blank") return <FaUserAlt />;
+        if(coin === "rushia") {
+            return(
+                <div>
+                    <img src={iconMap[coin]} alt="rushia_butterfly" />
+                    <img src={iconMap["calliope"]} className="small-calli" alt="rushia_skull" />
+                </div>
+            )
+        } else {
+            return <img src={iconMap[coin]} alt={coin}/>
+        }
+    }
+
     render() {
         let className = this.props.className !== undefined ?
             this.props.className : "";
         return(
             <div 
-                className={`flex center-child coin ${this.props.name} ${className}`}
+                className={`coin ${this.props.name} ${className}`}
                 title={this.props.name}
                 onClick={() => {
                     if(this.props.onClick) this.props.onClick();
                 }}>
                 {
-                    this.props.name === "blank" ?
-                    <FaUserAlt />
-                    :
-                    <img src={iconMap[this.props.name]} alt={this.props.name}/>
+                    this.returnImage(this.props.name)
                 }
             </div>
         )

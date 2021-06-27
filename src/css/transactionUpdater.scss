@@ -47,11 +47,15 @@ div.transactions-container {
         }
         .coin {
             height:60px;
+            min-height:60px;
             width:90px;
+            min-width:90px;
             border-radius:12px;
-            .img {
-                height:60%;
-                width:auto;
+            img {
+                width:45%;
+            }
+            img.small-calli {
+              width:32%;
             }
         }
         .transaction-message {

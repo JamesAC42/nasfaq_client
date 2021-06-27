@@ -49,6 +49,9 @@
                 height:70%;
                 width:auto;
             }
+            img.small-calli {
+              width:33%;
+            }
         }
     }
     .transaction-name,
@@ -444,6 +447,9 @@ div.showing-active-coin {
             border-bottom-width:6px;
             img, svg {
                 width:40%;
+            }
+            img.small-calli {
+              width:33%;
             }
         }
     }

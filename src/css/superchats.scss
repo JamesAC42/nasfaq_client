@@ -234,6 +234,9 @@
             img, svg {
                 width:40%;
             }
+            img.small-calli {
+              width:30%;
+            }
         }
         .superchat-name {
             font-size:20px;
@@ -405,6 +408,9 @@
         border-radius:50%;
         img, svg {
             width:50%;
+        }
+        img.small-calli {
+          width:40%;
         }
     }
     .superchat-info {
@@ -676,6 +682,9 @@
             border-radius:10px;
             img, svg {
                 width:40%;
+            }
+            img.small-calli {
+              width:30%;
             }
         }
     }

@@ -66,10 +66,14 @@ div.user-rank-wallet {
                 border-radius:10px;
                 border-width:2px;
                 border-bottom-width:4px;
-                img {height:60%;}
+                img {width:50%}
                 @media (max-width:1300px) {
                    height:35px;
                    width:45px;
+                }
+                img.small-calli {
+                  width:40%;
+                  transform:translate(-50%, -60%);
                 }
             }
             .wallet-coin-amt {
@@ -168,6 +172,9 @@ div.user-rank-info {
             img, svg {
                 width:40px;
             }
+            img.small-calli {
+              width:35%;
+            }
             @media (max-width:1300px) {
                height:40px;
                width:70px;
@@ -245,6 +252,10 @@ div.oshiboard-item {
                 img, svg {
                     width:25%;
                 }
+                img.small-calli {
+                  width:20%;
+                  transform:translate(-50%, -60%);
+                }
                 margin-bottom:8px;
             }
         }
@@ -289,6 +300,9 @@ div.oshiboard-item {
                     border-bottom-width:7px;
                     img, svg {
                         width:40%;
+                    }
+                    img.small-calli {
+                      width:32%;
                     }
                 }
             }

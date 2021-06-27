@@ -109,6 +109,9 @@
                             width:45px;
                         }
                     }
+                    img.small-calli {
+                      width:40%;
+                    }
                 }
                 &.coin-outer-inactive {
                     opacity:0.3;
@@ -128,6 +131,7 @@
                     border-radius: 50%;
                     background:rgb(91, 107, 255);
                     margin:2px;
+                    z-index:1000;
                 }
             }
         }
@@ -213,6 +217,9 @@
                     border-radius:10px;
                     img, svg {
                         width:40%;
+                    }
+                    img.small-calli {
+                      width:33%;
                     }
                 }
             }

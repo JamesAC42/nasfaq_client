@@ -441,9 +441,19 @@ img.corner-img {
     border-width:4px;
     border-bottom-width:10px;
     border-style: solid;
-    img {
+    position:relative;
+    img, svg {
+      position:absolute;
+      top:50%;
+      left:50%;
+      transform:translate(-50%,-50%);
       width:60%;
-      font-size:12px;
+      font-size:36px;
+
+    }
+    img.small-calli {
+      width:45%;
+      transform:translate(-50%, -60%);
     }
     .dark & {
       color: rgb(230, 230, 230);
@@ -753,4 +763,9 @@ img.corner-img {
 .ayamy {
   background:$ay-primary;
   border-color:$ay-secondary;
+}
+
+.nabi {
+  background: $nb-primary;
+  border-color: $nb-secondary;
 }
