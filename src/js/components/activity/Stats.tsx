@@ -219,10 +219,14 @@ export class TransactionStats extends Component<TransactionStatsProps> {
     getDetails() {
         let sells = 0;
         let buys = 0;
+        let users:Array<string> = [];
         let uniqueCoins:Array<string> = [];
         this.props.transactions.forEach((transaction:ITransaction) => {
             if(uniqueCoins.indexOf(transaction.coin) === -1) {
                 uniqueCoins.push(transaction.coin);
+            }
+            if(users.indexOf(transaction.userid) === -1) {
+                users.push(transaction.userid);
             }
             if(transaction.type === TransactionType.BUY) {
                 buys++;
@@ -234,7 +238,8 @@ export class TransactionStats extends Component<TransactionStatsProps> {
         return {
             unique: uniqueCoins.length,
             buys,
-            sells
+            sells,
+            users: users.length
         }
     }
     getGraphData() {
@@ -410,7 +415,8 @@ export class TransactionStats extends Component<TransactionStatsProps> {
         let {
             unique,
             buys,
-            sells
+            sells,
+            users
         } = this.getDetails();
         return(
             <div className="transaction-stats">
@@ -458,6 +464,12 @@ export class TransactionStats extends Component<TransactionStatsProps> {
                             {unique +  " "}
                         </span>  
                          Unique Coin{this.plural(unique)}
+                    </div>
+                    <div className="stat-detail">
+                        <span className="stat-quant">
+                            {users +  " "}
+                        </span>  
+                         User{this.plural(users)}
                     </div>
                 </div>
                 {
