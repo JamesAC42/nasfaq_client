@@ -223,12 +223,17 @@ class BoardItemBind extends Component<BoardItemProps> {
                     data.labels = [...priceData.labels];
                     dataset.data = [...priceData.prices];
                 } else {
-                    data.labels = [
-                        ...this.props.stats.coinHistory[coin].labels, 
-                        new Date().toLocaleDateString()];
-                    dataset.data = [
-                        ...this.props.stats.coinHistory[coin].price, 
-                        this.props.stats.coinInfo.data[coin].price];
+                    if(this.props.stats.coinHistory[coin] === undefined) {
+                        data.labels = [new Date().toLocaleDateString()];
+                        dataset.data = [this.props.stats.coinInfo.data[coin].price];
+                    } else {
+                        data.labels = [
+                            ...this.props.stats.coinHistory[coin].labels, 
+                            new Date().toLocaleDateString()];
+                        dataset.data = [
+                            ...this.props.stats.coinHistory[coin].price, 
+                            this.props.stats.coinInfo.data[coin].price];
+                    }
                 }
                 break;
             case "totalOwned":
@@ -237,12 +242,17 @@ class BoardItemBind extends Component<BoardItemProps> {
                     data.labels = [...priceData.labels];
                     dataset.data = [...priceData.owned];
                 } else {
-                    data.labels = [
-                        ...this.props.stats.coinHistory[coin].labels, 
-                        new Date().toLocaleDateString()];
-                    dataset.data = [
-                        ...this.props.stats.coinHistory[coin].inCirculation, 
-                        this.props.stats.coinInfo.data[coin].inCirculation];
+                    if(this.props.stats.coinHistory[coin] === undefined) {
+                        data.labels = [new Date().toLocaleDateString()];
+                        dataset.data = [this.props.stats.coinInfo.data[coin].inCirculation];
+                    } else {
+                        data.labels = [
+                            ...this.props.stats.coinHistory[coin].labels, 
+                            new Date().toLocaleDateString()];
+                        dataset.data = [
+                            ...this.props.stats.coinHistory[coin].inCirculation, 
+                            this.props.stats.coinInfo.data[coin].inCirculation];
+                    }
                 }
                 break;
             default:
@@ -331,7 +341,6 @@ class BoardItemBind extends Component<BoardItemProps> {
     render() {
         
         if(this.props.stats.coinInfo.data === undefined) return null;
-        
         let name = this.formatName(this.props.name);
         let displayName = this.props.name;
         let coinData = this.props.stats.coinInfo.data[name];
@@ -339,7 +348,7 @@ class BoardItemBind extends Component<BoardItemProps> {
         let coinStats = this.props.stats.stats[name];
 
         if( coinData === undefined ||
-            coinHistory === undefined ||
+            //coinHistory === undefined ||
             coinStats === undefined) return null;
 
         let price = coinData.price;

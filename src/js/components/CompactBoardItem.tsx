@@ -199,7 +199,7 @@ class CompactBoardItemBind extends Component<CompactBoardItemProps> {
         let coinStats = this.props.stats.stats[name];
 
         if( coinData === undefined ||
-            coinHistory === undefined ||
+            //coinHistory === undefined ||
             coinStats === undefined) return null;
 
         let price = coinData.price;

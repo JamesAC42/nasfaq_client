@@ -28,6 +28,7 @@ import melfissa from "../../images/holosymbols/melfissa.svg";
 import miko from "../../images/holosymbols/miko.svg";
 import mio from "../../images/holosymbols/mio.svg";
 import moona from "../../images/holosymbols/moona.svg";
+import nabi from "../../images/holosymbols/nabi.svg";
 import nana from "../../images/holosymbols/nana.svg";
 import nene from "../../images/holosymbols/nene.svg";
 import noel from "../../images/holosymbols/noel.svg";
@@ -83,6 +84,7 @@ const iconMap: IIconMap = {
     "miko": miko,
     "mio": mio,
     "moona": moona,
+    "nabi": nabi,
     "nana": nana,
     "nene": nene,
     "noel": noel,
@@ -175,7 +177,8 @@ export const lineage = [
         "ui",
         "nana",
         "pochimaru",
-        "ayamy"
+        "ayamy",
+        "nabi"
     ],
     [
         "civia"
