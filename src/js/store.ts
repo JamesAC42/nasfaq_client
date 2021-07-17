@@ -11,6 +11,8 @@ import transactions from './reducers/transactions';
 import floor from './reducers/floor';
 import superchats from './reducers/superchats';
 import autotrader from './reducers/autotrader';
+import itemcatalogue from './reducers/itemcatalogue';
+import admin from './reducers/admin';
 
 let initState = {
     settings: {
@@ -32,7 +34,8 @@ let initState = {
         admin: undefined,
         settings: undefined,
         muted: undefined,
-        loaded: false
+        loaded: false,
+        items: []
     },
     stats: {
         stats: {},
@@ -69,6 +72,13 @@ let initState = {
     autotrader: {
         running:false,
         rules:[]
+    },
+    itemcatalogue: {},
+    admin: {
+        users: undefined,
+        filters: undefined,
+        reports: undefined,
+        adjustmentControls: undefined
     }
 }
 
@@ -80,7 +90,9 @@ const holoReducer = combineReducers({
     floor,
     transactions,
     superchats,
-    autotrader
+    autotrader,
+    itemcatalogue,
+    admin
 });
 
 const configureStore = (reducer:any, initState:{}) => {

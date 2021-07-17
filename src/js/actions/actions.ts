@@ -35,6 +35,7 @@ export const userinfoActions = createActions(
         SET_ADMIN: admin => ({ admin }),
         SET_VERIFIED: verified => ({ verified }),
         SET_SETTINGS: settings => ({ settings }),
+        SET_ITEMS: items => ({ items }),
         SET_MUTED: muted => ({ muted })
     },
     "SET_LOADED",
@@ -77,5 +78,20 @@ export const autotraderActions = createActions(
     {
         SET_RUNNING: running => ({ running }),
         SET_RULES: rules => ({ rules })
+    }
+)
+
+export const itemcatalogueActions = createActions(
+    {
+        SET_CATALOGUE: catalogue => ({ catalogue })
+    }
+)
+
+export const adminActions = createActions(
+    {
+        SET_ADMIN_USERS: users => ({ users }),
+        SET_ADMIN_FILTERS: filters => ({ filters }),
+        SET_ADMIN_REPORTS: reports => ({ reports }),
+        SET_ADMIN_ADJUSTMENT_CONTROLS: adjustmentControls => ({ adjustmentControls }),
     }
 )

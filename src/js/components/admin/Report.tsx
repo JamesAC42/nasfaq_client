@@ -126,7 +126,7 @@ class Report extends Component<ReportProps> {
                     className="report-message-text"
                     dangerouslySetInnerHTML={{__html: report.message.text}}>
                 </div>
-                <div className="report-actions flex-row">
+                <div className="report-actions flex-row flex-center">
                     <div 
                         className="delete-report"
                         onClick={() => this.deleteReport(report.id)}
