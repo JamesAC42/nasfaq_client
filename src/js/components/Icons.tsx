@@ -16,6 +16,7 @@ import haato from "../../images/holosymbols/haato.svg";
 import hololive from "../../images/holosymbols/hololive.png";
 import inanis from "../../images/holosymbols/inanis.svg";
 import iofi from "../../images/holosymbols/iofi.svg";
+import irys from "../../images/holosymbols/irys.svg";
 import kanata from "../../images/holosymbols/kanata.svg";
 import kiara from "../../images/holosymbols/kiara.svg";
 import korone from "../../images/holosymbols/korone.svg";
@@ -72,6 +73,7 @@ const iconMap: IIconMap = {
     "hololive": hololive,
     "inanis": inanis,
     "iofi": iofi,
+    "irys": irys,
     "kanata": kanata,
     "kiara": kiara,
     "korone": korone,
@@ -167,6 +169,9 @@ export const lineage = [
         "inanis",
         "gura",
         "amelia"
+    ],
+    [
+        "irys"
     ],
     [
         "ollie",
