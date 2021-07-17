@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 
 import {IWallet} from '../interfaces/IWallet';
 import tako from '../../images/tako.png';
+import fubogki from '../../images/fubogki.png';
 
 import BoardItem from './BoardItem';
 import DropdownInput from './DropdownInput';
@@ -182,10 +183,14 @@ class MarketBind extends Component<MarketProps> {
         let coinInfo:ICoinDataCollection = this.props.stats.coinInfo;
         let currentPrice = coinInfo.data[name].price;
         let previousPrice;
-        if(this.props.stats.coinHistory[name].price.length > 1) {
-            previousPrice = this.props.stats.coinHistory[name].price.slice(-1)[0];
-        } else {
+        if(this.props.stats.coinHistory[name] === undefined) {
             previousPrice = currentPrice;
+        } else {
+            if(this.props.stats.coinHistory[name].price.length > 1) {
+                previousPrice = this.props.stats.coinHistory[name].price.slice(-1)[0];
+            } else {
+                previousPrice = currentPrice;
+            }
         }
         let change = Math.round((currentPrice - previousPrice) * 100) / 100;
         return change;
@@ -731,7 +736,7 @@ class MarketBind extends Component<MarketProps> {
                     }
 
                     <div className="tako-box">
-                        <img src={tako} alt="tako" className="tako"/>
+                        <img src={fubogki} alt="tako" className="tako"/>
                     </div>
                     <div className={`coin-searchbar ${searchbarClass}`}>
                         <div className={`coin-searchbar-inner`}>
