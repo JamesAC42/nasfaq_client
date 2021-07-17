@@ -20,6 +20,8 @@ class Coin extends Component<CoinProps> {
 
     returnImage(coin:string) {
         if(coin === "blank") return <FaUserAlt />;
+        return <img src={iconMap[coin]} alt={coin}/>
+        /*
         if(coin === "rushia") {
             return(
                 <div>
@@ -28,8 +30,8 @@ class Coin extends Component<CoinProps> {
                 </div>
             )
         } else {
-            return <img src={iconMap[coin]} alt={coin}/>
         }
+        */
     }
 
     render() {
