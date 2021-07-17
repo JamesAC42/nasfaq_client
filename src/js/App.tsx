@@ -24,12 +24,18 @@ import AutoTrader from './components/autotrader/AutoTrader';
 import SessionHandler from './components/SessionHandler';
 import SocketHandler from './components/SocketHandler';
 
+import fetchData from './fetchData';
+
 import { parseCoinHistory } from './parsers';
 import checkStorage from './checkStorage';
 
 import { connect } from 'react-redux';
 
-import { settingsActions, statsActions } from './actions/actions';
+import { 
+  settingsActions, 
+  statsActions, 
+  itemcatalogueActions 
+} from './actions/actions';
 
 import {
   Switch,
@@ -48,7 +54,8 @@ const mapDispatchToProps = {
   setCoinInfo: statsActions.setCoinInfo,
   setLeaderboard: statsActions.setLeaderboard,
   setOshiboard: statsActions.setOshiboard,
-  setMarketSwitch: settingsActions.setMarketSwitch
+  setMarketSwitch: settingsActions.setMarketSwitch,
+  setItemCatalogue: itemcatalogueActions.setCatalogue
 }
 
 interface AppProps {
@@ -60,7 +67,8 @@ interface AppProps {
   setCoinInfo: (coinInfo: {}) => {},
   setLeaderboard: (leaderboard:{}) => {},
   setOshiboard: (oshiboard:{}) => {},
-  setMarketSwitch: (open:boolean) => {}
+  setMarketSwitch: (open:boolean) => {},
+  setItemCatalogue: (catalogue:any) => {}
 }
 
 const adjustmentTime = {
@@ -71,80 +79,67 @@ const adjustmentTime = {
 class AppBind extends Component<AppProps> {
 
   componentDidMount() {
-    fetch('/api/getMarketInfo', {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        this.props.setCoinInfo(data.coinInfo);
-        this.props.setMarketSwitch(data.marketSwitch);
-    })
-    .catch(error => {
-        console.error('Error: ' +  error);
-    })
-    fetch('/api/getLeaderboard', {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        this.props.setLeaderboard(data.leaderboard.leaderboard);
-        this.props.setOshiboard(data.oshiboard);
-    })
-    .catch(error => {
-        console.error('Error: ' +  error);
-    })
+    fetchData('/api/getLeaderboard')
+    .then((data:any) => {
+      this.props.setLeaderboard(data.leaderboard.leaderboard);
+      this.props.setOshiboard(data.oshiboard);
+    });
+    fetchData('/api/getItemCatalogue')
+    .then((data:any) => {
+      if(data.success) {
+        this.props.setItemCatalogue(data.catalogue);
+      }
+    });
 
-    let shouldRequest = false;
-    if(checkStorage()) {
-      let cachedStatsStore = localStorage.getItem("nasfaq:stats");
-      if(cachedStatsStore !== null) {
-        let cachedStats = JSON.parse(cachedStatsStore);
+    fetchData('/api/getMarketInfo')
+    .then((data:any) => {
+      this.props.setCoinInfo(data.coinInfo);
+      this.props.setMarketSwitch(data.marketSwitch);
+      let shouldRequest = false;
+      if(checkStorage()) {
+        let cachedStatsStore = localStorage.getItem("nasfaq:stats");
+        if(cachedStatsStore !== null) {
+          let cachedStats = JSON.parse(cachedStatsStore);
 
-        const minToMil = 60 * 1000;
-        const hoursMilli = adjustmentTime.HOUR * 60 * minToMil;
-        const minMilli = adjustmentTime.MINUTE * minToMil;
-        const jumpBack = hoursMilli + minMilli;
+          const minToMil = 60 * 1000;
+          const hoursMilli = adjustmentTime.HOUR * 60 * minToMil;
+          const minMilli = adjustmentTime.MINUTE * minToMil;
+          const jumpBack = hoursMilli + minMilli;
 
-        let statsTimestamp = cachedStats.timestamp - jumpBack;
-        const storedTimeString = new Date(statsTimestamp).toLocaleString("en-US", {
-          timeZone: "America/New_York"
-        });
-        const storedDay = new Date(storedTimeString).getDay();
+          let statsTimestamp = cachedStats.timestamp - jumpBack;
+          const storedTimeString = new Date(statsTimestamp).toLocaleString("en-US", {
+            timeZone: "America/New_York"
+          });
+          const storedDay = new Date(storedTimeString).getDay();
 
-        const nowTimestamp = new Date().getTime() - jumpBack;
-        const nowTimeString = new Date(nowTimestamp).toLocaleString("en-US", {
-          timeZone: "America/New_York"
-        });
-        const nowDay = new Date(nowTimeString).getDay();
-
-        if(nowDay !== storedDay) {
-          shouldRequest = true;
+          const nowTimestamp = new Date().getTime() - jumpBack;
+          const nowTimeString = new Date(nowTimestamp).toLocaleString("en-US", {
+            timeZone: "America/New_York"
+          });
+          const nowDay = new Date(nowTimeString).getDay();
+          if(nowDay !== storedDay) {
+            shouldRequest = true;
+          } else {
+            if(Object.keys(data.coinInfo.data).length
+              !== Object.keys(cachedStats.stats).length) {
+              
+              shouldRequest = true;
+            
+            } else {
+              this.props.setStats(cachedStats.stats);
+              this.props.setHistory(cachedStats.history);
+            }
+          }
         } else {
-          this.props.setStats(cachedStats.stats);
-          this.props.setHistory(cachedStats.history);
+          shouldRequest = true;
         }
       } else {
         shouldRequest = true;
       }
-    } else {
-      shouldRequest = true;
-    }
-    
-    if(shouldRequest) {
-      fetch('/api/getStats', {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json'
-        }
-      })
-      .then(response => response.json())
-      .then(data => {
+      
+      if(shouldRequest) {
+        fetchData('/api/getStats')
+        .then((data:any) => {
           this.props.setStats(data.stats);
           let coinHistory = parseCoinHistory(JSON.parse(data.coinHistory));
           this.props.setHistory(coinHistory);
@@ -156,11 +151,9 @@ class AppBind extends Component<AppProps> {
               history:coinHistory
             }))
           }
-      })
-      .catch(error => {
-          console.error('Error: ' +  error);
-      })
-    }
+        })
+      }
+    });
   }
   
 
