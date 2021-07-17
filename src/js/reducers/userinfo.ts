@@ -46,6 +46,10 @@ const userinfo = handleActions(
             ...state,
             muted: actions.payload.muted
         }),
+        SET_ITEMS: (state:any, actions:any) => ({
+            ...state,
+            items: actions.payload.items
+        }),
         UNLOAD: (state:any, action:any) => ({
             username:undefined,
             email:undefined,
@@ -56,6 +60,7 @@ const userinfo = handleActions(
             verified:undefined,
             settings:undefined,
             muted:undefined,
+            items:[],
             loaded:false
         })
     },
@@ -70,6 +75,7 @@ const userinfo = handleActions(
         verified:undefined,
         settings:undefined,
         muted:undefined,
+        items:[],
         loaded:false
     }
 )

@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
 
-import '../../../css/profile.scss';
+import '../../../css/profile/profile.scss';
+import '../../../css/profile/items.scss';
 import '../../../css/dialogue.scss';
 
 import numberWithCommas from '../../numberWithCommas';
@@ -35,17 +36,20 @@ import {
     FaCoins
 } from 'react-icons/fa';
 import {IMyCoin, IWallet} from '../../interfaces/IWallet';
+import { UserItems, IItemCatalogue, IItem } from '../../interfaces/IItem';
 import {IPerformance, IPerformanceHistory} from '../../interfaces/Performance';
 
 import { datasetTemplate } from '../DatasetTemplate';
 import { ICoinDataCollection, ICoinHistory } from '../../interfaces/ICoinInfo';
 import { Loading } from '../Loading';
 import { Link } from 'react-router-dom';
+import Items from './Items';
 
 const mapStateToProps = (state:any, props:any) => ({
     session: state.session,
     userinfo: state.userinfo,
-    stats: state.stats
+    stats: state.stats,
+    itemcatalogue: state.itemcatalogue
 });
 
 interface ProfileProps {
@@ -60,8 +64,10 @@ interface ProfileProps {
         verified:boolean,
         loaded:boolean,
         muted:string,
+        items:UserItems,
         performance:IPerformanceHistory
     },
+    itemcatalogue:IItemCatalogue,
     stats: {
         stats: {
             [key:string]:any
@@ -236,7 +242,6 @@ class ProfileBind extends Component<ProfileProps> {
                     <Loading />;
                 </div> 
             ) 
-            
         }
 
         let uniqueAssets = 0;
@@ -413,6 +418,11 @@ class ProfileBind extends Component<ProfileProps> {
                             </div>
                         </div>
                     </div>
+
+                    <Items
+                        useritems={this.props.userinfo.items}
+                        catalogue={this.props.itemcatalogue} />
+
                     <div className="container-section">
                         <div className="section-background"></div>
                         <div className="section-content">

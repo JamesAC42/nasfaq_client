@@ -30,6 +30,7 @@ interface LoginAdminProps {
     setMuted: (muted:any) => {},
     setSettings: (settings:any) => {},
     login: () => {},
+    setItems: (items:any) => {},
     match: {
         params: {
             from:string
@@ -53,7 +54,8 @@ const mapDispatchToProps = {
     setVerified: userinfoActions.setVerified,
     setAdmin: userinfoActions.setAdmin,
     setMuted: userinfoActions.setMuted,
-    setSettings: userinfoActions.setSettings
+    setSettings: userinfoActions.setSettings,
+    setItems: userinfoActions.setItems
 }
 
 type formEvent = React.ChangeEvent<HTMLInputElement>;
@@ -101,6 +103,7 @@ class LoginAdminBind extends Component<LoginAdminProps> {
         this.props.setMuted(data.muted);
         this.props.setSettings(data.settings);
         this.props.setLoaded();
+        this.props.setItems(JSON.parse(data.items));
         this.props.login();
     }
 

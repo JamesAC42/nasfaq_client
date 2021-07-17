@@ -35,6 +35,7 @@ interface LoginProps {
     setAdmin: (admin:boolean) => {},
     setVerified: (verified:boolean) => {},
     setMuted: (muted:any) => {},
+    setItems: (items:any) => {},
     setSettings: (settings:any) => {},
     login: () => {},
     match: {
@@ -60,6 +61,7 @@ const mapDispatchToProps = {
     setVerified: userinfoActions.setVerified,
     setAdmin: userinfoActions.setAdmin,
     setMuted: userinfoActions.setMuted,
+    setItems: userinfoActions.setItems,
     setSettings: userinfoActions.setSettings
 }
 
@@ -121,6 +123,7 @@ class LoginBind extends Component<LoginProps> {
         this.props.setVerified(data.verified);
         this.props.setAdmin(data.admin);
         this.props.setMuted(data.muted);
+        this.props.setItems(data.items);
         this.props.setSettings(data.settings);
         this.props.setLoaded();
         this.props.login();

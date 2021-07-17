@@ -28,7 +28,8 @@ const mapDispatchToProps = {
     setOshiboard: statsActions.setOshiboard,
     addTransaction: transactionActions.addTransaction,
     setWallet: userinfoActions.setWallet,
-    setMarketSwitch: settingsActions.setMarketSwitch
+    setMarketSwitch: settingsActions.setMarketSwitch,
+    setItems: userinfoActions.setItems
 }
 
 interface SocketHandlerProps {
@@ -54,7 +55,9 @@ interface SocketHandlerProps {
     setWallet: (wallet:any) => {},
     addTransaction: (transaction:ITransaction) => {},
 
-    setMarketSwitch: (open:boolean) => {}
+    setMarketSwitch: (open:boolean) => {},
+    
+    setItems: (items:any) => {}
 }
 
 class SocketHandlerState {
@@ -82,16 +85,14 @@ class SocketHandlerBind extends Component<SocketHandlerProps> {
 			query: {
                 user:this.props.userinfo.id
             }
-		});
-        
+		});      
         /*
         let newSocket = io('http://localhost:3500', {
             query: {
                 user: this.props.userinfo.id
             }
 		});
-        */
-        
+        */        
 		this.listenData(newSocket);
 		this.listenTransaction(newSocket);
 		this.setState({socket:newSocket});
@@ -250,6 +251,10 @@ class SocketHandlerBind extends Component<SocketHandlerProps> {
 
         socket.on('marketSwitch', (data:any) => {
             this.props.setMarketSwitch(data);
+        })
+
+        socket.on('itemsUpdate', (data:any) => {
+            this.props.setItems(data);
         })
     }
 

@@ -1,0 +1,62 @@
+@import "../settings.scss";
+
+.items {
+    margin-top:15px;
+    padding:0;
+    table {
+        border-collapse:collapse;
+        width:100%;
+        thead tr {
+            text-align:center;
+            font-family:WorkSansSemiBold;
+            color:rgb(128, 128, 128);
+            td {
+                padding-bottom:5px;
+                border-bottom:1px solid rgb(78, 78, 78);
+            }
+        }
+        tbody tr {
+            text-align:center;
+            td {
+                margin:0;
+                padding:10px 0;
+                color:$text-dark;
+                border-bottom:1px solid rgb(226, 226, 226);
+                .dark & {
+                    border-bottom:1px solid rgb(56, 56, 56);
+                    color:$text-light;
+                }
+
+                .item-name {
+                    font-size:14px;
+                    margin:10px 0;
+                    color:rgb(116, 116, 116);
+                    .dark & {
+                        color:rgb(189, 189, 189);
+                    }
+                }
+
+                img.item-image {
+                    max-width:150px;
+                }
+            }
+        }
+    }
+    .no-items,.items-blurb {
+        font-family:WorkSans;
+        color:$text-dark;
+        text-align:center;
+        .dark & {
+            color:$text-light;
+        }
+    }
+    .no-items {
+        height:50px;
+        line-height:50px;
+        font-size:18px;
+    }
+    .items-blurb {
+        font-size:16px;
+        margin:10px 15px;
+    }
+}
