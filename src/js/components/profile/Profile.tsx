@@ -36,7 +36,7 @@ import {
     FaCoins
 } from 'react-icons/fa';
 import {IMyCoin, IWallet} from '../../interfaces/IWallet';
-import { UserItems, IItemCatalogue, IItem } from '../../interfaces/IItem';
+import { UserItems, IItemCatalogue } from '../../interfaces/IItem';
 import {IPerformance, IPerformanceHistory} from '../../interfaces/Performance';
 
 import { datasetTemplate } from '../DatasetTemplate';

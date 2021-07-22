@@ -1,6 +1,4 @@
 import React, {Component} from 'react';
-import Button from '../Button';
-
 class DownloadPane extends Component {
     render() {
         return(

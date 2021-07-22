@@ -20,10 +20,11 @@ import {
 import {
     HiMenu
 } from 'react-icons/hi';
+/*
 import {
     BsCaretDownFill
 } from 'react-icons/bs';
-
+*/
 const mapStateToProps = (state:any, props:any) => ({
     settings: state.settings,
     session: state.session,

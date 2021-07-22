@@ -50,9 +50,6 @@ interface AutoTraderProps {
 
 class AutoTraderBind extends Component<AutoTraderProps> {
     intervalId:any;
-    constructor(props:AutoTraderProps) {
-        super(props);
-    }
     filterName(name:string) {
         return (name === "luna") ? "himemoriluna" : name;
     }
@@ -147,7 +144,7 @@ class AutoTraderBind extends Component<AutoTraderProps> {
             const storageAutoTrader = localStorage.getItem("nasfaq:autotrader");
             if(storageAutoTrader !== null) {
                 const storedData = JSON.parse(storageAutoTrader);
-                const {running, rules} = storedData;
+                const {rules} = storedData;
                 this.props.setRules(rules);
                 this.props.setRunning(false);
             }
