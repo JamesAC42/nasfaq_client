@@ -7,7 +7,7 @@ import {connect} from 'react-redux';
 
 import {AutoTraderRule} from '../../interfaces/AutoTraderRule';
 import ToggleSwitch from '../ToggleSwitch';
-import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
+import {DragDropContext, Droppable } from 'react-beautiful-dnd';
 
 import {lineage} from '../Icons';
 import {
@@ -55,7 +55,7 @@ interface AutoTraderEditorProps {
 class AutoTraderEditorBind extends Component<AutoTraderEditorProps> {
 
     onDragEnd = (result:any) => {
-        const {destination, source, draggableId} = result;
+        const {destination, source} = result;
         if(!destination) return;
         if(
             destination.droppableId === source.droppableId &&
@@ -131,13 +131,12 @@ class AutoTraderEditorBind extends Component<AutoTraderEditorProps> {
     setTargetQuantity(index:number, quantity:number) {
         let rules = [...this.props.autotrader.rules];
         rules[index].targetQuantity = quantity;
-        this.props.setRules(rules);
-        this.saveRules(rules, this.props.autotrader.running);
-    }
-
-    setRuleType(index:number, type:TransactionType) {
-        let rules = [...this.props.autotrader.rules];
-        rules[index].type = type;
+        let myQuant = this.getMyQuant(rules[index].coin);
+        if(quantity < myQuant) {
+            rules[index].type = TransactionType.SELL;
+        } else if(quantity > myQuant) {
+            rules[index].type = TransactionType.BUY;
+        }
         this.props.setRules(rules);
         this.saveRules(rules, this.props.autotrader.running);
     }
@@ -166,6 +165,16 @@ class AutoTraderEditorBind extends Component<AutoTraderEditorProps> {
             return 0;
         } else {
             return wallet.coins[name].amt;
+        }
+    }
+
+    getMeanPurchasePrice(coin:string) {
+        let wallet:IWallet = {...this.props.userinfo.wallet};
+        let name = this.filterName(coin);
+        if(wallet.coins[name] === undefined) {
+            return 0;
+        } else {
+            return Math.round(wallet.coins[name].meanPurchasePrice * 100) / 100;
         }
     }
 
@@ -266,13 +275,12 @@ class AutoTraderEditorBind extends Component<AutoTraderEditorProps> {
                                                 coin={d.coin}
                                                 price={this.getCoinPrice(d.coin)}
                                                 quantity={this.getMyQuant(d.coin)}
+                                                meanPurchasePrice={this.getMeanPurchasePrice(d.coin)}
                                                 targetQuantity={d.targetQuantity}
                                                 timestamp={this.getTimestamp(d.coin)}
                                                 type={d.type}
                                                 index={index}
                                                 key={d.coin}
-                                                setRuleType={(index:number, type:TransactionType) => 
-                                                    this.setRuleType(index, type)}
                                                 setTargetQuantity={(index:number, quantity:number) => 
                                                     this.setTargetQuantity(index, quantity)} />
                                         ))

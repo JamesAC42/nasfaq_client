@@ -5,17 +5,18 @@ import {
     IoIosArrowUp
 } from 'react-icons/io';
 import { TransactionType } from '../../interfaces/ITransaction';
+import numberWithCommas from '../../numberWithCommas';
 import Coin from '../Coin';
 
 interface TradeRuleItemProps {
     coin:string,
     price:string,
     quantity:number,
+    meanPurchasePrice:number,
     targetQuantity:number,
     timestamp:number,
     type:TransactionType,
     index:number,
-    setRuleType:(index:number, type:TransactionType) => void,
     setTargetQuantity:(index:number, quantity:number) => void,
 }
 
@@ -100,7 +101,9 @@ class TradeRuleItem extends Component<TradeRuleItemProps> {
                         <div className="trade-rule-coin">
                             <Coin name={this.props.coin}/>
                         </div>
-                        <div className="trade-rule-info">
+                        <div 
+                            className="trade-rule-info"
+                            title={"Mean purchase price: $" + numberWithCommas(this.props.meanPurchasePrice)}>
                             <div className="trade-rule-info-label">Current Price</div>
                             <div className="trade-rule-price">${this.props.price}</div>
                         </div>
@@ -112,14 +115,12 @@ class TradeRuleItem extends Component<TradeRuleItemProps> {
                             <div 
                                 className={`trade-rule-buy 
                                     ${this.props.type === TransactionType.BUY 
-                                        ? '' : 'trade-rule-inactive-type'}`}
-                                onClick={() => this.props.setRuleType(this.props.index, TransactionType.BUY)}>
+                                        ? '' : 'trade-rule-inactive-type'}`}>
                                     BUY</div>
                             <div 
                                 className={`trade-rule-sell 
                                     ${this.props.type === TransactionType.SELL 
-                                        ? '' : 'trade-rule-inactive-type'}`}
-                                onClick={() => this.props.setRuleType(this.props.index, TransactionType.SELL)}>
+                                        ? '' : 'trade-rule-inactive-type'}`}>
                                     SELL</div>
                         </div>
                         <div className="trade-rule-target">
