@@ -119,7 +119,7 @@ class Info extends Component {
                                 of a coin's fundamental value. 
                             </p>
                             <p>
-                                Once a week on Saturday 0:00 EST, users will receive a dividend payment from the coins in his wallet.
+                                Once a week on Saturday 0:00 ET, users will receive a dividend payment from the coins in his wallet.
                                 The amount of cash added to your balance for a particular coin is a function of the amount you
                                 own and the chuuba's channel performance in the past week. It is independent of the market performance  
                                 of that coin. Seek high performance coins in order to optimize your weekly payoffs - changes
@@ -146,6 +146,11 @@ class Info extends Component {
                                 their history. Additionally, clicking on the magnifying glass in the upper left hand side opens up more options for sorting, 
                                 searching and viewing of the coins. Clicking on the icon in the bottom right hand side of this menu will toggle between compact
                                 view and graph view.
+                                Clicking on the bottom icon gives access to an autotrader function, allowing one to automatically conduct
+                                large volume trades. Of note here is that one must always turn off the autotrader when making changes to the target amounts.
+                                As a safeguard against erroneous behavior the autotrader will automatically pause in the event of two tabs being opened. Please
+                                ensure the autotrader is only active in one tab before proceeding. Note this behavior does not extend to browsing in Private mode
+                                so please take extra care.
                             </p>
                             <p>
                                 The <span className="broker">Activity</span> page shows live updates of what is going on in the market as well as gives insights
