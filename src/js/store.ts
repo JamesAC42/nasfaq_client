@@ -13,8 +13,13 @@ import superchats from './reducers/superchats';
 import autotrader from './reducers/autotrader';
 import itemcatalogue from './reducers/itemcatalogue';
 import admin from './reducers/admin';
+import socket from './reducers/socket';
 
 let initState = {
+    socket: {
+        socket: null,
+        query: {}
+    },
     settings: {
         darkMode: false,
         marketSwitch: true,
@@ -83,6 +88,7 @@ let initState = {
 }
 
 const holoReducer = combineReducers({
+    socket,
     settings,
     session,
     stats,

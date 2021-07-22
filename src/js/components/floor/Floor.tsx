@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { io, Socket } from 'socket.io-client';
+import { Socket } from 'socket.io-client';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
 import {
@@ -16,7 +16,8 @@ import RoomContainer from './RoomContainer';
 
 import '../../../css/floor/floor.scss';
 import { 
-    floorActions
+    floorActions,
+    socketActions
 } from '../../actions/actions';
 
 interface FloorProps {
@@ -34,18 +35,24 @@ interface FloorProps {
         chatLog: [],
         activeRoom: Room | null
     },
+    socket: {
+        socket:any,
+        query:any
+    },
     setFloorSpace: (floorSpace:FloorSpace) => {},
     setChatLog: (chat: ChatLog) => {},
     setLoading: (loading: boolean) => {},
     setActiveRoom: (room: Room) => {},
     setPostCooldown: (post: number) => {},
-    setRoomCooldown: (room: number) => {}
+    setRoomCooldown: (room: number) => {},
+    setSocketQuery: (query:{}) => {}
 }
 
 const mapStateToProps = (state:any, props:any) => ({
     session: state.session,
     userinfo: state.userinfo,
-    floor: state.floor
+    floor: state.floor,
+    socket: state.socket
 });
 
 const mapDispatchToProps = {
@@ -54,14 +61,13 @@ const mapDispatchToProps = {
     setLoading: floorActions.setLoading,
     setActiveRoom: floorActions.setActiveRoom,
     setPostCooldown: floorActions.setPostCooldown,
-    setRoomCooldown: floorActions.setRoomCooldown
+    setRoomCooldown: floorActions.setRoomCooldown,
+    setSocketQuery: socketActions.setSocketQuery
 }
 
 class FloorState {
-    socket:any;
     collapseRooms: boolean;
     constructor() {
-        this.socket = undefined;
         this.collapseRooms = false;
     }
 }
@@ -81,35 +87,25 @@ class FloorBind extends Component<FloorProps> {
     }
 
     reconnect() {
-		let s = this.state.socket;
-		if(s !== undefined) s.disconnect();
-        
-        let newSocket;
+		let s = this.props.socket.socket;
+		if(s !== null) {
+            this.listenData(s);
 
-        if(this.props.floor.activeRoom !== null) {
-            /*
-            newSocket = io('http://localhost:3500', {
-                query: {
-                    room: this.props.floor.activeRoom.id
+            if(this.props.floor.activeRoom !== null) {
+                if(this.props.floor.activeRoom.id !== this.props.socket.query.room) {
+                    this.props.setSocketQuery({
+                        ...this.props.socket.query,
+                        room: this.props.floor.activeRoom.id
+                    })
                 }
-		    });
-            */
-            newSocket = io('https://nasfaq.biz', {
-                path: '/socket',
-                query: {
-                    room: this.props.floor.activeRoom.id
+            } else {
+                let query = {...this.props.socket.query};
+                if(query.room !== undefined) {
+                    delete query.room;
+                    this.props.setSocketQuery(query);
                 }
-            });
-        } else {
-            /*
-            newSocket = io('http://localhost:3500');
-            */
-            newSocket = io('https://nasfaq.biz', {
-                path: '/socket'
-            });
+            }
         }
-		this.listenData(newSocket);
-		this.setState({socket:newSocket});
 	}
 
     filterMessages(chatLog: Array<IMessage>) {
@@ -191,15 +187,19 @@ class FloorBind extends Component<FloorProps> {
     }
 
     listenData(socket:Socket) {
-        socket.on('roomUpdate', (data:string) => {
-            this.filterMessages(JSON.parse(data));
-        })
-        socket.on('floorUpdate', (data:string) => {
-            this.props.setFloorSpace(JSON.parse(data));
-            if(this.props.floor.activeRoom !== null) {
-                this.setActiveRoom(this.props.floor.activeRoom.id);
-            }
-        })
+        if(!socket.hasListeners('roomUpdate')) {
+            socket.on('roomUpdate', (data:any) => {
+                this.filterMessages(data);
+            })
+        }
+        if(!socket.hasListeners('floorUpdate')) {
+            socket.on('floorUpdate', (data:string) => {
+                this.props.setFloorSpace(JSON.parse(data));
+                if(this.props.floor.activeRoom !== null) {
+                    this.setActiveRoom(this.props.floor.activeRoom.id);
+                }
+            })
+        }
     }
 
     setActiveRoom(room:roomId) {
@@ -250,8 +250,16 @@ class FloorBind extends Component<FloorProps> {
     }
 
     componentWillUnmount() {
-		let s = this.state.socket;
-		if(s !== undefined) s.disconnect();
+		if(this.props.socket.socket !== null) {
+            this.props.socket.socket.removeAllListeners("roomUpdate");
+            this.props.socket.socket.removeAllListeners("floorUpdate");
+        }
+
+        let query = {...this.props.socket.query};
+        if(query.room !== undefined) {
+            delete query.room;
+        }
+        this.props.setSocketQuery(query);
     }
 
     componentDidUpdate(prevProps:FloorProps, prevState:FloorState) {
@@ -273,6 +281,9 @@ class FloorBind extends Component<FloorProps> {
         if(this.props.floor.floorSpace !== null && prevProps.floor.floorSpace === null) {
             let roomid = this.props.match.params.room;
             this.setActiveRoom(roomid);
+        }
+        if(this.props.socket.socket !== prevProps.socket.socket) {
+            this.reconnect();
         }
     }
 

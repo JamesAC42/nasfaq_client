@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import '../../../css/tabbedpage.scss';
 import '../../../css/activity.scss';
 import { ITransaction } from '../../interfaces/ITransaction';
-import { io, Socket } from 'socket.io-client'
+import { Socket } from 'socket.io-client'
 import { connect } from 'react-redux';
 
 import ina from '../../../images/ina.png';
@@ -23,7 +23,8 @@ export enum activeView {
 const mapStateToProps = (state:any, props:any) => ({
     userinfo: state.userinfo,
     session: state.session,
-    stats: state.stats
+    stats: state.stats,
+    socket: state.socket
 });
 
 interface ActivityProps {
@@ -37,6 +38,9 @@ interface ActivityProps {
     },
     stats: {
         coinInfo: ICoinInfo
+    },
+    socket: {
+        socket:any
     }
 }
 
@@ -46,20 +50,23 @@ class ActivityState {
     recentHistory: Array<ITransaction>;
     activeView: activeView;
     activeDay: Date;
-    socket:any;
     activePage:number;
     dividends:any;
     refreshing:boolean;
+
+    todayRetrieved:boolean;
+    retrievingPast:boolean;
     constructor() {
         this.todayHistory = [];
         this.recentHistory = [];
         this.pastHistory = {};
         this.activeDay = new Date();
         this.activeView = activeView.recentHistory;
-        this.socket = undefined;
         this.activePage = 0;
         this.dividends = {};
         this.refreshing = true;
+        this.todayRetrieved = false;
+        this.retrievingPast = false;
     }
 }
 
@@ -71,19 +78,10 @@ class ActivityBind extends Component<ActivityProps> {
         this.state = new ActivityState();
     }
     connectSocket() {
-        let s = this.state.socket;
-		if(s !== undefined) s.disconnect();
-        
-        
-		let newSocket = io('https://nasfaq.biz', {
-			path: '/socket'
-		});
-        
-        /*
-        let newSocket = io('localhost:3500');
-        */
-		this.listen(newSocket);
-		this.setState({socket:newSocket});
+        let s = this.props.socket.socket;
+		if(s !== null) {
+		    this.listen(s);
+        }
     }
     listen(socket:Socket) {
         socket.on('historyUpdate', (data:any) => {
@@ -101,9 +99,62 @@ class ActivityBind extends Component<ActivityProps> {
             })
         })
     }
+    setHistory(transactions:Array<ITransaction>) {
+        let recentHistory:Array<ITransaction> = [];
+        let nowDate:Date = new Date();
+        let nowMinutes = nowDate.getMinutes();
+        let block = Math.floor(nowMinutes / 15) * 15;
+        while(transactions.length > 0) {
+
+            let currentHour = nowDate.getHours();
+            let transactStamp = new Date(transactions[0].timestamp);
+            if(currentHour !== transactStamp.getHours()) break;
+            
+            let transactMinutes = transactStamp.getMinutes();
+            if(transactMinutes >= block && transactMinutes <= nowMinutes) {
+                recentHistory.push(transactions[0]);
+                transactions.splice(0, 1);
+            } else {
+                break;
+            }
+        }
+        this.setState({
+            todayHistory: transactions,
+            recentHistory
+        }); 
+    }
+    getTodayHistory() {
+        if(!this.state.todayRetrieved) {
+            fetch('/api/getHistory', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.success) {
+                    let transactions:Array<ITransaction> = data.history.transactions;
+                    transactions.reverse();
+                    transactions.filter((t:ITransaction) => {
+                        return t.coin !== "choco_alt";
+                    });
+                    this.setHistory(transactions);
+                    this.setState({
+                        todayRetrieved: true
+                    })
+                }
+            })
+        }
+    }
     componentDidMount() {
         this.connectSocket();
-        fetch('/api/getHistory', {
+        
+        this.intervalId = setInterval(() => {
+            this.refreshRecentTransactions();
+        }, 1000 * 10);
+
+        fetch('/api/getHistory?recent', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -114,36 +165,10 @@ class ActivityBind extends Component<ActivityProps> {
             if(data.success) {
                 let transactions:Array<ITransaction> = data.history.transactions;
                 transactions.reverse();
-
                 transactions.filter((t:ITransaction) => {
                     return t.coin !== "choco_alt";
                 });
-
-                let recentHistory:Array<ITransaction> = [];
-                let nowDate:Date = new Date();
-                let nowMinutes = nowDate.getMinutes();
-                let block = Math.floor(nowMinutes / 15) * 15;
-                while(transactions.length > 0) {
-
-                    let currentHour = nowDate.getHours();
-                    let transactStamp = new Date(transactions[0].timestamp);
-                    if(currentHour !== transactStamp.getHours()) break;
-                    
-                    let transactMinutes = transactStamp.getMinutes();
-                    if(transactMinutes >= block && transactMinutes <= nowMinutes) {
-                        recentHistory.push(transactions[0]);
-                        transactions.splice(0, 1);
-                    } else {
-                        break;
-                    }
-                }
-                this.setState({
-                    todayHistory: transactions,
-                    recentHistory
-                });
-                this.intervalId = setInterval(() => {
-                    this.refreshRecentTransactions();
-                }, 1000 * 10);
+                this.setHistory(transactions);
             }
         })
         .catch(error => {
@@ -172,6 +197,11 @@ class ActivityBind extends Component<ActivityProps> {
             this.setState({
                 activePage:0
             });
+        }
+        if(prevProps.socket.socket !== this.props.socket.socket) {
+            if(this.props.socket.socket !== null) {
+                this.listen(this.props.socket.socket);
+            }
         }
     }
     updateActiveDay(date:Date) {
@@ -273,8 +303,9 @@ class ActivityBind extends Component<ActivityProps> {
                     let pastHistory = {...this.state.pastHistory};
                     pastHistory[date.getTime()] = data.history;
                     this.setState({
-                        pastHistory
-                    })
+                        pastHistory,
+                        retrievingPast:false
+                    });
                     resolve(data.history.transactions);
                 }
             })
@@ -314,7 +345,13 @@ class ActivityBind extends Component<ActivityProps> {
                 let histItem:any = this.state.pastHistory[this.state.activeDay.getTime()];
                 if(histItem === undefined) {
                     
-                    this.retrievePastHistory(this.state.activeDay);
+                    if(!this.state.retrievingPast) {
+                        this.setState({
+                            retrievingPast:true
+                        }, () => {
+                            this.retrievePastHistory(this.state.activeDay);
+                        })
+                    }
                     transactions = [];
 
                 } else {
@@ -348,12 +385,19 @@ class ActivityBind extends Component<ActivityProps> {
     }
 
     componentWillUnmount() {
-		let s = this.state.socket;
-		if(s !== undefined) s.disconnect();
-        clearInterval(this.intervalId);
+        if(this.props.socket.socket !== null) {
+            this.props.socket.socket.removeAllListeners("historyUpdate");
+            this.props.socket.socket.removeAllListeners("historyRefresh");
+        }
     }
 
     changeActiveView(view:number) {
+
+        if(view === activeView.history) {
+            if(!this.state.todayRetrieved) {
+                this.getTodayHistory();
+            }
+        }
         this.setState({
             activeView:view
         })

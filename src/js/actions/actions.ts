@@ -95,3 +95,11 @@ export const adminActions = createActions(
         SET_ADMIN_ADJUSTMENT_CONTROLS: adjustmentControls => ({ adjustmentControls }),
     }
 )
+
+export const socketActions = createActions(
+    {
+        SET_SOCKET: socket => ({ socket }),
+        SET_SOCKET_QUERY: query => ({ query })
+    },
+    "REMOVE_SOCKET"
+)

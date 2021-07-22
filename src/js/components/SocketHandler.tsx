@@ -5,7 +5,8 @@ import {
     statsActions,
     userinfoActions,
     transactionActions,
-    settingsActions
+    settingsActions,
+    socketActions
 } from '../actions/actions';
 import { connect } from 'react-redux';
 import { ITransaction } from "../interfaces/ITransaction";
@@ -16,7 +17,8 @@ import checkStorage from '../checkStorage';
 const mapStateToProps = (state:any, props:any) => ({
     session: state.session,
     userinfo: state.userinfo,
-    stats: state.stats
+    stats: state.stats,
+    socket: state.socket
 });
 
 const mapDispatchToProps = {
@@ -29,7 +31,9 @@ const mapDispatchToProps = {
     addTransaction: transactionActions.addTransaction,
     setWallet: userinfoActions.setWallet,
     setMarketSwitch: settingsActions.setMarketSwitch,
-    setItems: userinfoActions.setItems
+    setItems: userinfoActions.setItems,
+    setSocket: socketActions.setSocket,
+    removeSocket: socketActions.removeSocket
 }
 
 interface SocketHandlerProps {
@@ -45,6 +49,10 @@ interface SocketHandlerProps {
         coinHistory:any,
         stats:any
     },
+    socket: {
+        socket: any,
+        query: any
+    },
     setStats: (stats:{}) => {},
     setHistory: (coinHistory:{}) => {},
     setCoinInfo: (coinInfo: {}) => {},
@@ -57,69 +65,50 @@ interface SocketHandlerProps {
 
     setMarketSwitch: (open:boolean) => {},
     
-    setItems: (items:any) => {}
-}
-
-class SocketHandlerState {
-    socket:any;
-    constructor() {
-        this.socket = undefined;
-    }
+    setItems: (items:any) => {},
+    setSocket: (socket:any) => {},
+    removeSocket: () => {}
 }
 
 class SocketHandlerBind extends Component<SocketHandlerProps> {
-
-    state:SocketHandlerState;
-    constructor(props:SocketHandlerProps) {
-        super(props);
-        this.state = new SocketHandlerState();
-	}
 	
-	reconnectLoggedIn() {
-		let s = this.state.socket;
-		if(s !== undefined) s.disconnect();
-		if(this.props.userinfo.id === undefined) return;
-        
-		let newSocket = io('https://nasfaq.biz', {
-			path: '/socket',
-			query: {
-                user:this.props.userinfo.id
-            }
-		});      
-        /*
-        let newSocket = io('http://localhost:3500', {
-            query: {
-                user: this.props.userinfo.id
-            }
-		});
-        */        
-		this.listenData(newSocket);
-		this.listenTransaction(newSocket);
-		this.setState({socket:newSocket});
-	}
+    reconnect() {
+        let s = this.props.socket.socket;
+        if(s !== null) s.disconnect();
 
-	reconnectLoggedOut() {
-		let s = this.state.socket;
-		if(s !== undefined) s.disconnect();
+        let loggedin = false;
+        if(
+            this.props.session.loggedin && 
+            this.props.userinfo.id !== undefined) {   
+            loggedin = true;
+        }
+
+        let query = {...this.props.socket.query};
+        if(loggedin) {
+            query.user = this.props.userinfo.id
+        }
+
+        //const socketUrl = 'http://localhost:3500';
+        //const socketPath = '';
+        const socketUrl = 'https://nasfaq.biz';
+        const socketPath = '/socket';
+        let newSocket = io(socketUrl, {
+            path: socketPath,
+            query
+        });
         
-        
-		let newSocket = io('https://nasfaq.biz', {
-			path: '/socket'
-		});
-        
-        /*
-        let newSocket = io('http://localhost:3500');
-		*/
         this.listenData(newSocket);
-		this.setState({socket:newSocket});
+        if(loggedin) this.listenTransaction(newSocket);
+
+        this.props.setSocket(newSocket);
     }
 
     componentDidUpdate(prevProps:SocketHandlerProps) {
-		if(!prevProps.session.loggedin && this.props.session.loggedin) {
-			this.reconnectLoggedIn();
-		} else if(prevProps.session.loggedin && !this.props.session.loggedin) {
-			this.reconnectLoggedOut();
-		}
+        if(
+            prevProps.session.loggedin !== this.props.session.loggedin ||
+            prevProps.socket.query !== this.props.socket.query) {
+                this.reconnect();
+            }
     }
 
     listenTransaction(socket:Socket) {
@@ -259,12 +248,13 @@ class SocketHandlerBind extends Component<SocketHandlerProps> {
     }
 
     componentDidMount() {
-        this.reconnectLoggedOut();
+        this.reconnect();
     }
 
     componentWillUnmount() {
-		let s = this.state.socket;
-		if(s !== undefined) s.disconnect();
+		let s = this.props.socket.socket;
+		if(s !== null) s.disconnect();
+        this.props.removeSocket();
     }
 
     render() {

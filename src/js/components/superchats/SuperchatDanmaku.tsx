@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import '../../../css/danmaku.scss';
-import { io, Socket } from 'socket.io-client';
+import { Socket } from 'socket.io-client';
 import checkStorage from '../../checkStorage';
 import {
     PRICES_LIST,
@@ -24,14 +24,13 @@ const mapDispatchToProps = {
 
 const mapStateToProps = (state:any, props:any) => ({
     session: state.session,
-    superchats: state.superchats
+    superchats: state.superchats,
+    socket: state.socket
 });
 
 class SuperchatDanmakuState {
-    socket:any;
     supaQueue:{[type:string]:SupaQueue};
     constructor() {
-        this.socket = undefined;
         this.supaQueue = {}
     }
 }
@@ -44,6 +43,9 @@ interface SuperchatDanmakuProps {
     },
     session: {
         loggedin:boolean
+    },
+    socket: {
+        socket:any
     },
     setCooldown: (cooldown:number) => {},
     setSupaDaily: (daily:any) => {},
@@ -177,12 +179,12 @@ class SuperchatDanmakuBind extends Component<SuperchatDanmakuProps> {
     }
 
     componentWillUnmount() {
-		let s = this.state.socket;
-		if(s !== undefined) s.disconnect();
-
         clearInterval(this.expirationInterval);
-
         this.stopMovementLoop();
+        if(this.props.socket.socket !== null) {
+            this.props.socket.socket.removeAllListeners("superchatUpdate");
+            this.props.socket.socket.removeAllListeners("superchatResetDaily");
+        }
     }
 
     componentDidUpdate(prevProps:SuperchatDanmakuProps) {
@@ -213,24 +215,21 @@ class SuperchatDanmakuBind extends Component<SuperchatDanmakuProps> {
                 this.stopMovementLoop();
             }
         }
+
+        if(prevProps.socket.socket !== this.props.socket.socket) {
+            if(this.props.socket.socket !== null) {
+                this.listenSuperchat(this.props.socket.socket);
+            }
+        }
     }
 
     connectSocket() {
-        let s = this.state.socket;
-		if(s !== undefined) s.disconnect();
-        
-		let newSocket = io('https://nasfaq.biz', {
-			path: '/socket'
-		});
-        /*
-        let newSocket = io('http://localhost:3500');
-		*/
-        this.listenSuperchat(newSocket);
-		this.setState({socket:newSocket});
+        if(this.props.socket.socket !== null) {
+            this.listenSuperchat(this.props.socket.socket);
+        }
     }
 
     listenSuperchat(socket:Socket) {
-        
         socket.on('superchatUpdate', (dataString:string) => {
             let data = JSON.parse(dataString);
             let coin = data.coin;
