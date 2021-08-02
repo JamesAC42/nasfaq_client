@@ -11,8 +11,16 @@ import {
 import {
     BsCaretRightFill
 } from 'react-icons/bs';
+import { 
+    AiFillYoutube
+} from 'react-icons/ai';
+import { 
+    FaTwitter
+} from 'react-icons/fa';
 import { Line } from 'react-chartjs-2';
 import Button from './Button';
+
+import {links} from '../links';
 
 import Coin from './Coin';
 import numberWithCommas from '../numberWithCommas';
@@ -408,6 +416,26 @@ class BoardItemBind extends Component<BoardItemProps> {
                     <div className={`info-bar flex-row flex-center ${deltaClass}`}>
                         <Coin name={displayName}/>
                         <div className="name">{displayName.toUpperCase()}</div>
+
+                        <div 
+                            className="chuuba-link youtube"
+                            title="Youtube Channel">
+                            <a 
+                                href={links[this.props.name].youtube}
+                                target="_blank">
+                                <AiFillYoutube style={{verticalAlign:'middle'}}/>
+                            </a>
+                        </div>
+                        <div 
+                            className="chuuba-link twitter"
+                            title="Twitter Page">
+                            <a 
+                                href={links[this.props.name].twitter}
+                                target="_blank">
+                                <FaTwitter style={{verticalAlign:'middle'}}/>
+                            </a>
+                        </div>
+
                         <div className="ask flex-col flex-center">
                             <div className="price-label">
                                 ASK

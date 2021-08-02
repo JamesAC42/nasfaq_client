@@ -464,7 +464,18 @@ div.board-outer {
                 margin-right:15px;
             }
         }
+
+        .chuuba-link {
+            transform:translateY(-2px);
+            font-size:20px;
+            margin-left:20px;
+            cursor:pointer;
+            &.youtube a {color:rgb(255, 86, 86)}
+            &.twitter a {color:rgb(46, 179, 255)}
+            a {text-decoration:none;}
+        }
     }
+
     .action-section {
         position:relative;
         flex:1;
