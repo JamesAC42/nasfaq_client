@@ -114,6 +114,13 @@
                 margin:0 25px;
             }
         }
+        .input-label {
+            text-align:center;
+        }
+        .delete-error {
+            text-align:center;
+            color:$error;
+        }
     }
 
     &.settings-dialogue {
