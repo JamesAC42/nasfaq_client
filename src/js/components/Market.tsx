@@ -736,7 +736,7 @@ class MarketBind extends Component<MarketProps> {
                     }
 
                     <div className="tako-box">
-                        <img src={fubogki} alt="tako" className="tako"/>
+                        <img src={tako} alt="tako" className="tako"/>
                     </div>
                     <div className={`coin-searchbar ${searchbarClass}`}>
                         <div className={`coin-searchbar-inner`}>
