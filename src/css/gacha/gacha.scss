@@ -1,0 +1,542 @@
+.gacha-container {
+  /*
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap:wrap;
+
+    align-items:flex-start;
+    */
+
+  .gacha-header-container {
+    position: relative;
+    width: 100vw;
+    height: 25vh;
+    max-height:200px;
+    overflow: hidden;
+    background: rgb(252, 252, 252);
+
+
+    .dark & {
+      background: rgb(17, 17, 17);
+    }
+
+    .gacha-header-inner {
+      position: relative;
+      z-index: 1000;
+      text-align: center;
+      .gacha-header-title {
+        font-family: Chicago;
+        font-size: 3.5rem;
+        color: rgb(76, 40, 236);
+        @media (max-width:1000px) {
+          font-size: 2.6rem;
+        }
+      }
+      .gacha-header-subtitle {
+        font-family: WorkSans;
+        font-size: 1.2rem;
+        padding: 10px 10px;
+        margin:0 15px;
+        color: rgb(255, 255, 255);
+        @media (max-width:1000px) {
+          font-size: 1rem;
+        }
+      }
+
+      .dark & {
+        .gacha-header-title {
+          color: rgb(85, 124, 255);
+        }
+        .gacha-header-subtitle {
+          color: rgb(219, 219, 219);
+        }
+      }
+    }
+
+    .gacha-background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 10;
+      filter: brightness(0.3) blur(3px);
+      opacity: 0.6;
+
+      img {
+        display: block;
+        width: auto;
+        max-width: 100%;
+        min-height: 25vh;
+        transform: translateY(-40%);
+        @media (max-width:800px) {
+          transform: translateY(-15%);
+        }
+      }
+    }
+  }
+
+  .gacha-panel {
+    padding-top: 30px;
+    width: 100vw;
+    height: fit-content;
+    height: -moz-fit-content;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: baseline;
+    align-items: center;
+
+    .button-row {
+      width: 80vw;
+
+      gap: 100px;
+      justify-content: center;
+      background: rgb(255, 255, 255);
+      border-radius: 15px;
+      padding: 10px 0;
+      padding-bottom: 60px;
+      box-shadow: inset 0px 0px 9px -1px #c0c0c0;
+      
+      @media (max-width:1000px) {
+        gap: 50px;
+      }
+      @media (max-width:500px) {
+        flex-direction:column;
+        gap:25px;
+      }
+
+
+      .dark & {
+        background: rgb(27, 27, 27);
+        box-shadow: inset 0px 0px 9px -1px #000000;
+      }
+
+      .button-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .button-price {
+          div {
+            float: right;
+          }
+          color: #4bce67;
+          font-size: 20px;
+          padding: 20px 0;
+          .roll-price {
+            font-family: WorkSansSemiBold;
+          }
+        }
+      }
+    }
+
+    .drop-box {
+      justify-content: center;
+      .rolling-icon {
+        height: 250px;
+        width: 200px;
+        position: relative;
+
+        overflow: hidden;
+
+        @keyframes drop-spin {
+          0% {
+            transform: rotate(0deg);
+          }
+          40% {
+            transform: rotate(270deg);
+          }
+          50% {
+            transform: rotate(360deg);
+          }
+          70% {
+            transform: rotate(180deg);
+          }
+          80% {
+            transform: rotate(273deg);
+          }
+          100% {
+            transform: rotate(360deg);
+          }
+        }
+        @keyframes jiggy {
+          0% {
+            transform: translate(-50%, -250%);
+          }
+          10% {
+            transform: translate(-50%, -50%);
+          }
+          50% {
+            transform: translate(-50%, -40%) rotate(360deg);
+          }
+          80% {
+            transform: translate(-50%, -40%) rotate(0deg);
+          }
+          85% {
+            transform: translate(-50%, -20%) rotate(360deg);
+          }
+          100% {
+            transform: translate(-50%, -200%) rotate(0deg);
+          }
+        }
+
+        img {
+          height: 150px;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -200%);
+        }
+
+        transition: background 0.1s cubic-bezier(0.165, 0.84, 0.44, 1);
+
+        &.rolling {
+          //background:rgb(18, 18, 19);
+          //background: rgb(4,16,34);
+          //background: linear-gradient(0deg, rgba(4,16,34,1) 0%, rgba(44,21,83,1) 100%);
+          img {
+            animation: drop-spin 5s cubic-bezier(0.175, 0.885, 0.32, 1.275)
+              infinite;
+            animation: jiggy 5s cubic-bezier(0.175, 0.885, 0.32, 1.275) 1;
+          }
+        }
+      }
+    }
+
+    .init-message {
+      margin: 40px 0;
+      color: #fff;
+      font-size: 24px;
+    }
+  }
+
+  .drop-container {
+    width: 80vw;
+    background: rgb(255, 255, 255);
+    border-radius: 10px;
+    box-shadow: inset 0px 0px 9px -1px #cfcfcf;
+    margin: 50px 0;
+    
+    .dark & {
+      box-shadow: inset 0px 0px 9px -1px #000000;
+      background: rgb(29, 29, 29);
+    }
+
+    padding-bottom: 25px;
+
+    align-items: stretch;
+    .drop-container-header {
+      height: 80px;
+      line-height: 80px;
+      text-align: center;
+      font-size: 24px;
+      color: rgb(77, 111, 221);
+      font-family: WorkSansSemiBold;
+      .dark & {
+        color: rgb(151, 175, 255);
+      }
+    }
+
+    .drop-container-items {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+
+      gap: 15px;
+
+      .drop-item {
+        position:relative;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: center;
+
+        gap: 10px;
+
+        margin:5px;
+
+        border: 1px solid rgb(209, 197, 255);
+        border-radius: 10px;
+
+        background: rgb(255, 255, 255);
+        -webkit-box-shadow: 0px 7px 15px -3px #000000;
+        box-shadow: 0px 7px 15px -3px #636363;
+        
+        .dark & {
+          box-shadow: 0px 7px 15px -3px #000000;
+          background: rgb(32, 31, 41);
+          border-color:rgb(106, 85, 180);
+        }
+
+        overflow: hidden;
+
+        padding-top: 10px;
+
+        .drop-item-image {
+          flex: 1;
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+          align-items: center;
+          padding: 0 10px;
+          img {
+            max-width: 200px;
+            max-height: 150px;
+            @media (max-width:1000px) {
+              max-width: 120px;
+              max-height: 120px;
+            }
+          }
+        }
+
+        .drop-item-name {
+          color: rgb(32, 32, 56);
+          font-family: WorkSans;
+          font-size: 18px;
+          text-align: center;
+          max-width: 200px;
+          padding: 10px 20px;
+          word-wrap: break-word;
+          background: rgb(214, 214, 214);
+          .dark & {
+            color: rgb(242, 220, 255);
+            background: rgb(12, 12, 14);
+          }
+        }
+
+        $border-dark-normal: #45c994;
+        $border-dark-rare: rgb(255, 162, 100);
+
+        &::before,
+        &::after {
+          content: "";
+          box-sizing: border-box;
+          position: absolute;
+          border: 2px solid transparent;
+          border-radius:7px;
+          width: 0;
+          height: 0;
+        }
+        &::before {
+          top: 0;
+          left: 0;
+          border-top-color: $border-dark-normal;
+          border-right-color: $border-dark-normal;
+          animation: border 2s infinite;
+        }
+        &::after {
+          bottom: 0;
+          right: 0;
+          animation: border 2s 1s infinite, borderColor 2s 1s infinite;
+        }
+
+        &.rare::before {
+          top: 0;
+          left: 0;
+          border-top-color: $border-dark-rare;
+          border-right-color: $border-dark-rare;
+          animation: border 2s infinite;
+        }
+        &.rare::after {
+          bottom: 0;
+          right: 0;
+          animation: border 2s 1s infinite, borderColorRare 2s 1s infinite;
+        }
+
+        @keyframes border {
+          0% {
+            width: 0;
+            height: 0;
+          }
+          25% {
+            width: 100%;
+            height: 0;
+          }
+          50% {
+            width: 100%;
+            height: 100%;
+          }
+          100% {
+            width: 100%;
+            height: 100%;
+          }
+        }
+        @keyframes borderColor {
+          0% {
+            border-bottom-color: $border-dark-normal;
+            border-left-color: $border-dark-normal;
+          }
+          50% {
+            border-bottom-color: $border-dark-normal;
+            border-left-color: $border-dark-normal;
+          }
+          51% {
+            border-bottom-color: transparent;
+            border-left-color: transparent;
+          }
+          100% {
+            border-bottom-color: transparent;
+            border-left-color: transparent;
+          }
+        }
+        @keyframes borderColorRare {
+          0% {
+            border-bottom-color: $border-dark-rare;
+            border-left-color: $border-dark-rare;
+          }
+          50% {
+            border-bottom-color: $border-dark-rare;
+            border-left-color: $border-dark-rare;
+          }
+          51% {
+            border-bottom-color: transparent;
+            border-left-color: transparent;
+          }
+          100% {
+            border-bottom-color: transparent;
+            border-left-color: transparent;
+          }
+        }
+      }
+    }
+
+    .no-items {
+      color: rgb(55, 60, 75);
+      font-size: 28px;
+      .dark & {
+        color: rgb(205, 207, 212);
+      }
+    }
+  }
+}
+
+.gacha-button {
+  height: 100px;
+  width: 200px;
+  position: relative;
+
+  @media (max-width:1000px) {
+    height: 70px;
+    width: 150px;
+  }
+
+  transition: all 0.1s cubic-bezier(0.39, 0.575, 0.565, 1);
+
+  &.inactive {
+    filter: brightness(0.5);
+    opacity: 0.8;
+  }
+
+  .gacha-button-background,
+  .gacha-button-inner {
+    position: absolute;
+    border-radius: 10px;
+    top: 50%;
+    left: 50%;
+  }
+
+  .gacha-button-background {
+    height: 100%;
+    width: calc(100% + 20px);
+    background: rgb(57, 42, 190);
+    background: linear-gradient(
+      90deg,
+      rgba(82, 49, 218, 1) 0%,
+      rgba(76, 31, 139, 1) 100%
+    );
+    z-index: 1;
+
+    transform: translate(-50%, calc(-50% + 15px));
+
+    transition: transform 0.1s ease-in-out;
+
+    &.gacha-button-background-hover {
+      transform: translate(-50%, calc(-50% + 22px));
+    }
+  }
+  .gacha-button-inner {
+    height: 100%;
+    width: 100%;
+    z-index: 100;
+
+    background: rgb(255, 255, 255);
+    border: 2px solid rgb(92, 110, 212);
+    
+    transform: translate(-50%, -50%);
+    
+    .dark & {
+      background: rgb(5, 5, 5);
+    }
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    font-family: WorkSansSemiBold;
+    font-size: 28px;
+    color: rgb(119, 142, 247);
+    @media (max-width:1000px) {
+      font-size: 22px;
+    }
+
+    user-select: none;
+
+    cursor: pointer;
+
+    transition: transform 0.1s ease-in-out;
+
+    &.gacha-button-inner-pressed {
+      transform: translate(-50%, calc(-50% + 13px)) scale(0.99);
+    }
+  }
+
+  &.gacha-ten {
+    .gacha-button-background {
+      background: linear-gradient(
+        90deg,
+        rgba(233, 110, 72, 1) 0%,
+        rgba(121, 24, 129, 1) 100%
+      );
+    }
+
+    .gacha-button-inner {
+      border-color: rgb(255, 118, 76);
+      color: rgb(255, 204, 137);
+    }
+  }
+}
+
+.friend-box {
+  position: fixed;
+  bottom: 0;
+  right: 17px;
+  height: 280px;
+  img {
+    height: 100%;
+  }
+
+  @media (max-width:1200px) {
+      height:200px;
+  }
+  @media (max-width:800px) {
+      height:150px;
+  }
+
+  @keyframes anticipate {
+    0% {
+      transform: translate(0px, 0px);
+    }
+    50% {
+      transform: translate(-15px, 0px);
+    }
+    100% {
+      transform: translate(0px, 0px);
+    }
+  }
+
+  &.anticipation {
+    animation: anticipate 1s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+  }
+}

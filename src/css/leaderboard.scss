@@ -38,23 +38,30 @@ div.user-row {
     }
 }
 
-div.user-rank-wallet {
+div.user-rank-wallet,
+div.user-rank-items {
     position:relative;
     overflow:hidden;
-    div.wallet-inner {
+    div.wallet-inner,
+    div.items-inner {
         display:flex;
         flex-direction:column;
         align-items:stretch;
         padding:10px 20px 30px 20px;
 
-        .wallet-inner-coins {
+        .wallet-inner-coins,
+        .items-inner-items {
             flex:1;
             display:flex;
             flex-direction: row;
             flex-wrap:wrap;
             justify-content: center;
         }
-        .wallet-item {
+        .items-inner-items {
+            gap:10px;
+        }
+        .wallet-item,
+        .user-item {
             display:flex;
             flex-direction:row;
             align-items:center;
@@ -91,7 +98,39 @@ div.user-rank-wallet {
                 }
             }
         }
-        .wallet-statistics {
+        .user-item {
+            align-items: stretch;
+            border-radius:10px;
+            overflow:hidden;
+            box-shadow: 0px 7px 15px -3px #5c5c5c;
+            border:2px solid $default;
+            .dark & {
+                box-shadow: 0px 7px 15px -3px #000000;
+            }
+            .item-image {
+                padding:10px;
+                background:rgb(255, 255, 255);
+                .dark & {
+                    background:rgb(22, 22, 22);
+                }
+                img {
+                    max-height:100px;
+                    max-width:100px;
+                }
+            }
+            .item-quantity {
+                background:rgb(223, 223, 223);
+                color:rgb(82, 73, 211);
+                padding:0 10px;
+                font-family: WorkSansSemiBold;
+                .dark & {
+                    background:rgb(12, 12, 12);
+                    color:rgb(168, 162, 255);
+                }
+            }
+        }
+        .wallet-statistics,
+        .item-statistics {
             height:70px;
             font-size:20px;
             font-family:WorkSansSemiBold;
@@ -103,7 +142,8 @@ div.user-rank-wallet {
             .dark & {
                 color:$text-light;
             }
-            .wallet-stat-item {
+            .wallet-stat-item,
+            .item-stat-item {
                 padding:0 15px;
                 span.stat-number {
                     color:rgb(93, 136, 255);
@@ -113,6 +153,14 @@ div.user-rank-wallet {
         }
     }
 
+    div.loading-container {
+        height:100px;
+    }
+}
+
+div.user-rank-items {
+    position:relative;
+    overflow:hidden;
     div.loading-container {
         height:100px;
     }
@@ -198,7 +246,8 @@ div.user-rank-info {
             overflow:hidden;
         }
     }
-    .show-wallet {
+    .show-wallet,
+    .show-items {
         width:50px;
         font-size:25px;
         @media (max-width:1300px) {

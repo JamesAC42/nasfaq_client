@@ -211,6 +211,12 @@ class NavbarBind extends Component<NavbarProps> {
                     {
                         this.props.session.loggedin ?
                         <div className="nav-item">
+                            <Link to="/gacha">Gacha</Link>
+                        </div> : null
+                    }
+                    {
+                        this.props.session.loggedin ?
+                        <div className="nav-item">
                             <Link to="/profile">Profile</Link>
                         </div> : null
                     }

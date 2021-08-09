@@ -60,7 +60,7 @@ const userinfo = handleActions(
             verified:undefined,
             settings:undefined,
             muted:undefined,
-            items:[],
+            items:{},
             loaded:false
         })
     },

@@ -253,7 +253,7 @@ class ActivityBind extends Component<ActivityProps> {
         if(this.state.dividends.timestamp === undefined || this.state.dividends.timestamp === 0) {
             return(
                 <div className="no-dividends">
-                    No dividends have been payed yet.
+                    No dividends have been paid yet.
                 </div>
             )
         }
@@ -261,7 +261,7 @@ class ActivityBind extends Component<ActivityProps> {
         return(
             <div className="dividends">
                 <div className="dividends-header">
-                    Payed on: {new Date(this.state.dividends.timestamp).toLocaleString()}
+                    Paid on: {new Date(this.state.dividends.timestamp).toLocaleString()}
                 </div>
                 {
                     coinsf.map((gen:any, i:number) => 

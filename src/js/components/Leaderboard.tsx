@@ -16,18 +16,26 @@ import { connect } from 'react-redux';
 import Coin from './Coin';
 import LoadingSmall from './LoadingSmall';
 
+import { ItemImages } from './ItemImages';
+
 import {
     FaWallet
 } from 'react-icons/fa';
+import {
+    BsBagFill
+} from 'react-icons/bs';
 import { IWallet } from '../interfaces/IWallet';
 import { ICoinInfo } from '../interfaces/ICoinInfo';
+import { UserItems, IItem } from '../interfaces/IItem';
+import fetchData from '../fetchData';
 
 interface LeaderboardUser {
     userid:string,
     username:string,
     icon:string,
     networth:number,
-    walletIsPublic:boolean
+    walletIsPublic:boolean,
+    hasItems:boolean
 }
 
 interface IOshiInfo {
@@ -57,11 +65,17 @@ interface LeaderboardUserProps {
 class LeaderboardUserState {
     walletVisible: boolean;
     wallet:IWallet | null;
-    loading:boolean;
+    itemsVisible: boolean;
+    items: UserItems | null;
+    loadingWallet:boolean;
+    loadingItems:boolean;
     constructor() {
         this.walletVisible = false;
         this.wallet = null;
-        this.loading = false;
+        this.loadingWallet = false;
+        this.loadingItems = false;
+        this.itemsVisible = false;
+        this.items = null;
     }
 }
 
@@ -74,21 +88,15 @@ class LeaderboardUserItem extends Component<LeaderboardUserProps> {
     toggleWalletVisible() {
         let walletVisible = !this.state.walletVisible;
         if(this.state.wallet === null) {
-            this.setState({loading:true, walletVisible});
+            this.setState({loadingWallet:true, walletVisible});
 
             let url = `/api/getUserWallet?userid=${this.props.item.userid}`;
-            fetch(url, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
+            fetchData(url)
+            .then((data:any) => {
                 if(data.success) {
                     this.setState({
                         wallet:data.wallet,
-                        loading:false
+                        loadingWallet:false
                     })
                 } else {
                     this.setState({walletVisible:false})
@@ -99,6 +107,29 @@ class LeaderboardUserItem extends Component<LeaderboardUserProps> {
             })
         } else {
             this.setState({walletVisible});
+        }
+    }
+    toggleItemsVisible() {
+        let itemsVisible = !this.state.itemsVisible;
+        if(this.state.items === null) {
+            this.setState({loadingItems:true, itemsVisible});
+
+            fetchData(`/api/getUserItems?userid=${this.props.item.userid}`)
+            .then((data:any) => {
+                if(data.success) {
+                    this.setState({
+                        items:data.items,
+                        loadingItems:false
+                    })
+                } else {
+                    this.setState({itemsVisible:false});
+                }
+            })
+            .catch(error => {
+                console.error('Error: ' +  error);
+            })
+        } else {
+            this.setState({itemsVisible});
         }
     }
     filterName(name:string) {
@@ -157,6 +188,68 @@ class LeaderboardUserItem extends Component<LeaderboardUserProps> {
             </div>
         )
     }
+    getItemList() {
+        let itemNames:Array<IItem> = [];
+        if(this.state.items) {
+            Object.keys(this.state.items).forEach((itemType:string) => {
+                if(this.state.items) {
+                    this.state.items[itemType].forEach((item:IItem) => {
+                        itemNames.push(item);
+                    })
+                }
+            })
+        }
+        return itemNames;
+    }
+    renderItems() {
+        if(this.state.items === null) return null;
+
+        let uniqueItems = 0;
+        let totalItems = 0;
+        Object.keys(this.state.items).forEach((itemType:string) => {
+            uniqueItems += this.state.items ? this.state.items[itemType].length : 0;
+            if(this.state.items) {
+                this.state.items[itemType].forEach((item:IItem) => {
+                    totalItems += item.quantity;
+                })
+            }
+        });
+        let itemList = this.getItemList();
+        return (
+            <div className="items-inner">
+                <div className="item-statistics flex flex-row center-child">
+                    <div className="item-stat-item">
+                        <span className="stat-number">
+                            {totalItems}
+                        </span> {this.plural("Total Item", totalItems)}
+                    </div>
+                    <div className="item-stat-item">
+                        <span className="stat-number">
+                            {uniqueItems}
+                        </span> {this.plural("Unique Item", uniqueItems)}
+                    </div>
+                </div>
+                <div className="items-inner-items">
+                    {
+                        itemList.map((item:IItem) => 
+                            <div
+                                key={item.itemType} 
+                                className="user-item flex center-child">
+                                <div 
+                                    className="item-image flex center-child"
+                                    title={item.itemType}>
+                                    <img src={ItemImages[item.itemType]} alt={item.itemType}/>
+                                </div>
+                                <div className="item-quantity flex center-child">
+                                    x {item.quantity}
+                                </div>
+                            </div>
+                        )
+                    }
+                </div>
+            </div>
+        )
+    }
     render() {
         let lbclass = 'user-row';
         if(this.props.userinfo.loaded) {
@@ -199,6 +292,15 @@ class LeaderboardUserItem extends Component<LeaderboardUserProps> {
                             <FaWallet style={{verticalAlign: 'middle'}}/>                            
                         </div> : null
                     }
+                    {
+                        this.props.item.hasItems ?
+                        <div 
+                            className="show-items"
+                            title="Show items"
+                            onClick={() => this.toggleItemsVisible()}>
+                            <BsBagFill style={{verticalAlign: 'middle'}}/>
+                        </div> : null
+                    }
                     <div className={networthClass}>
                         {nw}
                     </div>
@@ -206,10 +308,19 @@ class LeaderboardUserItem extends Component<LeaderboardUserProps> {
                 {
                     this.state.walletVisible ? 
                     <div className="user-rank-wallet">
-                        {this.state.loading ? 
+                        {this.state.loadingWallet ? 
                             <div className="loading-container">
                                 <LoadingSmall/>
                             </div> : this.renderWallet()}
+                    </div> : null
+                }
+                {
+                    this.state.itemsVisible ?
+                    <div className="user-rank-items">
+                        {this.state.loadingItems ?
+                            <div className="loading-container">
+                                <LoadingSmall/>
+                            </div> : this.renderItems()}
                     </div> : null
                 }
             </div>

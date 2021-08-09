@@ -96,6 +96,12 @@ export const adminActions = createActions(
     }
 )
 
+export const gachaActions = createActions(
+    {
+        SET_RECEIVED_ITEMS: receivedItems => ({ receivedItems })
+    }
+)
+
 export const socketActions = createActions(
     {
         SET_SOCKET: socket => ({ socket }),

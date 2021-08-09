@@ -20,6 +20,7 @@ import ResetPassword from './components/ResetPassword';
 import Superchats from './components/superchats/Superchats';
 import SuperchatDanmaku from './components/superchats/SuperchatDanmaku';
 import AutoTrader from './components/autotrader/AutoTrader';
+import Gacha from './components/gacha/Gacha';
 
 import SessionHandler from './components/SessionHandler';
 import SocketHandler from './components/SocketHandler';
@@ -243,6 +244,11 @@ class AppBind extends Component<AppProps> {
             exact
             path="/superchats"
             component={Superchats}/>
+
+          <Route
+            exact
+            path="/gacha"
+            component={Gacha}/>
 
           <Route
             exact

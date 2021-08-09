@@ -6,19 +6,22 @@ import {
     userinfoActions,
     transactionActions,
     settingsActions,
-    socketActions
+    socketActions,
+    gachaActions
 } from '../actions/actions';
 import { connect } from 'react-redux';
 import { ITransaction } from "../interfaces/ITransaction";
 import { IWallet } from "../interfaces/IWallet";
 import { ICoinDataCollection, ICoinInfo } from "../interfaces/ICoinInfo";
+import { UserItems, IItemCatalogue, IItem } from '../interfaces/IItem';
 import checkStorage from '../checkStorage';
 
 const mapStateToProps = (state:any, props:any) => ({
     session: state.session,
     userinfo: state.userinfo,
     stats: state.stats,
-    socket: state.socket
+    socket: state.socket,
+    itemcatalogue: state.itemcatalogue
 });
 
 const mapDispatchToProps = {
@@ -33,7 +36,8 @@ const mapDispatchToProps = {
     setMarketSwitch: settingsActions.setMarketSwitch,
     setItems: userinfoActions.setItems,
     setSocket: socketActions.setSocket,
-    removeSocket: socketActions.removeSocket
+    removeSocket: socketActions.removeSocket,
+    setReceivedItems: gachaActions.setReceivedItems,
 }
 
 interface SocketHandlerProps {
@@ -42,7 +46,8 @@ interface SocketHandlerProps {
     },
     userinfo: {
         id:string,
-        wallet: IWallet
+        wallet: IWallet,
+        items: UserItems
     },
     stats: {
         coinInfo:ICoinDataCollection,
@@ -53,6 +58,7 @@ interface SocketHandlerProps {
         socket: any,
         query: any
     },
+    itemcatalogue: IItemCatalogue,
     setStats: (stats:{}) => {},
     setHistory: (coinHistory:{}) => {},
     setCoinInfo: (coinInfo: {}) => {},
@@ -67,7 +73,9 @@ interface SocketHandlerProps {
     
     setItems: (items:any) => {},
     setSocket: (socket:any) => {},
-    removeSocket: () => {}
+    removeSocket: () => {},
+
+    setReceivedItems: (receivedItems:Array<string>) => {} 
 }
 
 class SocketHandlerBind extends Component<SocketHandlerProps> {
@@ -209,6 +217,44 @@ class SocketHandlerBind extends Component<SocketHandlerProps> {
         }
     }
 
+    gachaUpdate(d:Array<string>, cashDrops:number) {
+        
+        let drops = d.filter((item:string) => {
+            return item !== 'Nothing'
+        });
+        let catalogue = {...this.props.itemcatalogue};
+        let userItems = {...this.props.userinfo.items};
+        for(let i = 0; i < drops.length; i++) {
+            let itemName = drops[i];
+            let itemClass = catalogue[itemName].modifier;
+            let ownsItem = false;
+            if(userItems[itemClass] !== undefined) {
+                userItems[itemClass].forEach((i:IItem) => {
+                    if(i.itemType === itemName) {
+                        i.quantity++;
+                        ownsItem = true;
+                    }
+                })
+            } else {
+                userItems[itemClass] = [];
+            }
+            if(!ownsItem) {
+                let newItem:IItem = {
+                    itemType:itemName,
+                    acquiredTimestamp: new Date().getTime(),
+                    lastPurchasePrice:0,
+                    quantity:1
+                };
+                userItems[itemClass].push(newItem);
+            }
+        }
+        for(let i = 0; i < cashDrops; i++) {
+            drops.push('Cash');
+        }
+        this.props.setReceivedItems(drops);
+        this.props.setItems(userItems);
+    }
+
     listenData(socket:Socket) {
         socket.on('coinPriceUpdate', (data:any) => {
             this.parseCoinInfo(data);
@@ -244,6 +290,10 @@ class SocketHandlerBind extends Component<SocketHandlerProps> {
 
         socket.on('itemsUpdate', (data:any) => {
             this.props.setItems(data);
+        })
+
+        socket.on('gachaUpdate', (data:any) => {
+            this.gachaUpdate(data.drops, data.cashDrops);
         })
     }
 

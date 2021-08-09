@@ -1,6 +1,6 @@
 export interface IItem {
     itemType:string,
-    aquiredTimestamp:number,
+    acquiredTimestamp:number,
     lastPurchasePrice:number,
     quantity:number
 }
@@ -16,4 +16,4 @@ export interface IItemCatalogue {
     [item:string]: IItemType
 }
 
-export type UserItems = Array<IItem>;
+export type UserItems = {[type:string]:Array<IItem>}

@@ -24,6 +24,10 @@ class Items extends Component<ItemsProps> {
     }
     render() {
         if(this.props.catalogue === undefined) return null;
+        let itemsList:Array<IItem> = [];
+        Object.keys(this.props.useritems).forEach((itemType:string) => {
+            itemsList = [...itemsList, ...this.props.useritems[itemType]]
+        })
         return(
         <div className="container-section">
             <div className="section-background"></div>
@@ -33,7 +37,7 @@ class Items extends Component<ItemsProps> {
                 </div>
                 <div className="items">
                     {
-                        this.props.useritems.length === 0 ?
+                        itemsList.length === 0 ?
                         <div className="no-items">
                             You don't own any items!
                         </div>
@@ -48,7 +52,7 @@ class Items extends Component<ItemsProps> {
                             </thead>
                             <tbody>
                             {
-                            this.props.useritems.map((item:IItem) => 
+                            itemsList.map((item:IItem) => 
                                 <tr key={item.itemType}>
                                     <td>
                                         <div className="item-name">

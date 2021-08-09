@@ -43,8 +43,8 @@
   
   .nav-item, .nav-dropdown {
     line-height: $nav-height;
-    padding: 0 20px;
-    font-size: 16px;
+    padding: 0 15px;
+    font-size: 14px;
     display: flex;
     align-items: center;
     //justify-content: center;
@@ -196,7 +196,7 @@
   .datetime {
     color:$text-dark;
     line-height:20px;
-    font-size:16px;
+    font-size:14px;
     .dark & {
       color:$text-light;
     }

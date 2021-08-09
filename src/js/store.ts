@@ -14,6 +14,7 @@ import autotrader from './reducers/autotrader';
 import itemcatalogue from './reducers/itemcatalogue';
 import admin from './reducers/admin';
 import socket from './reducers/socket';
+import gacha from './reducers/gacha';
 
 let initState = {
     socket: {
@@ -40,7 +41,7 @@ let initState = {
         settings: undefined,
         muted: undefined,
         loaded: false,
-        items: []
+        items: {}
     },
     stats: {
         stats: {},
@@ -84,6 +85,9 @@ let initState = {
         filters: undefined,
         reports: undefined,
         adjustmentControls: undefined
+    },
+    gacha: {
+        receivedItems: []
     }
 }
 
@@ -98,7 +102,8 @@ const holoReducer = combineReducers({
     superchats,
     autotrader,
     itemcatalogue,
-    admin
+    admin,
+    gacha
 });
 
 const configureStore = (reducer:any, initState:{}) => {
