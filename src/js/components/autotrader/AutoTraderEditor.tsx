@@ -94,13 +94,7 @@ class AutoTraderEditorBind extends Component<AutoTraderEditorProps> {
         let rules = [...this.props.autotrader.rules];
         let index = this.rulesContainCoin(coin);
         if(index === -1) {
-            let currentQuant;
-            let myCoins = this.props.userinfo.wallet.coins;
-            if(myCoins[coin] === undefined) {
-                currentQuant = 0;
-            } else {
-                currentQuant = myCoins[coin].amt;
-            }
+            let currentQuant = this.getMyQuant(coin);
             rules.push({
                 coin,
                 type:TransactionType.BUY,
