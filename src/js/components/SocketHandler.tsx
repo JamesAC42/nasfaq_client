@@ -273,7 +273,9 @@ class SocketHandlerBind extends Component<SocketHandlerProps> {
         })
 
         socket.on('leaderboardUpdate', (data:any) => {
-            this.props.setLeaderboard(JSON.parse(data).leaderboard);
+            let boards = JSON.parse(data);
+            this.props.setLeaderboard(boards.leaderboard.leaderboard);
+            this.props.setOshiboard(boards.oshiboard);
         })
 
         socket.on('oshiboardUpdate', (data:any) => {
