@@ -233,35 +233,6 @@
     }
 }
 
-div.transaction-pagenav {
-    display:flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin:0 auto;
-    margin-bottom:10px;
-    max-width:65vw;
-    .page-select {
-        margin:8px 1px;
-        padding:8px 12px;
-        font-size:16px;
-        font-family:WorkSansSemiBold;
-        cursor:pointer;
-        border:2px solid $ui-light;
-        border-radius: 10px;
-        transition:border-color .1s ease-in-out;
-        .dark & {
-            border-color:$ui-dark;
-        }
-        &:hover, &.active-page {
-            border-color:rgb(117, 135, 238);
-            .dark & {
-                border-color:rgb(196, 186, 255);
-            }
-        }
-    }
-}
-
 div.transaction-stats {
     margin:15px 0;
     z-index:1;

@@ -491,7 +491,7 @@ class ActivityBind extends Component<ActivityProps> {
                             }
                             {
                                 allTransactions.length > pageSize ? 
-                                <div className="transaction-pagenav">
+                                <div className="pagenav">
                                     {
                                         [...Array(pageAmt)].map((item:number, index:number) => 
                                             <div 
