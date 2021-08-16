@@ -49,7 +49,11 @@ interface AutoTraderProps {
 }
 
 class AutoTraderBind extends Component<AutoTraderProps> {
-    intervalId:any;
+    intervals:any;
+    constructor(props:AutoTraderProps) {
+        super(props);
+        this.intervals = {};
+    }
     filterName(name:string) {
         return (name === "luna") ? "himemoriluna" : name;
     }
@@ -81,62 +85,63 @@ class AutoTraderBind extends Component<AutoTraderProps> {
         if(!this.props.session.loggedin) return;
         if(!this.props.userinfo.loaded) return;
         const rules = [...this.props.autotrader.rules];
-        let wallet:IWallet = {...this.props.userinfo.wallet};
-        let delayT = 0;
+
         for(let i = 0; i < rules.length; i++) {
+
             let rule:AutoTraderRule = rules[i];
             const {coin, type, targetQuantity} = rule;
-            let {
-                buyDisabled,
-                sellDisabled,
-                timeRemaining
-            } = this.canTrade(coin);
-            let name = coin === "luna" ? "himemoriluna" : coin;
+            this.intervals[coin] =  setInterval(() => {
+                let wallet:IWallet = {...this.props.userinfo.wallet};
+                let {
+                    buyDisabled,
+                    sellDisabled,
+                    timeRemaining
+                } = this.canTrade(coin);
 
-            let currentAmount;
-            if(wallet.coins[name] === undefined) {
-                currentAmount = 0;
-            } else {
-                currentAmount = wallet.coins[name].amt;
-            }
+                let name = this.filterName(coin);
+                let currentAmount;
+                if(wallet.coins[name] === undefined) {
+                    currentAmount = 0;
+                } else {
+                    currentAmount = wallet.coins[name].amt;
+                }
 
-            if(timeRemaining === 0) {
-                if(type === TransactionType.BUY) {
-                    if(!buyDisabled && targetQuantity > currentAmount) {
-                        setTimeout(() => {
-                            buyCoin(name);
-                        }, (delayT++) * 1000);
-                    }
-                } else if(type === TransactionType.SELL) {
-                    if(!sellDisabled && targetQuantity < currentAmount) {
-                        setTimeout(() => {
-                            sellCoin(name);
-                        }, (delayT++) * 1000);
+                if(timeRemaining === 0) {
+                    if(type === TransactionType.BUY) {
+                        if(!buyDisabled && targetQuantity > currentAmount) {
+                            setTimeout(() => {
+                                buyCoin(name);
+                            }, i * 100);
+                        }
+                    } else if(type === TransactionType.SELL) {
+                        if(!sellDisabled && targetQuantity < currentAmount) {
+                            setTimeout(() => {
+                                sellCoin(name);
+                            }, i * 100)
+                        }
                     }
                 }
-            }
+            }, 5000);
         }
     }
     componentDidUpdate(prevProps:AutoTraderProps) {
         if(prevProps.autotrader.running !== this.props.autotrader.running) {
+            this.clearIntervals();
             if(this.props.autotrader.running) {
-                this.intervalId = setInterval(() => {
-                    this.makeTrades();
-                }, 5000);
-            } else {
-                clearInterval(this.intervalId);
+                this.makeTrades();
             }
         }
         if(prevProps.autotrader.rules !== this.props.autotrader.rules) {
+            this.clearIntervals();
             if(this.props.autotrader.running) {
-                clearInterval(this.intervalId);
-                this.intervalId = setInterval(() => {
-                    this.makeTrades();
-                }, 5000);
+                this.makeTrades();
             }
         }
         if(!prevProps.userinfo.loaded && this.props.userinfo.loaded) {
             this.loadSave();
+        }
+        if(prevProps.userinfo.loaded && !this.props.userinfo.loaded) {
+            this.clearIntervals();
         }
     }
     loadSave() {
@@ -155,10 +160,16 @@ class AutoTraderBind extends Component<AutoTraderProps> {
             this.loadSave();
         }
     }
+    clearIntervals() {
+        Object.keys(this.intervals).forEach((coin:string) => {
+            if(this.intervals[coin] !== undefined) {
+                clearInterval(this.intervals[coin]);
+                delete this.intervals[coin];
+            }
+        });
+    }
     componentWillUnmount() {
-        if(this.intervalId !== undefined) {
-            clearInterval(this.intervalId);
-        }
+        this.clearIntervals();
     }
     render() {
         if(!this.props.session.loggedin) return null;
