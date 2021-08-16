@@ -349,8 +349,16 @@ div.board-outer {
     width:40vw;
     margin:15px;
     transform:translate(0,0);
+    
     @media (max-width:1000px) {
         width:70vw;
+    }
+    @media (min-width:2300px) {
+        width:28vw;
+        margin:20px;
+    }
+    @media (min-width:3000px) {
+        width:22vw;
     }
     .board-item-background {
         height:100%;
@@ -385,6 +393,12 @@ div.board-outer {
     }
     @media (max-width:1000px) {
         width:70vw;
+    }
+    @media (min-width:2300px) {
+        width:28vw;
+    }
+    @media (min-width:3000px) {
+        width:22vw;
     }
     .dark & {
         background:$ui-dark;
