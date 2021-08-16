@@ -451,6 +451,32 @@ div.asset-row {
     
 }
 
+.profile-view-select {
+    height:60px;
+    margin-top:40px;
+    justify-content:center;
+    align-items:flex-end;
+    gap:20px;
+    .profile-view-tab {
+        position:relative;
+        color:$text-dark;
+        font-size:18px;
+        cursor:pointer;
+        .dark & {
+            color:$text-light;
+        }
+        &.active::after {
+            content:'';
+            position:absolute;
+            bottom:0;left:0;
+            width:100%;
+            height:5px;
+            transform:translateY(100%);
+            background:rgb(112, 160, 248);
+        }
+    }
+}
+
 .green {
     color: $success;
 }

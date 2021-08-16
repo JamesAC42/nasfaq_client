@@ -2,12 +2,55 @@ import React, {Component} from 'react';
 import {IItemCatalogue, UserItems, IItem} from '../../interfaces/IItem';
 import { ItemImages } from '../ItemImages';
 
-interface ItemsProps {
-    useritems:UserItems,
-    catalogue:IItemCatalogue
+import {connect} from 'react-redux';
+
+import { 
+    userinfoActions
+} from '../../actions/actions';
+
+const mapStateToProps = (state:any) => ({
+    userinfo: state.userinfo
+})
+
+const mapDispatchToProps = {
+    setColor: userinfoActions.setColor
 }
 
-class Items extends Component<ItemsProps> {
+interface ItemsProps {
+    useritems:UserItems,
+    catalogue:IItemCatalogue,
+    userinfo: {
+        color: string
+    },
+    setColor: (color:string) => {},
+}
+
+class ItemsState {
+    showJebSwatch: boolean;
+    constructor() {
+        this.showJebSwatch = false;
+    }
+}
+
+const swatchColors:Array<string> = [
+    "red",
+    "pink",
+    "lime",
+    "blue",
+    "purple",
+    "orange",
+    "yellow",
+    "green",
+    "magenta",
+    "gray"
+];
+
+class ItemsBind extends Component<ItemsProps> {
+    state:ItemsState;
+    constructor(props:ItemsProps) {
+        super(props);
+        this.state = new ItemsState();
+    }
     getDescription(item:IItem) {
         if(this.props.catalogue[item.itemType] === undefined) {
             return '';
@@ -21,6 +64,42 @@ class Items extends Component<ItemsProps> {
         } else {
             return this.props.catalogue[item.itemType].name;
         }   
+    }
+    handleItemClick(itemType:string) {
+        if(itemType !== 'Jeb') return;
+        this.setState({showJebSwatch:!this.state.showJebSwatch});
+    }
+    setColor(color:string) {
+
+        fetch('/api/setUserLeaderboardColor/', {
+            method: 'POST',
+            body: JSON.stringify({
+                color
+            }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if(data.success) {
+                this.props.setColor(color);
+            } else {
+                console.log(data);
+            }
+        })
+        .catch(error => {
+            console.error('Error: ' +  error);
+        })
+
+    }
+
+    isActive(color:string) {
+        if(color === this.props.userinfo.color) {
+            return "active";
+        } else {
+            return "";
+        }
     }
     render() {
         if(this.props.catalogue === undefined) return null;
@@ -61,8 +140,25 @@ class Items extends Component<ItemsProps> {
                                         <img 
                                             src={ItemImages[item.itemType]} 
                                             alt={item.itemType}
-                                            className="item-image"
-                                            title={this.getName(item)}/>
+                                            className={`item-image ${item.itemType === 'Jeb' ? 'jeb-img' : ''}`}
+                                            title={this.getName(item)}
+                                            onClick={() => this.handleItemClick(item.itemType)}/>
+                                        {
+                                            item.itemType === 'Jeb' && this.state.showJebSwatch ? 
+                                            <div className="jeb-swatch">
+                                                <div className="jeb-swatch-inner">
+                                                    {
+                                                        swatchColors.map((color:string) => 
+                                                            <div 
+                                                                className={`swatch-color ${this.isActive(color)} ${color}`}
+                                                                key={color}
+                                                                onClick={() => this.setColor(color)}>
+                                                            </div>
+                                                        )
+                                                    }
+                                                </div>
+                                            </div> : null
+                                        }
                                     </td>
                                     <td>{item.quantity}</td>
                                     <td>{this.getDescription(item)}</td>
@@ -72,14 +168,16 @@ class Items extends Component<ItemsProps> {
                             </tbody>
                         </table>
                     }
-                    <div className="items-blurb">
-                        This is a preview of an upcoming item system, where players will be able to auction, bid, and trade a limited number of unique items between themselves.
-                    </div>
                 </div>
             </div>
         </div>
         )
     }
 }
+
+const Items = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(ItemsBind);
 
 export default Items;

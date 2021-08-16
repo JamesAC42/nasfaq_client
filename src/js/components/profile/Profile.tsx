@@ -8,18 +8,19 @@ import '../../../css/dialogue.scss';
 
 import numberWithCommas from '../../numberWithCommas';
 
-import { Line } from 'react-chartjs-2';
 import Coin from '../Coin';
 
 import {lineage} from '../Icons';
 
-import Asset from './ProfileAsset';
 import DeleteAccountDialogue from './DeleteAccountDialogue';
 import UpdateIconDialogue from './UpdateIconDialogue';
 import NotVerified from './NotVerified';
 import UserInfoFormItem from './UserInfoFormItem';
 import SettingsDialogue from './SettingsDialogue';
 import MutedMessage from './MutedMessage';
+import AssetsContainer from './AssetsContainer';
+
+import History from './History';
 
 import { 
     BiUpArrow,
@@ -77,6 +78,12 @@ interface ProfileProps {
     }
 }
 
+enum ProfileViews {
+    History,
+    Assets,
+    Items
+}
+
 class ProfileState {
     iconDialogueVisible: boolean;
     deleteAccountDialogueVisible: boolean;
@@ -86,6 +93,7 @@ class ProfileState {
     redirect:boolean;
     error:string;
     coins:Array<string>;
+    activeView: ProfileViews;
     constructor() {
         this.iconDialogueVisible = false;
         this.deleteAccountDialogueVisible = false;
@@ -95,6 +103,7 @@ class ProfileState {
         this.email = "";
         this.error = "";
         this.coins = [];
+        this.activeView = ProfileViews.History;
     }
 }
 
@@ -224,6 +233,19 @@ class ProfileBind extends Component<ProfileProps> {
         })
     }
 
+    renderHistory() {
+        let performanceData = this.getGraphData();
+        return <History performanceData={performanceData} />
+    }
+
+    activeViewTabClass(view:ProfileViews) {
+        if(this.state.activeView === view) {
+            return "active";
+        } else {
+            return "";
+        }
+    }
+
     render() {
         if(!this.props.session.loggedin) {
             return(
@@ -252,6 +274,8 @@ class ProfileBind extends Component<ProfileProps> {
         
         let coins = Object.keys(this.props.userinfo.wallet.coins);
 
+        let filteredCoins:Array<string> = [];
+
         coins.forEach((coin:string) => {
 
             let myCoin:IMyCoin = this.props.userinfo.wallet.coins[coin];
@@ -259,11 +283,12 @@ class ProfileBind extends Component<ProfileProps> {
             if(myCoin.amt > 0) {
                 uniqueAssets++;
                 totalAssets += myCoin.amt;
+                filteredCoins.push(coin);
             }
 
         });
 
-        let performanceData = this.getGraphData();
+        this.sortCoins(filteredCoins);
 
         let performance:IPerformanceHistory = this.props.userinfo.performance;
         let pLength = performance.length;
@@ -406,57 +431,44 @@ class ProfileBind extends Component<ProfileProps> {
                     { this.props.userinfo.verified ? null : <NotVerified />}
 
                     { showMuted ? <MutedMessage muted={muted}/> : null }
+
+                    <div className="profile-view-select flex flex-row">
+                        <div 
+                            className={`profile-view-tab ${this.activeViewTabClass(ProfileViews.History)}`}
+                            onClick={() => this.setState({activeView: ProfileViews.History})}>
+                            History
+                        </div>
+                        <div 
+                            className={`profile-view-tab ${this.activeViewTabClass(ProfileViews.Assets)}`}
+                            onClick={() => this.setState({activeView: ProfileViews.Assets})}>
+                            Assets
+                        </div>
+                        <div 
+                            className={`profile-view-tab ${this.activeViewTabClass(ProfileViews.Items)}`}
+                            onClick={() => this.setState({activeView: ProfileViews.Items})}>
+                            Items
+                        </div>
+                    </div>
                     
-                    <div className="container-section">
-                        <div className="section-background"></div>
-                        <div className="section-content">
-                            <div className="header">
-                                History
-                            </div>
-                            <div className="profile-history">
-                                <Line data={performanceData} />
-                            </div>
-                        </div>
-                    </div>
-
-                    <Items
-                        useritems={this.props.userinfo.items}
-                        catalogue={this.props.itemcatalogue} />
-
-                    <div className="container-section">
-                        <div className="section-background"></div>
-                        <div className="section-content">
-                            <div className="header">
-                                My Assets
-                            </div>
-                            {
-                                uniqueAssets > 0 ?
-                                <div className="assets">
-                                    <div className="asset-header">
-                                        <div className="header-name"></div>
-                                        <div className="header-shares">My Shares</div>
-                                        <div className="header-value">Ask</div>
-                                        <div className="header-value">Bid</div>
-                                        <div className="header-delta"></div>
-                                        <div className="header-spacer"></div>
-                                    </div>
-                                    {
-                                        this.state.coins.map((item:any, index:any) =>
-                                            <Asset
-                                                coin={item}
-                                                muted={showMuted}
-                                                key={index}
-                                                verified={this.props.userinfo.verified}/>
-                                        )
-                                    }
-                                </div>
-                                :
-                                <div className="no-assets">
-                                    You don't own any coins!
-                                </div>
-                            }
-                        </div>
-                    </div>
+                    { 
+                        this.state.activeView === ProfileViews.History ?
+                        this.renderHistory() : null
+                    }
+                    {
+                        this.state.activeView === ProfileViews.Assets ?
+                        <AssetsContainer
+                            uniqueAssets={uniqueAssets}
+                            coins={filteredCoins}
+                            showMuted={showMuted}
+                            verified={this.props.userinfo.verified}/> : null
+                    }
+                    {
+                        this.state.activeView === ProfileViews.Items ?
+                        <Items
+                            useritems={this.props.userinfo.items}
+                            catalogue={this.props.itemcatalogue} /> : null
+                    }
+                    
                 </div>
                 <UpdateIconDialogue
                     visible={this.state.iconDialogueVisible}
