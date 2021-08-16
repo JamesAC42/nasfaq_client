@@ -35,7 +35,8 @@ interface LeaderboardUser {
     icon:string,
     networth:number,
     walletIsPublic:boolean,
-    hasItems:boolean
+    hasItems:boolean,
+    color:string
 }
 
 interface IOshiInfo {
@@ -53,6 +54,7 @@ interface IOshiboard {
         [coin:string] : IOshiInfo
     }
 }
+
 interface LeaderboardUserProps {
     index:number,
     userinfo: {
@@ -277,7 +279,7 @@ class LeaderboardUserItem extends Component<LeaderboardUserProps> {
                         <Coin name={this.props.item.icon} />
                     </div>
                     <div 
-                        className="username"
+                        className={`username ${this.props.item.color}`}
                         title={this.props.item.username}>
                             <div className="username-inner">
                             {this.props.item.username}
@@ -408,7 +410,7 @@ class OshiboardItem extends Component<OshiboardItemProps> {
                                 <div className="director-icon">
                                     <Coin name={d.icon} />
                                 </div>
-                                <div className="director-username">
+                                <div className={`director-username ${d.color}`}>
                                     {d.username}
                                 </div>
                                 <div className="director-amt-owned">
@@ -456,8 +458,12 @@ const mapStateToProps = (state:any, props:any) => ({
 
 class LeaderboardState {
     activeView:activeView;
+    activePage: number;
+    pageSize: number;
     constructor() {
         this.activeView = activeView.leaderboard;
+        this.activePage = 0;
+        this.pageSize = 500;
     }
 }
 
@@ -472,14 +478,30 @@ class LeaderboardBind extends Component<LeaderboardProps> {
             activeView:view
         })
     }
+    setActivePage(index:number) {
+        this.setState({activePage:index});
+    }
+    getPagedUsers(users:Array<LeaderboardUser>) {
+        let visibleUsers = [];
+        let indexStart = this.state.pageSize * this.state.activePage;
+        let indexEnd = indexStart + this.state.pageSize;
+        if(indexEnd >= users.length) {
+            visibleUsers = users.slice(indexStart);
+        } else {
+            visibleUsers = users.slice(indexStart, indexEnd)
+        }
+        return visibleUsers;
+    }
     renderLeaderboard() {
         if(this.state.activeView === activeView.leaderboard) {
+            let visibleUsers = this.getPagedUsers(this.props.stats.leaderboard);
+            let pageOffset = this.state.pageSize * this.state.activePage;
             return (
-                this.props.stats.leaderboard.map((item:LeaderboardUser, index:number) => 
+                visibleUsers.map((item:LeaderboardUser, index:number) => 
                     <LeaderboardUserItem
                         key={item.username}
                         userinfo={this.props.userinfo}
-                        index={index}
+                        index={index + pageOffset}
                         item={item} />
                 )
             )
@@ -525,6 +547,10 @@ class LeaderboardBind extends Component<LeaderboardProps> {
         let activeTitle = titles[this.state.activeView];
         let leaderboardClass = this.state.activeView === 0 ? "view-item-active" : "";
         let oshiboardClass = this.state.activeView === 1 ? "view-item-active" : "";
+
+        let leaderboardAmt = this.props.stats.leaderboard.length;
+        let pageAmt = Math.ceil(leaderboardAmt / this.state.pageSize);
+
         return(
             <div className="container tabbed-outer">
                 <div className="tabbed-view-select">
@@ -546,6 +572,24 @@ class LeaderboardBind extends Component<LeaderboardProps> {
                             <div className="header">
                                 {activeTitle}
                             </div>
+                            {
+                                this.state.activeView === activeView.leaderboard
+                                && this.props.stats.leaderboard.length > this.state.pageSize ?
+                                    <div className="pagenav">
+                                    {
+                                        [...Array(pageAmt)].map((item:number, index:number) => 
+                                            <div 
+                                            className={`page-select 
+                                                ${index === this.state.activePage ? "active-page" : ""}`
+                                            }
+                                            key={index}
+                                            onClick={() => this.setActivePage(index)}>
+                                                {index + 1}</div>
+                                        )
+                                    }
+                                    </div>
+                                : null
+                            }
                             {this.renderLeaderboard()}
                             {this.renderOshiboard()}
                         </div>

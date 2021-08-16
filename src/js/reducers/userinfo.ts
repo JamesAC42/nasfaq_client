@@ -46,6 +46,10 @@ const userinfo = handleActions(
             ...state,
             muted: actions.payload.muted
         }),
+        SET_COLOR: (state:any, actions:any) => ({
+            ...state,
+            color: actions.payload.color
+        }),
         SET_ITEMS: (state:any, actions:any) => ({
             ...state,
             items: actions.payload.items
@@ -74,6 +78,7 @@ const userinfo = handleActions(
         admin: undefined,
         verified:undefined,
         settings:undefined,
+        color:undefined,
         muted:undefined,
         items:[],
         loaded:false

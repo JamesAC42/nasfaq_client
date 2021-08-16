@@ -1,4 +1,5 @@
 @import "../settings.scss";
+@import "../leaderboard-colors.scss";
 
 .items {
     margin-top:15px;
@@ -21,6 +22,7 @@
                 margin:0;
                 padding:10px 0;
                 color:$text-dark;
+                position:relative;
                 border-bottom:1px solid rgb(226, 226, 226);
                 .dark & {
                     border-bottom:1px solid rgb(56, 56, 56);
@@ -39,6 +41,74 @@
                 img.item-image {
                     max-width:150px;
                     max-height:150px;
+                    &.jeb-img { cursor:pointer; }
+                }
+
+                @keyframes swatch-expand {
+                    0% {max-width:0px}
+                    100% {max-width:300px;}
+                }
+
+                .jeb-swatch {
+                    position:absolute;
+                    top:50%;right:0;
+                    transform:translate(100%, -50%);
+                    border-radius:5px;
+                    max-width:300px;
+
+                    background:$ui-light;
+                    border:2px solid $default;
+                    .dark & {
+                        background:$ui-dark;
+                        border-color:$primary;
+                    }
+
+                    overflow:hidden;
+
+                    animation:swatch-expand .1s cubic-bezier(0.075, 0.82, 0.165, 1) 1;
+
+                    z-index:1000;
+
+                    .jeb-swatch-inner {
+                        display:flex;
+                        flex-direction: row;
+                        justify-content:center;
+                        flex-wrap:wrap;
+                        width: 200px;
+                        max-height:200px;
+                        gap:10px;
+                        padding:10px;
+                        .swatch-color {
+                            height:2rem;width:2rem;
+                            border-radius: 50%;
+
+                            border:2px solid $ui-dark-subtle;
+                            .dark & {
+                                border-color:$ui-subtle;
+                            }
+
+                            &.active {
+                                outline:3px solid rgb(131, 238, 252);
+                                .dark & {
+                                    outline:3px solid #fff;
+                                }
+                            }
+
+                            cursor:pointer;
+    
+                            &.red     { background: $leaderboard-red; }
+                            &.pink    { background: $leaderboard-pink; }
+                            &.lime    { background: $leaderboard-lime; }
+                            &.blue    { background: $leaderboard-blue; }
+                            &.purple  { background: $leaderboard-purple; }
+                            &.orange  { background: $leaderboard-orange; }
+                            &.yellow  { background: $leaderboard-yellow; }
+                            &.green   { background: $leaderboard-green; }
+                            &.magenta { background: $leaderboard-magenta; }
+                            &.gray    { background: $leaderboard-gray; }
+                        }
+                    }
+
                 }
             }
         }
