@@ -16,10 +16,18 @@ import {connect} from 'react-redux';
 import { IWallet } from '../../interfaces/IWallet';
 import { IItemCatalogue } from '../../interfaces/IItem';
 
+import numberWithCommas from '../../numberWithCommas';
+import fetchData from '../../fetchData';
+
 import { NothingTerms } from './Nothing';
 import {
-    userinfoActions
+    userinfoActions,
+    statsActions
 } from '../../actions/actions';
+import {
+    BiRefresh
+} from 'react-icons/bi';
+import Coin from '../Coin';
 
 const yebsound = require('../../../sound/yeb.mp3');
 const om3tcw = require('../../../sound/om3tcw.mp3');
@@ -41,14 +49,23 @@ const audios:any = {
 
 const mapStateToProps = (state:any) => ({
     userinfo: state.userinfo,
+    stats: state.stats,
     session: state.session,
     gacha: state.gacha,
     itemcatalogue: state.itemcatalogue
 })
 
 const mapDispatchToProps = {
-    setWallet: userinfoActions.setWallet
+    setWallet: userinfoActions.setWallet,
+    setGachaboard: statsActions.setGachaboard
 }
+
+interface IGachaboardItem {
+    username:string,
+    spentAmt:number
+}
+
+type IGachaboard = Array<IGachaboardItem>;
 
 interface GachaProps {
     userinfo: {
@@ -61,18 +78,31 @@ interface GachaProps {
     gacha: {
         receivedItems: Array<string>
     },
+    stats: {
+        gachaboard: IGachaboard
+    }
     itemcatalogue: IItemCatalogue,
-    setWallet: (wallet:IWallet) => {}
+    setWallet: (wallet:IWallet) => {},
+    setGachaboard: (gachboard:IGachaboard) => {},
+}
+
+enum GachaViews {
+    Roll,
+    Leaderboard
 }
 
 class GachaState {
     rolling:boolean;
     init:boolean;
     nothingTerm:string;
+    activeView:GachaViews;
+    spin:boolean;
     constructor() {
         this.rolling = false;
         this.init = true;
         this.nothingTerm = '';
+        this.spin = false;
+        this.activeView = GachaViews.Roll;
     }
 }
 
@@ -87,6 +117,12 @@ class GachaBind extends Component<GachaProps> {
         Object.keys(audios).forEach((audio:string) => {
             this.audioRefs[audio] = React.createRef();
         });
+    }
+
+    componentDidMount() {
+        if(this.props.stats.gachaboard.length === 0) {
+            this.refreshGachaboard();
+        }
     }
 
     roll(bulk?:boolean) {
@@ -203,6 +239,24 @@ class GachaBind extends Component<GachaProps> {
         }
     }
 
+    refreshGachaboard() {
+        fetchData('/api/getGachaboard')
+        .then((data:any) => {
+            this.props.setGachaboard(data.gachaboard);
+        });
+    }
+
+    handleRefresh() {
+        this.setState({
+            spin:true
+        }, () => {
+            this.refreshGachaboard();
+            setTimeout(() => {
+                this.setState({spin:false});
+            }, 500);
+        });
+    }
+
     getItemName(name:string) {
         if(name === "Cash") {
             return "$500"
@@ -212,6 +266,18 @@ class GachaBind extends Component<GachaProps> {
 
     getNothingTerm() {
         return NothingTerms[Math.floor(Math.random() * NothingTerms.length)];
+    }
+
+    changeView(view:GachaViews) {
+        this.setState({activeView:view});
+    }
+
+    getViewTabClass(view:GachaViews) {
+        let className = "view-tab";
+        if(this.state.activeView === view) {
+            className += " view-tab-active";
+        }
+        return className;
     }
 
     render() {
@@ -245,99 +311,140 @@ class GachaBind extends Component<GachaProps> {
                 <div className="gacha-header-container flex center-child">
                     <div className="gacha-header-inner">
                         <div className="gacha-header-title">gacha</div>
-                        <div className="gacha-header-subtitle">Take a chance and receive unique collectable items!</div>
+                        <div className="gacha-header-subtitle">Take a chance and receive unique collectible items!</div>
                     </div>
                     <div className="gacha-background">
                         <img src={akispread} alt=""/>
                     </div>
+                    <div className="gacha-view-control flex flex-row">
+                        <div 
+                            className={this.getViewTabClass(GachaViews.Roll)}
+                            onClick={() => this.changeView(GachaViews.Roll)}>Roll</div>
+                        <div 
+                            className={this.getViewTabClass(GachaViews.Leaderboard)}
+                            onClick={() => this.changeView(GachaViews.Leaderboard)}>Leaderboard</div>
+                    </div>
                 </div>
 
-                <div className="gacha-panel">
+                { 
+                    this.state.activeView === GachaViews.Roll ?
+                    <div className="gacha-panel">
 
+                        <div className="button-row flex flex-row flex-center">
 
-                    <div className="button-row flex flex-row flex-center">
-
-                        <div className="button-container">
-                            <div className="button-price">
-                                <IoMdPricetag style={{verticalAlign: 'middle'}}/>
-                                <div className="roll-price">
-                                    1,000
+                            <div className="button-container">
+                                <div className="button-price">
+                                    <IoMdPricetag style={{verticalAlign: 'middle'}}/>
+                                    <div className="roll-price">
+                                        1,000
+                                    </div>
                                 </div>
+                                <GachaButton
+                                    className={this.buttonInactiveClass(1000)}
+                                    rolling={this.state.rolling}
+                                    onClick={() => this.roll()}>
+                                        ROLL
+                                </GachaButton>
                             </div>
-                            <GachaButton
-                                className={this.buttonInactiveClass(1000)}
-                                rolling={this.state.rolling}
-                                onClick={() => this.roll()}>
-                                    ROLL
-                            </GachaButton>
-                        </div>
-                        <div className="button-container">
-                            <div className="button-price">
-                                <IoMdPricetag style={{verticalAlign: 'middle'}}/>
-                                <div className="roll-price">
-                                    10,000
+                            <div className="button-container">
+                                <div className="button-price">
+                                    <IoMdPricetag style={{verticalAlign: 'middle'}}/>
+                                    <div className="roll-price">
+                                        10,000
+                                    </div>
                                 </div>
+                                <GachaButton 
+                                    className={"gacha-ten " + this.buttonInactiveClass(10000)}
+                                    rolling={this.state.rolling}
+                                    onClick={() => this.roll(true)}>
+                                        ROLL 10
+                                </GachaButton>
                             </div>
-                            <GachaButton 
-                                className={"gacha-ten " + this.buttonInactiveClass(10000)}
-                                rolling={this.state.rolling}
-                                onClick={() => this.roll(true)}>
-                                    ROLL 10
-                            </GachaButton>
                         </div>
-                    </div>
 
-                    <div className="drop-box flex flex-row flex-center">
+                        <div className="drop-box flex flex-row flex-center">
+
+                            {
+                                this.state.rolling ?
+                                <div 
+                                    className={`rolling-icon flex center-child `
+                                        + (this.state.rolling ? "rolling" : "")}>
+                                    <img src={dice} alt="Dice"/>
+                                </div> : null
+                            }
+
+                        </div>
 
                         {
-                            this.state.rolling ?
-                            <div 
-                                className={`rolling-icon flex center-child `
-                                    + (this.state.rolling ? "rolling" : "")}>
-                                <img src={dice} alt="Dice"/>
+                            !this.state.rolling && !this.state.init ?
+                            <div className="drop-container flex flex-col">
+                                <div className="drop-container-header">
+                                    You received:
+                                </div>
+                                <div className="drop-container-items">
+                                    {
+                                        this.props.gacha.receivedItems.map((item:string, index:number) => 
+                                            <div
+                                                key={index} 
+                                                className={"drop-item " + (item !== "Cash" ? "rare" : "")}>
+                                                <div className="drop-item-image">
+                                                    <img src={ItemImages[item]} alt={item}/>
+                                                </div>
+                                                <div className="drop-item-name">
+                                                    {this.getItemName(item)}
+                                                </div>
+                                            </div>
+                                        )
+                                    }
+                                    {
+                                        this.props.gacha.receivedItems.length === 0 ?
+                                        <div className="no-items">
+                                            {this.state.nothingTerm}
+                                        </div> : null
+                                    }
+                                </div>
                             </div> : null
                         }
 
-                    </div>
+                        {
+                            this.state.init ?
+                            <div className="init-message">
+                            </div> : null
+                        }
 
-                    {
-                        !this.state.rolling && !this.state.init ?
-                        <div className="drop-container flex flex-col">
-                            <div className="drop-container-header">
-                                You received:
+                    </div> : null
+                }
+
+                {
+                    this.state.activeView === GachaViews.Leaderboard ?
+                    <div className="gachaboard-outer">
+                        <div className="gachaboard-description">
+                            If you need to know who needs help most.
+                        </div>
+                        <table>
+                            
+                            <div 
+                                className={"refresh-gachaboard" + (this.state.spin ? " spin" : "")}
+                                onClick={() => this.handleRefresh()}
+                                title="Refresh">
+                                <BiRefresh style={{verticalAlign: 'middle'}}/>
                             </div>
-                            <div className="drop-container-items">
-                                {
-                                    this.props.gacha.receivedItems.map((item:string, index:number) => 
-                                        <div
-                                            key={index} 
-                                            className={"drop-item " + (item !== "Cash" ? "rare" : "")}>
-                                            <div className="drop-item-image">
-                                                <img src={ItemImages[item]} alt={item}/>
-                                            </div>
-                                            <div className="drop-item-name">
-                                                {this.getItemName(item)}
-                                            </div>
-                                        </div>
-                                    )
-                                }
-                                {
-                                    this.props.gacha.receivedItems.length === 0 ?
-                                    <div className="no-items">
-                                        {this.state.nothingTerm}
-                                    </div> : null
-                                }
-                            </div>
-                        </div> : null
-                    }
+                        {
+                            this.props.stats.gachaboard.map((gi:IGachaboardItem, index:number) => 
+                                <tr>
+                                    <td className="gachaboard-rank">{index + 1}.</td>
+                                    <td className="gachaboard-username">{gi.username}</td>
+                                    <td className="gachaboard-spent">${numberWithCommas(gi.spentAmt)}</td>
+                                </tr>
+                            )
+                        }
+                        </table>
+                        <div className="gachaboard-spacer flex center-child">
+                            <Coin name="fubuki" />
+                        </div>
+                    </div> : null
+                }
 
-                    {
-                        this.state.init ?
-                        <div className="init-message">
-                        </div> : null
-                    }
-
-                </div>
 
                 <div 
                     className={"friend-box " + (this.state.rolling ? "anticipation" : "")}>

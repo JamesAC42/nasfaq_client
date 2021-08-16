@@ -21,6 +21,10 @@ const stats = handleActions(
         SET_OSHIBOARD: (state:any, action:any) => ({
             ...state,
             oshiboard:action.payload.oshiboard
+        }),
+        SET_GACHABOARD: (state:any, action:any) => ({
+            ...state,
+            gachaboard:action.payload.gachaboard
         })
     },
     {
@@ -28,7 +32,8 @@ const stats = handleActions(
         coinHistory: [],
         coinInfo: {},
         leaderboard: [],
-        oshiboard: {}
+        oshiboard: {},
+        gachaboard: []
     }
 )
 

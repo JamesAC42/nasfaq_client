@@ -20,7 +20,8 @@ export const statsActions = createActions(
         SET_HISTORY: coinHistory=> ({ coinHistory }),        
         SET_COIN_INFO: coinInfo => ({ coinInfo }),        
         SET_LEADERBOARD: leaderboard => ({ leaderboard }),
-        SET_OSHIBOARD: oshiboard => ({ oshiboard })
+        SET_OSHIBOARD: oshiboard => ({ oshiboard }),
+        SET_GACHABOARD: gachaboard => ({ gachaboard })
     }
 )
 
@@ -35,6 +36,7 @@ export const userinfoActions = createActions(
         SET_ADMIN: admin => ({ admin }),
         SET_VERIFIED: verified => ({ verified }),
         SET_SETTINGS: settings => ({ settings }),
+        SET_COLOR: color => ({ color }),
         SET_ITEMS: items => ({ items }),
         SET_MUTED: muted => ({ muted })
     },

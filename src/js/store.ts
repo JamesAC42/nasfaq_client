@@ -40,6 +40,7 @@ let initState = {
         admin: undefined,
         settings: undefined,
         muted: undefined,
+        color: undefined,
         loaded: false,
         items: {}
     },
@@ -48,7 +49,8 @@ let initState = {
         coinHistory: [],
         coinInfo: {},
         leaderboard: [],
-        oshiboard: {}
+        oshiboard: {},
+        gachaboard: []
     },
     floor: {
         floorSpace: null,
