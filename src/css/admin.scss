@@ -94,7 +94,7 @@
         color:$text-light;
     }
     p { text-align:center;}
-    a {
+    a, div.button {
         margin:15px 0;
         display:block;
         font-size:18px;
@@ -104,6 +104,8 @@
         border:1px solid $primary;
         border-radius: 8px;
         text-align:center;
+        line-height:100%;
+        cursor:pointer;
         padding:15px 20px;
         &:hover {
             background:$primary;
@@ -501,6 +503,40 @@ table.adjustment-table {
     margin:10px;
 }
 
+table.spam-table {
+    color:$text-dark;
+    .dark & {
+        color:$text-light;
+    }
+    margin-top:20px;
+    border-collapse:collapse;
+    thead {
+        td {
+            font-family:WorkSansSemiBold;
+        }
+    }
+    td {
+        padding:10px;
+        border:1px solid rgb(131, 131, 131);
+        text-align:center;
+    }
+}
+
+.refresh-spam {
+    position:absolute;
+    top:0;right:0;
+    border:1px solid $primary;
+    color:$primary;
+    border-radius:10px;
+    padding:10px;
+    margin-right:10px;
+    cursor:pointer;
+    &:hover {
+        background:$primary;
+        color:$text-light;
+    }
+}
+
 .radio-outer {
     height:100%;
     width:100%;
@@ -534,4 +570,72 @@ table.adjustment-table {
         }
         animation:enlarge .15s ease-in-out 1;
     }
+}
+
+input.volatility-input,
+input.fee-input {
+    height:30px;
+    text-align:center;
+    outline:none;
+    font-family:WorkSansSemiBold;
+    font-size:20px;
+    border-radius:6px;
+    width:100px;
+
+    border:1px solid rgb(66, 66, 66);
+    color:rgb(17, 17, 17);
+    background:rgb(248, 248, 248);
+    
+    .dark & {
+        border:1px solid rgb(80, 80, 80);
+        color:rgb(218, 218, 218);
+        background:rgb(27, 26, 26);
+    }
+
+    &:focus {
+        outline:2px solid rgb(83, 104, 224);
+    }
+}
+
+.multiplier-indicator {
+    height:3px;
+    width:160px;
+    background:rgb(204, 204, 204);
+    position:relative;
+    overflow:hidden;
+    
+    .dark & {
+        background:rgb(17, 17, 17);
+    }
+
+    .multiplier-indicator-inner {
+        position:absolute;
+        left:0;top:0;
+        height:100%;
+    }
+}
+
+.change-indicator {
+    width:20px;height:20px;
+    border-radius: 50%;
+    background:rgb(65, 101, 218);
+}
+
+.volatility-update-btn,
+.update-fee {
+    border:1px solid rgb(129, 91, 235);
+    border-radius:7px;
+    color:rgb(143, 121, 240);
+    padding:10px;
+    cursor:pointer;
+    transition:all .1s ease-in-out;
+    &:hover {
+        background:rgb(100, 83, 199);
+        color:#fff;
+    }
+}
+
+.fee-label {
+    font-size:1.2rem;
+    font-family: WorkSansSemiBold;
 }

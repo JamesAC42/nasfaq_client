@@ -18,12 +18,32 @@ const admin = handleActions(
             ...state,
             adjustmentControls: action.payload.adjustmentControls
         }),
+        SET_SPAM_TRACKER: (state:any, action:any) => ({
+            ...state,
+            spamTracker: action.payload.spamTracker
+        }),
+        SET_DIVIDEND_TOGGLES: (state:any, action:any) => ({
+            ...state,
+            dividendToggles: action.payload.dividendToggles
+        }),
+        SET_VOLATILITY_MULTIPLIERS: (state:any, action:any) => ({
+            ...state,
+            volatilityMultipliers: action.payload.volatilityMultipliers
+        }),
+        SET_BROKER_FEE: (state:any, action:any) => ({
+            ...state,
+            brokerFee: action.payload.brokerFee
+        })
     },
     {
         users: undefined,
         filters: undefined,
         reports: undefined,
-        adjustmentControls: undefined
+        adjustmentControls: undefined,
+        spamTracker: undefined,
+        dividendToggles: undefined,
+        volatilityMultipliers: undefined,
+        brokerFee:undefined
     }
 )
 
