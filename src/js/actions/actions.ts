@@ -21,7 +21,8 @@ export const statsActions = createActions(
         SET_COIN_INFO: coinInfo => ({ coinInfo }),        
         SET_LEADERBOARD: leaderboard => ({ leaderboard }),
         SET_OSHIBOARD: oshiboard => ({ oshiboard }),
-        SET_GACHABOARD: gachaboard => ({ gachaboard })
+        SET_GACHABOARD: gachaboard => ({ gachaboard }),
+        SET_BROKER_TOTAL: brokerTotal => ({ brokerTotal })
     }
 )
 
@@ -38,7 +39,9 @@ export const userinfoActions = createActions(
         SET_SETTINGS: settings => ({ settings }),
         SET_COLOR: color => ({ color }),
         SET_ITEMS: items => ({ items }),
-        SET_MUTED: muted => ({ muted })
+        SET_MUTED: muted => ({ muted }),
+        SET_BROKER_FEE_TOTAL: brokerFeeTotal => ({ brokerFeeTotal }),
+        SET_BROKER_FEE_CREDITS: brokerFeeCredits => ({ brokerFeeCredits })
     },
     "SET_LOADED",
     "UNLOAD"
@@ -79,7 +82,8 @@ export const superchatsActions = createActions(
 export const autotraderActions = createActions(
     {
         SET_RUNNING: running => ({ running }),
-        SET_RULES: rules => ({ rules })
+        SET_RULES: rules => ({ rules }),
+        SET_NEXT_TRADE_TIME: nextTradeTime => ({ nextTradeTime })
     }
 )
 
@@ -95,6 +99,10 @@ export const adminActions = createActions(
         SET_ADMIN_FILTERS: filters => ({ filters }),
         SET_ADMIN_REPORTS: reports => ({ reports }),
         SET_ADMIN_ADJUSTMENT_CONTROLS: adjustmentControls => ({ adjustmentControls }),
+        SET_SPAM_TRACKER: spamTracker => ({ spamTracker }),
+        SET_DIVIDEND_TOGGLES: dividendToggles => ({ dividendToggles }),
+        SET_VOLATILITY_MULTIPLIERS: volatilityMultipliers => ({ volatilityMultipliers }),
+        SET_BROKER_FEE: brokerFee => ({ brokerFee })
     }
 )
 
@@ -110,4 +118,10 @@ export const socketActions = createActions(
         SET_SOCKET_QUERY: query => ({ query })
     },
     "REMOVE_SOCKET"
+)
+
+export const multicoinSaveActions = createActions(
+    {
+        SET_MULTICOIN_SAVE: multicoinSave => ({ multicoinSave })
+    }
 )

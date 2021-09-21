@@ -10,6 +10,11 @@ import Filters from './Filters';
 import Reports from './Reports';
 import AdjustmentControls from './AdjustmentControls';
 import DownloadPane from './DownloadPane';
+import SpamTracker from './SpamTracker';
+import DividendToggles from './DividendToggles';
+import VolatilityMultipliers from './VolatilityMultipliers';
+import ClearSessions from './ClearSessions';
+import BrokerFee from './BrokerFee';
 
 import ToggleSwitch from '../ToggleSwitch';
 
@@ -24,7 +29,11 @@ const mapDispatchToProps = {
     setAdminUsers: adminActions.setAdminUsers,
     setAdminFilters: adminActions.setAdminFilters,
     setAdminReports: adminActions.setAdminReports,
-    setAdminAdjustmentControls: adminActions.setAdminAdjustmentControls
+    setAdminAdjustmentControls: adminActions.setAdminAdjustmentControls,
+    setSpamTracker: adminActions.setSpamTracker,
+    setDividendToggles: adminActions.setDividendToggles,
+    setVolatilityMultipliers: adminActions.setVolatilityMultipliers,
+    setBrokerFee: adminActions.setBrokerFee
 };
 
 interface AdminProps {
@@ -42,12 +51,17 @@ interface AdminProps {
         users: Array<any>,
         filters: any,
         reports: Array<any>,
-        adjustmentControls: any
+        adjustmentControls: any, 
+        volatilityMultipliers: any
     },
     setAdminFilters: (filters:any) => {},
     setAdminReports: (reports:any) => {},
     setAdminUsers: (users:any) => {},
-    setAdminAdjustmentControls: (adjustmentControls:any) => {} 
+    setAdminAdjustmentControls: (adjustmentControls:any) => {},
+    setSpamTracker: (spamTracker:any) => {},
+    setDividendToggles: (dividendToggles:any) => {},
+    setVolatilityMultipliers: (setVolatilityMultipliers:any) => {},
+    setBrokerFee: (brokerFee:any) => {}
 }
 
 enum AdminPanels {
@@ -55,6 +69,11 @@ enum AdminPanels {
     REPORTS,
     FILTERS,
     ADJUSTMENT_CONTROLS,
+    SPAM_TRACKER,
+    DIVIDEND_TOGGLES,
+    VOLATILITY_MULTIPLIERS,
+    BROKER_FEE,
+    CLEAR_SESSIONS,
     DATA
 }
 
@@ -85,6 +104,10 @@ class AdminBind extends Component<AdminProps> {
                 this.props.setAdminFilters(data.filters.words);
                 this.props.setAdminReports(data.reports);
                 this.props.setAdminAdjustmentControls(data.adjustmentToggles);
+                this.props.setSpamTracker(data.spamTracker);
+                this.props.setDividendToggles(data.dividendToggles);
+                this.props.setVolatilityMultipliers(data.volatilityMultipliers);
+                this.props.setBrokerFee(data.brokerFee);
             } else {
                 console.log(data);
             }
@@ -114,6 +137,7 @@ class AdminBind extends Component<AdminProps> {
         return this.props.settings.marketSwitch ? "on" : "off"
     }
     setActiveView(v:number) {
+        if(this.props.admin.users === undefined) return;
         this.setState({active:v});
     }
     renderPanel() {
@@ -127,6 +151,16 @@ class AdminBind extends Component<AdminProps> {
             return <Reports />;
         } else if(this.state.active === AdminPanels.DATA) {
             return <DownloadPane />;
+        } else if(this.state.active === AdminPanels.DIVIDEND_TOGGLES) {
+            return <DividendToggles />;
+        } else if(this.state.active === AdminPanels.VOLATILITY_MULTIPLIERS) {
+            return <VolatilityMultipliers />;
+        } else if(this.state.active === AdminPanels.BROKER_FEE) {
+            return <BrokerFee />;
+        } else if(this.state.active === AdminPanels.CLEAR_SESSIONS) {
+            return <ClearSessions />;
+        } else if(this.state.active === AdminPanels.SPAM_TRACKER) {
+            return <SpamTracker />;
         } else {
             return null;
         }
@@ -142,7 +176,7 @@ class AdminBind extends Component<AdminProps> {
                 <Redirect to='/' />
             )
         }
-        const panelNames = ["Users", "Reports", "Filters", "Adjustment Controls", "Data Download"];
+        const panelNames = ["Users", "Reports", "Filters", "Adjustment Controls", "Spam Tracker", "Dividend Toggles", "Volatility Multipliers", "Broker Fee", "Clear Sessions", "Data Download"];
         return(
             <div className="container fill">
                 <div className="container-inner flex-col flex-stretch">

@@ -25,6 +25,10 @@ const stats = handleActions(
         SET_GACHABOARD: (state:any, action:any) => ({
             ...state,
             gachaboard:action.payload.gachaboard
+        }),
+        SET_BROKER_TOTAL: (state:any, action:any) => ({
+            ...state,
+            brokerTotal:action.payload.brokerTotal
         })
     },
     {
@@ -33,7 +37,8 @@ const stats = handleActions(
         coinInfo: {},
         leaderboard: [],
         oshiboard: {},
-        gachaboard: []
+        gachaboard: [],
+        brokerTotal: 0
     }
 )
 

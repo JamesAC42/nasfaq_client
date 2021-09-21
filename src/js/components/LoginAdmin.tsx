@@ -31,6 +31,8 @@ interface LoginAdminProps {
     setSettings: (settings:any) => {},
     login: () => {},
     setItems: (items:any) => {},
+    setBrokerFeeTotal: (brokerFeeTotal:any) => {},
+    setBrokerFeeCredits: (brokerFeeCredits:any) => {},
     match: {
         params: {
             from:string
@@ -55,7 +57,9 @@ const mapDispatchToProps = {
     setAdmin: userinfoActions.setAdmin,
     setMuted: userinfoActions.setMuted,
     setSettings: userinfoActions.setSettings,
-    setItems: userinfoActions.setItems
+    setItems: userinfoActions.setItems,
+    setBrokerFeeTotal: userinfoActions.setBrokerFeeTotal,
+    setBrokerFeeCredits: userinfoActions.setBrokerFeeCredits,
 }
 
 type formEvent = React.ChangeEvent<HTMLInputElement>;
@@ -104,6 +108,8 @@ class LoginAdminBind extends Component<LoginAdminProps> {
         this.props.setSettings(data.settings);
         this.props.setLoaded();
         this.props.setItems(JSON.parse(data.items));
+        this.props.setBrokerFeeTotal(data.brokerFeeTotal);
+        this.props.setBrokerFeeCredits(data.taxCredits);
         this.props.login();
     }
 

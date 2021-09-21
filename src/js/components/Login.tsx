@@ -39,6 +39,8 @@ interface LoginProps {
     setColor: (color:string) => {},
     setSettings: (settings:any) => {},
     login: () => {},
+    setBrokerFeeTotal: (brokerFeeTotal:any) => {},
+    setBrokerFeeCredits: (brokerFeeCredits:any) => {},
     match: {
         params: {
             from:string
@@ -64,7 +66,9 @@ const mapDispatchToProps = {
     setMuted: userinfoActions.setMuted,
     setItems: userinfoActions.setItems,
     setColor: userinfoActions.setColor,
-    setSettings: userinfoActions.setSettings
+    setSettings: userinfoActions.setSettings,
+    setBrokerFeeTotal: userinfoActions.setBrokerFeeTotal,
+    setBrokerFeeCredits: userinfoActions.setBrokerFeeCredits
 }
 
 type formEvent = React.ChangeEvent<HTMLInputElement>;
@@ -128,6 +132,8 @@ class LoginBind extends Component<LoginProps> {
         this.props.setItems(data.items);
         this.props.setColor(data.color);
         this.props.setSettings(data.settings);
+        this.props.setBrokerFeeTotal(data.brokerFeeTotal);
+        this.props.setBrokerFeeCredits(data.taxCredits);
         this.props.setLoaded();
         this.props.login();
     }

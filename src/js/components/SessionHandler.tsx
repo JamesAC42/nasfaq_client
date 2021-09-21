@@ -23,7 +23,9 @@ const mapDispatchToProps = {
     setColor: userinfoActions.setColor,
     setMuted: userinfoActions.setMuted,
     setItems: userinfoActions.setItems,
-    setSettings: userinfoActions.setSettings
+    setSettings: userinfoActions.setSettings,
+    setBrokerFeeTotal: userinfoActions.setBrokerFeeTotal,
+    setBrokerFeeCredits: userinfoActions.setBrokerFeeCredits,
 }
 
 interface SessionProps {
@@ -41,7 +43,9 @@ interface SessionProps {
     setMuted: (muted:any) => {},
     setColor: (color:string) => {},
     setItems: (items:any) => {},
-    setSettings: (settings:any) => {}
+    setSettings: (settings:any) => {},
+    setBrokerFeeTotal: (brokerFeeTotal:any) => {},
+    setBrokerFeeCredits: (brokerFeeCredits:any) => {}
 }
 
 class SessionHandlerBind extends Component<SessionProps> {
@@ -72,6 +76,8 @@ class SessionHandlerBind extends Component<SessionProps> {
                 this.props.setColor(data.color);
                 this.props.setSettings(data.settings);
                 this.props.setItems(JSON.parse(data.items));
+                this.props.setBrokerFeeTotal(data.brokerFeeTotal);
+                this.props.setBrokerFeeCredits(data.taxCredits);
                 this.props.setLoaded();
                 this.props.login();
             }

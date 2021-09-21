@@ -38,6 +38,7 @@ import { Loading } from './Loading';
 import { ICoinDataCollection, ICoinHistory } from '../interfaces/ICoinInfo';
 import CompactBoardItem from './CompactBoardItem';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
+import numberWithCommas from '../numberWithCommas';
 
 const mapMarketStateToProps = (state:any, props:any) => ({
     userinfo: state.userinfo,
@@ -66,7 +67,9 @@ enum SortMethod {
 interface MarketProps {
     userinfo: {
         loaded: boolean,
-        wallet: IWallet
+        wallet: IWallet,
+        brokerFeeTotal:number,
+        brokerFeeCredits:number
     },
     session: {
         loggedin: boolean
@@ -76,7 +79,8 @@ interface MarketProps {
             [key:string]:any
         },
         coinHistory: ICoinHistory,
-        coinInfo: ICoinDataCollection
+        coinInfo: ICoinDataCollection,
+        brokerTotal: number
     }
 }
 
@@ -664,7 +668,6 @@ class MarketBind extends Component<MarketProps> {
                                     <th></th>
                                     <th onClick={() => this.compactSort(SortMethod.ALPH)}></th>
                                     {this.props.session.loggedin ? <th></th> : null}
-                                    {this.props.session.loggedin ? <th></th> : null}
                                     <th onClick={() => this.compactSort(SortMethod.PRICE)}>Ask</th>
                                     <th onClick={() => this.compactSort(SortMethod.PRICE)}>Bid</th>
                                     <th onClick={() => this.compactSort(SortMethod.CHANGE)}>Change</th>
@@ -823,13 +826,49 @@ class MarketBind extends Component<MarketProps> {
                                     }
                                 </div>
                             </div>
-                            <div className="toggle-auto-trader flex flex-row flex-center">
-                                <div
-                                    onClick={() => this.toggleAutoTrader()} 
-                                    className="toggle-auto-trader-button">
-                                    <AiFillSchedule />
+
+                            { 
+                                this.props.session.loggedin ? 
+                                <div className="toggle-auto-trader flex flex-row flex-center">
+                                    <div
+                                        onClick={() => this.toggleAutoTrader()} 
+                                        className="toggle-auto-trader-button">
+                                        <AiFillSchedule />
+                                    </div>
+                                </div> : null
+                            }
+
+                            <div className="broker-fee-total flex flex-row flex-center">
+                                <div>
+                                The broker has been paid 
+                                <span className="broker-total-amt">
+                                    {" "} ${numberWithCommas(this.props.stats.brokerTotal)} {" "} 
+                                </span>
+                                total.
                                 </div>
                             </div>
+
+                            {
+                                this.props.session.loggedin ?
+                                <div className="broker-fee-total flex flex-row flex-center">
+                                    <div className="flex flex-row flex-center" style={{gap:"10px"}}>
+                                        <div className="broker-fee-stat">
+                                            You have paid
+                                            <span className="broker-total-amt">
+                                                {" "} ${numberWithCommas(this.props.userinfo.brokerFeeTotal)} {" "}
+                                            </span>
+                                            to the broker.
+                                        </div>
+                                        <div className="broker-fee-stat">
+                                            You have
+                                            <span className="broker-total-amt">
+                                                {" "} ${numberWithCommas(this.props.userinfo.brokerFeeCredits)} {" "}
+                                            </span>
+                                            in credits.
+                                        </div>
+                                    </div>
+                                </div> : null
+                            }
                             
                             <div
                                 className="searchbar-tab"

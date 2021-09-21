@@ -38,6 +38,9 @@ const mapDispatchToProps = {
     setSocket: socketActions.setSocket,
     removeSocket: socketActions.removeSocket,
     setReceivedItems: gachaActions.setReceivedItems,
+    setBrokerTotal: statsActions.setBrokerTotal,
+    setBrokerFeeTotal: userinfoActions.setBrokerFeeTotal,
+    setBrokerFeeCredits: userinfoActions.setBrokerFeeCredits
 }
 
 interface SocketHandlerProps {
@@ -47,12 +50,15 @@ interface SocketHandlerProps {
     userinfo: {
         id:string,
         wallet: IWallet,
-        items: UserItems
+        items: UserItems,
+        brokerFeeTotal: number,
+        brokerFeeCredits: number
     },
     stats: {
         coinInfo:ICoinDataCollection,
         coinHistory:any,
-        stats:any
+        stats:any,
+        brokerTotal:number
     },
     socket: {
         socket: any,
@@ -75,7 +81,11 @@ interface SocketHandlerProps {
     setSocket: (socket:any) => {},
     removeSocket: () => {},
 
-    setReceivedItems: (receivedItems:Array<string>) => {} 
+    setReceivedItems: (receivedItems:Array<string>) => {},
+
+    setBrokerTotal: (brokerTotal:number) => {},
+    setBrokerFeeTotal: (brokerFeeTotal:number) => {},
+    setBrokerFeeCredits: (brokerFeeCredits:number) => {}
 }
 
 class SocketHandlerBind extends Component<SocketHandlerProps> {
@@ -187,6 +197,18 @@ class SocketHandlerBind extends Component<SocketHandlerProps> {
 
     appendStatisticsUpdate(data:any) {
         let oldStats:any = {...this.props.stats.stats};
+        Object.keys(data).forEach((coin:string) => {
+            if(oldStats[coin] === undefined) {
+                oldStats[coin] = {}
+                Object.keys(data[coin]).forEach((stat:string) => {
+                    oldStats[coin][stat] = {
+                        name:stat,
+                        data:[],
+                        labels:[]
+                    }
+                })
+            }
+        })
         Object.keys(oldStats).forEach((coin:string) => {
             let coinStats:any = oldStats[coin];
             Object.keys(coinStats).forEach((statType:string) => {
@@ -296,6 +318,19 @@ class SocketHandlerBind extends Component<SocketHandlerProps> {
 
         socket.on('gachaUpdate', (data:any) => {
             this.gachaUpdate(data.drops, data.cashDrops);
+        })
+
+        socket.on('brokerFeeUpdate', (data:any) => {
+            let d = JSON.parse(data);
+            let amount = d.amount;
+            if(d.userid === this.props.userinfo.id) {
+                this.props.setBrokerFeeTotal(Math.round((this.props.userinfo.brokerFeeTotal + amount) * 100) / 100);
+            }
+            this.props.setBrokerTotal(Math.round((this.props.stats.brokerTotal + amount) * 100) / 100);
+        })
+
+        socket.on('creditsUpdate', (data:any) => {
+            this.props.setBrokerFeeCredits(Math.round((this.props.userinfo.brokerFeeCredits + data.amount) * 100) / 100);
         })
     }
 

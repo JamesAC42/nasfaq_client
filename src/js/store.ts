@@ -15,6 +15,7 @@ import itemcatalogue from './reducers/itemcatalogue';
 import admin from './reducers/admin';
 import socket from './reducers/socket';
 import gacha from './reducers/gacha';
+import multicoinSave from './reducers/multicoinSave';
 
 let initState = {
     socket: {
@@ -42,7 +43,9 @@ let initState = {
         muted: undefined,
         color: undefined,
         loaded: false,
-        items: {}
+        items: {},
+        brokerFeeTotal: 0,
+        brokerFeeCredits: 0
     },
     stats: {
         stats: {},
@@ -50,7 +53,8 @@ let initState = {
         coinInfo: {},
         leaderboard: [],
         oshiboard: {},
-        gachaboard: []
+        gachaboard: [],
+        brokerTotal: 0
     },
     floor: {
         floorSpace: null,
@@ -79,6 +83,7 @@ let initState = {
     },
     autotrader: {
         running:false,
+        nextTradeTime:0,
         rules:[]
     },
     itemcatalogue: {},
@@ -86,11 +91,16 @@ let initState = {
         users: undefined,
         filters: undefined,
         reports: undefined,
-        adjustmentControls: undefined
+        adjustmentControls: undefined,
+        spamTracker: undefined,
+        dividendToggles: undefined,
+        volatilityMultipliers: undefined,
+        brokerFee: undefined
     },
     gacha: {
         receivedItems: []
-    }
+    },
+    multicoinSave: {}
 }
 
 const holoReducer = combineReducers({
@@ -105,7 +115,8 @@ const holoReducer = combineReducers({
     autotrader,
     itemcatalogue,
     admin,
-    gacha
+    gacha,
+    multicoinSave
 });
 
 const configureStore = (reducer:any, initState:{}) => {
