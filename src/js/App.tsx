@@ -21,6 +21,7 @@ import Superchats from './components/superchats/Superchats';
 import SuperchatDanmaku from './components/superchats/SuperchatDanmaku';
 import AutoTrader from './components/autotrader/AutoTrader';
 import Gacha from './components/gacha/Gacha';
+import Docs from './components/docs/Docs';
 
 import SessionHandler from './components/SessionHandler';
 import SocketHandler from './components/SocketHandler';
@@ -30,12 +31,15 @@ import fetchData from './fetchData';
 import { parseCoinHistory } from './parsers';
 import checkStorage from './checkStorage';
 
+import {lineage} from './components/Icons';
+
 import { connect } from 'react-redux';
 
 import { 
   settingsActions, 
   statsActions, 
-  itemcatalogueActions 
+  itemcatalogueActions,
+  multicoinSaveActions
 } from './actions/actions';
 
 import {
@@ -56,7 +60,9 @@ const mapDispatchToProps = {
   setLeaderboard: statsActions.setLeaderboard,
   setOshiboard: statsActions.setOshiboard,
   setMarketSwitch: settingsActions.setMarketSwitch,
-  setItemCatalogue: itemcatalogueActions.setCatalogue
+  setItemCatalogue: itemcatalogueActions.setCatalogue,
+  setBrokerTotal: statsActions.setBrokerTotal,
+  setMulticoinSave: multicoinSaveActions.setMulticoinSave,
 }
 
 interface AppProps {
@@ -69,7 +75,9 @@ interface AppProps {
   setLeaderboard: (leaderboard:{}) => {},
   setOshiboard: (oshiboard:{}) => {},
   setMarketSwitch: (open:boolean) => {},
-  setItemCatalogue: (catalogue:any) => {}
+  setItemCatalogue: (catalogue:any) => {},
+  setBrokerTotal: (brokerTotal:any) => {},
+  setMulticoinSave: (multicoinSave:any) => {}
 }
 
 const adjustmentTime = {
@@ -80,7 +88,7 @@ const adjustmentTime = {
 class AppBind extends Component<AppProps> {
 
   componentDidMount() {
-    fetchData('/api/getLeaderboard')
+    fetchData('/api/getLeaderboard?leaderboard&oshiboard')
     .then((data:any) => {
       this.props.setLeaderboard(data.leaderboard.leaderboard);
       this.props.setOshiboard(data.oshiboard);
@@ -92,10 +100,11 @@ class AppBind extends Component<AppProps> {
       }
     });
 
-    fetchData('/api/getMarketInfo')
+    fetchData('/api/getMarketInfo?all&history&brokerFeeTotal')
     .then((data:any) => {
       this.props.setCoinInfo(data.coinInfo);
       this.props.setMarketSwitch(data.marketSwitch);
+      this.props.setBrokerTotal(data.brokerFeeTotal);
       let shouldRequest = false;
       if(checkStorage()) {
         let cachedStatsStore = localStorage.getItem("nasfaq:stats");
@@ -121,15 +130,8 @@ class AppBind extends Component<AppProps> {
           if(nowDay !== storedDay) {
             shouldRequest = true;
           } else {
-            if(Object.keys(data.coinInfo.data).length
-              !== Object.keys(cachedStats.stats).length) {
-              
-              shouldRequest = true;
-            
-            } else {
-              this.props.setStats(cachedStats.stats);
-              this.props.setHistory(cachedStats.history);
-            }
+            this.props.setStats(cachedStats.stats);
+            this.props.setHistory(cachedStats.history);
           }
         } else {
           shouldRequest = true;
@@ -155,8 +157,24 @@ class AppBind extends Component<AppProps> {
         })
       }
     });
+
+    if(checkStorage()) {
+      
+      let multicoinSave = localStorage.getItem("nasfaq:multicoinSave");
+      if(multicoinSave !== null) {
+        this.props.setMulticoinSave(JSON.parse(multicoinSave));
+      } else {
+        let newMulticoin:{[coin:string]:any} = {};
+        lineage.forEach((gen:Array<string>) => {
+          gen.forEach((coin:string) => {
+            newMulticoin[coin] = {buy:1, sell:1}
+          })
+        });
+        this.props.setMulticoinSave(newMulticoin);
+        localStorage.setItem("nasfaq:multicoinSave", JSON.stringify(newMulticoin));
+      }
+    }
   }
-  
 
   render() {
 
@@ -249,6 +267,12 @@ class AppBind extends Component<AppProps> {
             exact
             path="/gacha"
             component={Gacha}/>
+
+          <Route
+            exact
+            path="/docs"
+            component={Docs}>
+          </Route>
 
           <Route
             exact

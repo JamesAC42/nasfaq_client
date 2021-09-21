@@ -1,0 +1,30 @@
+@import "settings.scss";
+
+.docs-panel {
+
+    padding:10px;
+    padding-left:30px;
+    color:$text-dark;
+
+    .dark & {
+        color:$text-light;
+    }
+
+    div {
+        margin:10px 0;
+    }
+
+    .endpoint-name {
+        color:rgb(21, 209, 46);
+        .dark & {
+            color:rgb(89, 255, 111);
+        }
+        font-size:28px;
+        font-family:WorkSansSemiBold;
+    }
+
+    span.title {
+        font-family:WorkSansSemiBold;
+        color:rgb(96, 133, 255);
+    }
+}

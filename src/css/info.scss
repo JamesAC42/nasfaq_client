@@ -1,5 +1,9 @@
 @import 'settings.scss';
 
+.info-container {
+    transform:translateX(20px);
+}
+
 div.nasfaq {
     font-size: 50px;
     font-family: Chicago;
@@ -11,7 +15,6 @@ div.nasfaq {
 
 img.okayu-question {
     z-index:1000;
-    margin-right:17px;
 }
 
 div.kofi-container {

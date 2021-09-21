@@ -58,6 +58,21 @@ div.tabbed-view-select {
             }
         }
     }
+    a { 
+        text-decoration: none;
+        color:$text-dark;
+        .dark & {color:$text-light;}
+    }
+
+    &.right .view-item {
+        text-align:left;
+        &.view-item-active, &:hover {
+            &::after {
+                left:0;
+            }
+        }
+    }
+
 }
 
 div.tabbed-content {
