@@ -23,6 +23,10 @@ export const links:{[name:string]:{[link:string]:string}} = {
         youtube: 'https://www.youtube.com/channel/UC0TXe_LYZ4scaW2XMyi5_kw',
         twitter: 'https://twitter.com/AZKi_VDiVA'
     },
+    baelz: {
+        youtube: 'https://www.youtube.com/channel/UCgmPnx-EEeOrZSg5Tiw7ZRQ',
+        twitter: 'https://twitter.com/hakosbaelz'
+    },
     botan: {
         youtube: 'https://www.youtube.com/channel/UCUKD-uaobj9jiqB-VXt71mA/',
         twitter: 'https://twitter.com/shishirobotan'
@@ -42,6 +46,10 @@ export const links:{[name:string]:{[link:string]:string}} = {
     coco: {
         youtube: 'https://www.youtube.com/channel/UCS9uQI-jC3DE0L4IpXyvr6w',
         twitter: 'https://twitter.com/kiryucoco'
+    },
+    fauna: {
+        youtube: 'https://www.youtube.com/channel/UCO_aKKYxn4tvrqPjcTzZ6EQ',
+        twitter: 'https://twitter.com/ceresfauna'
     },
     flare: {
         youtube: 'https://www.youtube.com/channel/UCvInZx9h3jC2JzsIzoOebWg',
@@ -87,6 +95,10 @@ export const links:{[name:string]:{[link:string]:string}} = {
         youtube: 'https://www.youtube.com/channel/UChAnqc_AY5_I3Px5dig3X1Q',
         twitter: 'https://twitter.com/inugamikorone'
     },
+    kronii: {
+        youtube: 'https://www.youtube.com/channel/UCmbs8T6MWqUHP1tIQvSgKrg',
+        twitter: 'https://twitter.com/ourokronii'
+    },
     lamy: {
         youtube: 'https://www.youtube.com/channel/UCFKOVgVbGmX65RxO3EtH3iw/',
         twitter: 'https://twitter.com/yukihanalamy'
@@ -122,6 +134,10 @@ export const links:{[name:string]:{[link:string]:string}} = {
     moona: {
         youtube: 'https://www.youtube.com/channel/UCP0BspO_AMEe3aQqqpo89Dg',
         twitter: 'https://twitter.com/moonahoshinova'
+    },
+    mumei: {
+        youtube: 'https://www.youtube.com/channel/UC3n5uGu18FoCy23ggWWp8tA',
+        twitter: 'https://twitter.com/nanashimumei_en'
     },
     nabi: {
         youtube: 'https://www.youtube.com/channel/UCzKkwB84Y0ql0EvyOWRSkEw',
@@ -174,6 +190,10 @@ export const links:{[name:string]:{[link:string]:string}} = {
     rushia: {
         youtube: 'https://www.youtube.com/channel/UCl_gCybOJRIgOXw6Qb4qJzQ',
         twitter: 'https://twitter.com/uruharushia'
+    },
+    sana: {
+        youtube: 'https://www.youtube.com/channel/UCsUj0dszADCGbF3gNrQEuSQ',
+        twitter: 'https://twitter.com/tsukumosana'
     },
     shion: {
         youtube: 'https://www.youtube.com/channel/UCXTpFs_3PqI41qX2d9tL2Rw',
