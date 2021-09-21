@@ -4,11 +4,13 @@ import aqua from "../../images/holosymbols/aqua.svg";
 import ayame from "../../images/holosymbols/ayame.svg";
 import ayamy from "../../images/holosymbols/ayamy.svg";
 import azki from "../../images/holosymbols/azki.svg";
+import baelz from "../../images/holosymbols/baelz.svg";
 import botan from "../../images/holosymbols/botan.svg";
 import calliope from "../../images/holosymbols/calliope.svg";
 import choco from "../../images/holosymbols/choco.svg";
 import civia from "../../images/holosymbols/civia.svg";
 import coco from "../../images/holosymbols/coco.svg";
+import fauna from '../../images/holosymbols/fauna.svg';
 import flare from "../../images/holosymbols/flare.svg";
 import fubuki from "../../images/holosymbols/fubuki.svg";
 import gura from "../../images/holosymbols/gura.svg";
@@ -20,6 +22,7 @@ import irys from "../../images/holosymbols/irys.svg";
 import kanata from "../../images/holosymbols/kanata.svg";
 import kiara from "../../images/holosymbols/kiara.svg";
 import korone from "../../images/holosymbols/korone.svg";
+import kronii from "../../images/holosymbols/kronii.svg";
 import lamy from "../../images/holosymbols/lamy.svg";
 import luna from "../../images/holosymbols/luna.svg";
 import marine from "../../images/holosymbols/marine.svg";
@@ -29,6 +32,7 @@ import melfissa from "../../images/holosymbols/melfissa.svg";
 import miko from "../../images/holosymbols/miko.svg";
 import mio from "../../images/holosymbols/mio.svg";
 import moona from "../../images/holosymbols/moona.svg";
+import mumei from "../../images/holosymbols/mumei.svg";
 import nabi from "../../images/holosymbols/nabi.svg";
 import nana from "../../images/holosymbols/nana.svg";
 import nene from "../../images/holosymbols/nene.svg";
@@ -42,6 +46,7 @@ import reine from "../../images/holosymbols/reine.svg";
 import risu from "../../images/holosymbols/risu.svg";
 import roboco from "../../images/holosymbols/roboco.svg";
 import rushia from "../../images/holosymbols/rushia.svg";
+import sana from "../../images/holosymbols/sana.svg";
 import shion from "../../images/holosymbols/shion.svg";
 import sora from "../../images/holosymbols/sora.svg";
 import subaru from "../../images/holosymbols/subaru.svg";
@@ -61,11 +66,13 @@ const iconMap: IIconMap = {
     "ayame": ayame,
     "ayamy": ayamy,
     "azki": azki,
+    "baelz": baelz,
     "botan": botan,
     "calliope": calliope,
     "choco": choco,
     "civia": civia,
     "coco": coco,
+    "fauna": fauna,
     "flare": flare,
     "fubuki": fubuki,
     "gura": gura,
@@ -77,6 +84,7 @@ const iconMap: IIconMap = {
     "kanata": kanata,
     "kiara": kiara,
     "korone": korone,
+    "kronii": kronii,
     "lamy": lamy,
     "luna": luna,
     "marine": marine,
@@ -86,6 +94,7 @@ const iconMap: IIconMap = {
     "miko": miko,
     "mio": mio,
     "moona": moona,
+    "mumei": mumei,
     "nabi": nabi,
     "nana": nana,
     "nene": nene,
@@ -99,6 +108,7 @@ const iconMap: IIconMap = {
     "risu": risu,
     "roboco": roboco,
     "rushia": rushia,
+    "sana": sana,
     "shion": shion,
     "sora": sora,
     "subaru": subaru,
@@ -159,11 +169,6 @@ export const lineage = [
         "polka"
     ],
     [
-        "risu",
-        "moona",
-        "iofi"
-    ],
-    [
         "calliope",
         "kiara",
         "inanis",
@@ -172,6 +177,18 @@ export const lineage = [
     ],
     [
         "irys"
+    ],
+    [
+        "sana",
+        "fauna",
+        "kronii",
+        "mumei",
+        "baelz"
+    ],
+    [
+        "risu",
+        "moona",
+        "iofi"
     ],
     [
         "ollie",
