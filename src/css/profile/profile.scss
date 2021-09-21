@@ -442,9 +442,14 @@ div.asset-row {
         @media (max-width:1300px) {
             width:250px;
         }
-        .button {
-            margin:15px;
-            margin-bottom:25px;
+        .trade-button-container {
+            display:flex;
+            flex-direction:row;
+            gap:20px;
+            .button {
+                transform:scale(0.9) translateY(-5px);
+                margin:0 7px;
+            }
         }
     }
 

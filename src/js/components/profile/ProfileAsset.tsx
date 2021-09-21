@@ -5,7 +5,7 @@ import Coin from '../Coin';
 import { IWallet } from '../../interfaces/IWallet';
 import numberWithCommas from '../../numberWithCommas';
 
-import Button from '../Button';
+import TradeButtonWrapper from '../TradeButton';
 
 import { 
     BiUpArrow,
@@ -15,8 +15,6 @@ import {
     GoDash
 } from 'react-icons/go';
 import { ICoinData, ICoinDataCollection, ICoinHistory } from '../../interfaces/ICoinInfo';
-import getTransactionStatus from '../../getTransactionStatus';
-import { buyCoin, sellCoin } from '../../TradeActions';
 
 const mapStateToProps = (state:any, props:any) => ({
     stats: state.stats,
@@ -51,84 +49,8 @@ interface AssetProps {
     }
 }
 
-class AssetState {
-    buyDisabled:boolean;
-    sellDisabled:boolean;
-    timeRemaining:number;
-    constructor() {
-        this.timeRemaining = 0;
-        this.buyDisabled = true;
-        this.sellDisabled = true;
-    }
-}
-
 class AssetBind extends Component<AssetProps> {
-    state:AssetState;
-    intervalId:any;
-
-    constructor(props:AssetProps) {
-        super(props);
-        this.state = new AssetState();
-    }
     
-    buy(coin:string) {
-        if(this.state.buyDisabled || this.state.timeRemaining > 0) return;
-        
-        let name = coin;
-        if(name === "luna") name = "himemoriluna";
-        buyCoin(name);
-    }
-
-    sell(coin:string) {
-        if(this.state.sellDisabled || this.state.timeRemaining > 0) return;
-        let name = coin;
-        if(name === "luna") name = "himemoriluna";
-        sellCoin(name);
-    }
-
-    componentDidMount() {
-        this.updateTransactionStatus();
-        this.intervalId = setInterval(() => {
-            this.updateTransactionStatus();
-        }, 200);
-    }
-
-    componentDidUpdate(prevProps:AssetProps) {
-        if(this.props.userinfo.wallet.balance 
-            !== prevProps.userinfo.wallet.balance) {
-            this.updateTransactionStatus();
-        }
-    }
-
-    componentWillUnmount() {
-        clearInterval(this.intervalId);
-    }
-
-    updateTransactionStatus() {
-        
-        let name = this.props.coin;
-        let coinData:ICoinData = this.props.stats.coinInfo.data[name];
-        if(coinData === undefined) return;
-        let {
-            timeRemaining,
-            buyDisabled,
-            sellDisabled
-        } = getTransactionStatus(
-            this.props.userinfo.wallet,
-            coinData,
-            name,
-            this.props.verified,
-            this.props.muted,
-            this.props.settings.marketSwitch
-        )
-
-        this.setState({
-            timeRemaining,
-            buyDisabled,
-            sellDisabled
-        })
-    }
-
     priceDirectionIcon(delta:number) {
         if(delta === 0) {
             return (
@@ -171,11 +93,6 @@ class AssetBind extends Component<AssetProps> {
         if(delta === 0) dir = "stagnant";
 
         const meanPurchasePrice = Math.round(this.props.userinfo.wallet.coins[this.props.coin].meanPurchasePrice * 100) / 100;
-        
-        let buyDisabled = "";
-        let sellDisabled = "";
-        if(this.state.buyDisabled) buyDisabled = "disabled";
-        if(this.state.sellDisabled) sellDisabled = "disabled";
 
         return(
             <div className="asset-row">
@@ -219,18 +136,7 @@ class AssetBind extends Component<AssetProps> {
                     </div>
                 </div>
                 <div className="asset-actions">
-                    <Button
-                        timeRemaining={this.state.timeRemaining}
-                        className={`green inverse ${buyDisabled} umami--click--buy`}
-                        onClick={() => this.buy(this.props.coin)}>
-                            BUY
-                    </Button>
-                    <Button 
-                        timeRemaining={this.state.timeRemaining}
-                        className={`red inverse ${sellDisabled} umami--click--sell`}
-                        onClick={() => this.sell(this.props.coin)}>
-                            SELL
-                    </Button>
+                    <TradeButtonWrapper coin={this.props.coin}/>
                 </div>
             </div>
         )

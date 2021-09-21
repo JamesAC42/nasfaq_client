@@ -13,6 +13,10 @@ import {lineage} from '../Icons';
 import {
     MdClose
 } from 'react-icons/md';
+import {
+    FiChevronDown,
+    FiChevronUp
+} from 'react-icons/fi';
 import { ICoinDataCollection } from "../../interfaces/ICoinInfo";
 import { IWallet } from "../../interfaces/IWallet";
 import { TransactionType } from "../../interfaces/ITransaction";
@@ -35,7 +39,8 @@ const mapDispatchToProps = {
 interface AutoTraderEditorProps {
     autotrader: {
         running:boolean,
-        rules:Array<AutoTraderRule>
+        rules:Array<AutoTraderRule>,
+        nextTradeTime:number
     },
     stats: {
         coinInfo: ICoinDataCollection
@@ -52,7 +57,23 @@ interface AutoTraderEditorProps {
     setRules: (rules:Array<AutoTraderRule>) => {},
 }
 
+class AutoTraderEditorState {
+    showInfo:boolean;
+    timeRemaining:{minutes:number, seconds:number};
+    constructor() {
+        this.showInfo = false;
+        this.timeRemaining = {minutes:0, seconds:0};
+    }
+}
+
 class AutoTraderEditorBind extends Component<AutoTraderEditorProps> {
+
+    state:AutoTraderEditorState;
+    interval:any;
+    constructor(props:AutoTraderEditorProps) {
+        super(props);
+        this.state = new AutoTraderEditorState();
+    }
 
     onDragEnd = (result:any) => {
         const {destination, source} = result;
@@ -98,6 +119,7 @@ class AutoTraderEditorBind extends Component<AutoTraderEditorProps> {
             rules.push({
                 coin,
                 type:TransactionType.BUY,
+                stepQuantity:1,
                 targetQuantity:currentQuant
             });
         } else {
@@ -135,6 +157,13 @@ class AutoTraderEditorBind extends Component<AutoTraderEditorProps> {
         this.saveRules(rules, this.props.autotrader.running);
     }
 
+    setStepQuantity(index:number, quantity:number) {
+        let rules = [...this.props.autotrader.rules];
+        rules[index].stepQuantity = quantity;
+        this.props.setRules(rules);
+        this.saveRules(rules, this.props.autotrader.running);
+    }
+
     getCoinClass(coin:string) {
         if(this.rulesContainCoin(coin) !== -1) {
             return 'coin-outer';
@@ -149,7 +178,17 @@ class AutoTraderEditorBind extends Component<AutoTraderEditorProps> {
 
     getCoinPrice(coin:string) {
         let name = this.filterName(coin);
-        return numberWithCommas(this.props.stats.coinInfo.data[name].price);
+        return this.props.stats.coinInfo.data[name].price;
+    }
+
+    getCoinVolume(coin:string) {
+        let name = this.filterName(coin);
+        return this.props.stats.coinInfo.data[name].inCirculation;
+    }
+
+    getCoinSaleValue(coin:string) {
+        let name = this.filterName(coin);
+        return this.props.stats.coinInfo.data[name].saleValue;
     }
 
     getMyQuant(coin:string) {
@@ -160,6 +199,10 @@ class AutoTraderEditorBind extends Component<AutoTraderEditorProps> {
         } else {
             return wallet.coins[name].amt;
         }
+    }
+
+    getBalance() {
+        return this.props.userinfo.wallet.balance;
     }
 
     getMeanPurchasePrice(coin:string) {
@@ -182,6 +225,58 @@ class AutoTraderEditorBind extends Component<AutoTraderEditorProps> {
         }
     }
 
+    updateTimeRemaining() {
+
+        let timeRemaining = (this.props.autotrader.nextTradeTime - new Date().getTime()) / 1000;
+        if(timeRemaining < 0) timeRemaining = 0;
+
+        let minutes = Math.floor(timeRemaining / 60);
+        let seconds = Math.floor(timeRemaining - (minutes * 60));
+
+        this.setState({timeRemaining: {
+            minutes, seconds
+        }});
+
+    }
+
+    componentDidMount() {
+        this.interval = setInterval(() => {
+            this.updateTimeRemaining();
+        }, 1000);
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.interval);
+    }
+
+    getMetrics() {
+        let rules:Array<AutoTraderRule> = this.props.autotrader.rules;
+
+        let total:Array<string> = [];
+        let buys:Array<string> = [];
+        let sells:Array<string> = [];
+
+        rules.forEach((rule:AutoTraderRule) => {
+            let myQuant = this.getMyQuant(rule.coin);
+            if(rule.targetQuantity > myQuant) {
+                if(this.getCoinPrice(rule.coin) <= this.getBalance()) {
+                    total.push(rule.coin);
+                    buys.push(rule.coin);
+                }
+            } else if(rule.targetQuantity < myQuant) {
+                if(myQuant > 0) {
+                    total.push(rule.coin);
+                    sells.push(rule.coin);
+                }
+            }
+        });
+        return {
+            total,
+            buys,
+            sells
+        }
+    }
+
     render() {
         if(!this.props.session.loggedin) return null;
         if(!this.props.userinfo.loaded) return null;
@@ -189,10 +284,22 @@ class AutoTraderEditorBind extends Component<AutoTraderEditorProps> {
         lineage.forEach((gen:Array<string>) => {
             allCoins = [...allCoins, ...gen];
         });
+        let {
+            total,
+            buys,
+            sells
+        } = this.getMetrics();
+
+        let {
+            minutes, seconds
+        } = this.state.timeRemaining;
         return(
             <DragDropContext
                 onDragEnd={this.onDragEnd}>
                 <div className="auto-trader-editor">
+                    <div 
+                        className="auto-trader-background"
+                        onClick={() => this.props.toggleVisible()}></div>
                     <div className="auto-trader-inner">
                         <div
                             onClick={() => this.props.toggleVisible()} 
@@ -202,18 +309,97 @@ class AutoTraderEditorBind extends Component<AutoTraderEditorProps> {
                         <div className="auto-trader-header">
                             auto-trader
                         </div>
+                        <div
+                            className="auto-trader-toggle-info"
+                            onClick={() => this.setState({showInfo: !this.state.showInfo})}>
+                            How to Use 
+                            {
+                                this.state.showInfo ?
+                                <FiChevronUp style={{verticalAlign: 'middle'}}/>
+                                :
+                                <FiChevronDown style={{verticalAlign: 'middle'}}/>
+                            }
+                        </div>
+                        { this.state.showInfo ?
                         <div className="auto-trader-description">
                             Use the auto-trader to carry out trades for you. 
                             It will only simulate player actions and will not 
-                            bypass cooldown or transfer more than 1 of each coin at a time. 
-                            The trader will run through the list of trading 
-                            rules and make all valid trades in the order they are listed
-                            until the desired quantity is reached or all liquid/coins are 
-                            expended. It is subject to all limitations 
-                            that a normal player is subject to. The auto-trader is a 
-                            purely client-side tool. It will not operate if the website 
-                            is not open (the editor can be closed). 
-                        </div>
+                            bypass cooldown or transfer more than 1 of each coin at a time.<br/>
+                            Use the coin icons on the left to toggle which coins are to be traded. Their order in the list determines their priority when being traded. To change the order, use the arrow icons on the left of each bar to drag the rule to the desired spot. Each coin will be bought or sold on cooldown until the desired target quantity is reached or until all liquid/ coins have been expended.<br/>
+                            Use the text input to enter the desired quantity, or use the buttons on either side to increment or decrement the value.<br/>
+                            All trades will be made in bulk, so the coin with the latest cooldown will determine when the next cycle occurs. The auto-trader will wait until all eligible transactions are off cooldown to make the trades. <br/>
+                            The auto-trader is subject to all limitations 
+                            that a normal player is subject to. The auto-trader is a purely client-side tool. It will not operate if the website is not open (the editor can be closed). <br/>
+                            The background progress bar of each rule indicates the cooldown remaining on that coin.
+                            Darkened rule items indicate that the coin cannot be traded to the desired quantity at the moment because of insufficient funds or assets.
+                            Rules with a green border are being purchased. Rules with a red border are being sold. Rules with a blue border have reached their target quantity. 
+                        </div> : null }
+                        {
+                            this.props.autotrader.running ?
+                            <>
+                            <div className="trade-metrics">
+                                <div className="trade-amounts">
+                                    Trading <span className="trade-amount-quant">{total.length}</span> coin
+                                    {
+                                        total.length === 1 ? "" : "s"
+                                    }
+                                </div>
+                                <div className="trade-amounts">
+                                    Buying <span className="trade-amount-quant">{buys.length}</span> coin
+                                    {
+                                        buys.length === 1 ? "" : "s"
+                                    }
+                                </div>
+                                <div className="trade-amounts">
+                                    Selling <span className="trade-amount-quant">{sells.length}</span> coin
+                                    {
+                                        sells.length === 1 ? "" : "s"
+                                    }
+                                </div>
+                            </div>
+                            <div className="trade-summary">
+                                {
+                                    buys.length > 0 ?
+                                    <div className="trade-summary-list">
+                                        Buying <span className="trade-summary-names buys">{buys.join(", ")}</span>
+                                    </div> : null
+                                } 
+                                { buys.length > 0 && sells.length > 0 ? "and" : ""}
+                                {
+                                    sells.length > 0 ?
+                                    <div className="trade-summary-list">
+                                        Selling <span className="trade-summary-names sells">{sells.join(", ")}</span>
+                                    </div> : null
+                                }
+                                {
+                                    total.length > 0 ?
+                                    "in" : ""
+                                }
+                            </div>
+                            </>: null
+                        }
+                        {
+                            this.props.autotrader.running 
+                            && total.length > 0
+                            && (minutes > 0 || seconds > 0) ?
+                            <>
+                            <div className="trade-countdown">
+                            {
+                                minutes > 0 ?
+                                <>
+                                <span className="countdown-number">{minutes}</span> minute{
+                                    minutes === 1 ? "" : "s"
+                                } 
+                                {" "} and {" "}
+                                </> : null
+                            }
+
+                            <span className="countdown-number">{seconds}</span> second{
+                                seconds === 1 ? "" : "s"
+                            }. 
+                            </div>
+                            </> : null
+                        }
                         <div className="trade-rules-container">
                             <div className="trader-controls">
                                 <div className="trader-actions flex flex-row flex-center">
@@ -268,15 +454,21 @@ class AutoTraderEditorBind extends Component<AutoTraderEditorProps> {
                                             <TradeRuleItem
                                                 coin={d.coin}
                                                 price={this.getCoinPrice(d.coin)}
+                                                saleValue={this.getCoinSaleValue(d.coin)}
+                                                volume={this.getCoinVolume(d.coin)}
                                                 quantity={this.getMyQuant(d.coin)}
+                                                stepQuantity={d.stepQuantity ? d.stepQuantity : 1}
                                                 meanPurchasePrice={this.getMeanPurchasePrice(d.coin)}
+                                                balance={this.getBalance()}
                                                 targetQuantity={d.targetQuantity}
                                                 timestamp={this.getTimestamp(d.coin)}
                                                 type={d.type}
                                                 index={index}
                                                 key={d.coin}
                                                 setTargetQuantity={(index:number, quantity:number) => 
-                                                    this.setTargetQuantity(index, quantity)} />
+                                                    this.setTargetQuantity(index, quantity)} 
+                                                setStepQuantity={(index:number, quantity:number) => 
+                                                    this.setStepQuantity(index, quantity)}/>
                                         ))
                                     }
 

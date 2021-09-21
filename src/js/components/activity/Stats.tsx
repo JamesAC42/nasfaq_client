@@ -14,6 +14,9 @@ import  {
     BsFillPauseFill,
     BsFillPlayFill
 } from 'react-icons/bs';
+import { 
+    TiTimes
+} from 'react-icons/ti';
 
 import numberWithCommas from '../../numberWithCommas';
 import {activeView} from './Activity';
@@ -78,6 +81,10 @@ export class TransactionItem extends Component<TransactionItemProps> {
                         className="transaction-price"
                         title={`Current Price: $${this.props.currentPrice}`}>
                         {price}
+                    </div>
+                    <div className="transaction-quantity">
+                        <TiTimes style={{verticalAlign:"center"}}/>
+                        {this.props.transaction.quantity ? this.props.transaction.quantity : "1"}
                     </div>
                 </div>
             </div>
@@ -205,10 +212,11 @@ export class TransactionStats extends Component<TransactionStatsProps> {
         });
 
         transactions.forEach((transaction:ITransaction) => {
+            let quantity = transaction.quantity !== undefined ? transaction.quantity : 1;
             if(transaction.type === TransactionType.BUY) {
-                stats[transaction.coin].buy++;
+                stats[transaction.coin].buy += quantity;
             } else {
-                stats[transaction.coin].sell++;
+                stats[transaction.coin].sell += quantity;
             }
         })
         this.setState({
@@ -219,6 +227,7 @@ export class TransactionStats extends Component<TransactionStatsProps> {
     getDetails() {
         let sells = 0;
         let buys = 0;
+        let transacts = this.props.transactions.length;
         let users:Array<string> = [];
         let uniqueCoins:Array<string> = [];
         this.props.transactions.forEach((transaction:ITransaction) => {
@@ -228,15 +237,17 @@ export class TransactionStats extends Component<TransactionStatsProps> {
             if(users.indexOf(transaction.userid) === -1) {
                 users.push(transaction.userid);
             }
+            let quantity = transaction.quantity !== undefined ? transaction.quantity : 1;
             if(transaction.type === TransactionType.BUY) {
-                buys++;
+                buys += quantity;
             } else {
-                sells++;
+                sells += quantity;
             }
         })
         
         return {
             unique: uniqueCoins.length,
+            transacts,
             buys,
             sells,
             users: users.length
@@ -414,6 +425,7 @@ export class TransactionStats extends Component<TransactionStatsProps> {
         }
         let {
             unique,
+            transacts,
             buys,
             sells,
             users
@@ -443,7 +455,7 @@ export class TransactionStats extends Component<TransactionStatsProps> {
                 <div className="stat-details">
                     <div className="stat-detail">
                         <span className="stat-quant">
-                            {buys + sells + " "}
+                            {transacts + " "}
                         </span>  
                          Total Transaction{this.plural(buys + sells)}
                         </div>

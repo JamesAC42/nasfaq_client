@@ -108,6 +108,13 @@
         &.sell {
             .transaction-price { background: rgb(241, 85, 85); }
         }
+
+        .transaction-quantity {
+            margin:0 5px;
+            svg {
+                transform:translateY(3px);
+            }
+        }
     }
     // Transaction price display needs styling
     

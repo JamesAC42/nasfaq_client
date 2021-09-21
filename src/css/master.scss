@@ -52,9 +52,9 @@
 
   .button-timer {
     position:absolute;
-    z-index:10001;
-    height:100%;
-    top:0;right:0;
+    z-index:10010;
+    height:calc(100% - 1px);
+    right:1px;bottom:1px;
     border-radius: 0px;
     transition:width .1s ease-in-out;
     margin:0;
@@ -98,6 +98,44 @@
     }
   }
 
+  .button-increment,
+  .button-decrement {
+    position:absolute;
+    z-index:10001;
+    top:50%;
+    height:30px;width:0px;
+    background:$ui-light;
+    border-style: solid;
+    overflow:hidden;
+    font-size:20px;
+    text-align:center;
+    display:flex;
+    flex-direction: column;
+    align-items:center;
+    justify-content: center;
+    transition:
+      transform .05s linear,
+      width 0.1s ease-in-out,
+      background 0.1s ease-in-out,
+      color 0.1s ease-in-out;
+    @media (max-width:1300px), (max-height:900px) {
+      height:20px;
+    }
+  }
+
+  .button-decrement {
+    left:0;
+    transform:translate(calc(-100% + 2px), calc(-50% + 3px));
+    border-width: 3px 0px 3px 3px;
+    border-radius:5px 0px 0px 5px;
+  }
+  .button-increment {
+    right:0;
+    transform:translate(calc(100% + 3px), calc(-50% + 3px));
+    border-width: 3px 3px 3px 0px;
+    border-radius:0px 5px 5px 0px;
+  }
+
   &.inverse {
     .button-background {
       background:$primary;
@@ -113,6 +151,10 @@
       .button-container {
         background: $ui-dark;
       }
+      .button-increment,
+      .button-decrement {
+        background: $ui-dark;
+      }
     }
     &.red {
       .button-background {
@@ -122,13 +164,31 @@
         border-color:  rgba(255,59,59,1);
         color: rgba(255,59,59,1);
       }
+      .button-increment,
+      .button-decrement {
+        border-color:rgba(255,59,59,1);
+
+        &:hover {
+          background:rgba(255,59,59,1);
+          color:#fff;
+        }
+      }
     }
     &.green {
       .button-background {
         background: linear-gradient(135deg, rgba(67,254,123,1) 0%, rgba(120,216,255,1) 100%);      }
       .button-container {
-        border-color: #2ce062;
-        color: #20f15f;
+        border-color: rgb(44, 224, 98);
+        color: rgb(32, 241, 95);
+      }
+      .button-increment,
+      .button-decrement {
+        border-color:rgb(44, 224, 98);
+        
+        &:hover {
+          background:rgb(44, 224, 98);
+          color:#fff;
+        }
       }
     }
   }
@@ -138,12 +198,25 @@
       left:-12px;
       bottom:-18px;
     }
+    .button-increment,
+    .button-decrement {
+      width:25px;
+      @media (max-width:1300px), (max-height:900px) {
+        width:20px;
+      }
+    }
   }
 
   &.active {
     .button-container {
       left:-9px;
       bottom:-9px;
+    }
+    .button-decrement {
+      transform:translate(calc(-100% + 3px - 9px), calc(-50% + 3px + 9px));
+    }
+    .button-increment {
+      transform:translate(calc(100% + 3px - 9px), calc(-50% + 3px + 9px));
     }
   }
 
@@ -802,4 +875,29 @@ div.pagenav {
 .irys {
   background: $ir-primary;
   border-color: $ir-secondary;
+}
+
+.sana {
+  background: $sa-primary;
+  border-color: $sa-secondary;
+}
+
+.fauna {
+  background: $fa-primary;
+  border-color: $fa-secondary;
+}
+
+.kronii {
+  background: $kr-primary;
+  border-color: $kr-secondary;
+}
+
+.mumei {
+  background: $mu-primary;
+  border-color: $mu-secondary;
+}
+
+.baelz {
+  background: $ba-primary;
+  border-color: $ba-secondary;
 }

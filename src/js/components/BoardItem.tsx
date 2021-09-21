@@ -18,7 +18,8 @@ import {
     FaTwitter
 } from 'react-icons/fa';
 import { Line } from 'react-chartjs-2';
-import Button from './Button';
+
+import TradeButtonWrapper from './TradeButton';
 
 import {links} from '../links';
 
@@ -30,9 +31,7 @@ import { datasetTemplate } from './DatasetTemplate';
 import StatRowItem from './StatRowItem';
 import graphEntryFromTodayPrices from '../graphEntryFromTodayPrices';
 import { ICoinDataCollection, ICoinHistory } from '../interfaces/ICoinInfo';
-import getTransactionStatus from '../getTransactionStatus';
 import ToggleSwitch from './ToggleSwitch';
-import { buyCoin, sellCoin } from '../TradeActions';
 
 interface BoardItemProps {
     name: string;
@@ -101,8 +100,6 @@ const mapStateToProps = (state:any, props:any) => ({
 class BoardItemBind extends Component<BoardItemProps> {
 
     state: BoardItemState;
-    intervalId:any;
-
     constructor(props:BoardItemProps) {
         super(props);
         this.state = new BoardItemState();
@@ -115,44 +112,6 @@ class BoardItemBind extends Component<BoardItemProps> {
     
     getLastTime(history:Array<any>) {
         return history[history.length - 1].timestamp;
-    }
-
-    updateTransactionStatus() {
-
-        if(!this.props.session.loggedin || !this.props.userinfo.loaded)
-            return;
-
-        let name = this.filterName(this.props.name);
-
-        let showMuted = false;
-        let muted:any = this.props.userinfo.muted;
-        if(this.props.userinfo.muted !== null) {
-            muted = JSON.parse(muted);
-            if(muted.until < new Date().getTime()) {
-                showMuted = false;
-            } else {
-                showMuted = true;
-            }
-        }
-
-        let {
-            timeRemaining,
-            buyDisabled,
-            sellDisabled
-        } = getTransactionStatus(
-            this.props.userinfo.wallet,
-            this.props.stats.coinInfo.data[name],
-            name,
-            this.props.userinfo.verified,
-            showMuted,
-            this.props.settings.marketSwitch
-        )
-
-        this.setState({
-            timeRemaining,
-            buyDisabled,
-            sellDisabled
-        })
     }
 
     toggleStats() {
@@ -184,34 +143,6 @@ class BoardItemBind extends Component<BoardItemProps> {
 
     filterName(name:string) {
         return (name === "luna") ? "himemoriluna" : name;
-    }
-
-    buy() {
-        if(this.state.buyDisabled || this.state.timeRemaining > 0) {
-            if(!this.props.userinfo.verified) {
-                this.setState({error:'You must verify your account before trading'});
-                setTimeout(() => {
-                    this.setState({error: ''})
-                }, 3000);
-            }
-            return;
-        }
-        let name = this.filterName(this.props.name);
-        buyCoin(name);
-    }
-
-    sell() {
-        if(this.state.sellDisabled || this.state.timeRemaining > 0) {
-            if(!this.props.userinfo.verified) {
-                this.setState({error:'You must verify your account before trading'});
-                setTimeout(() => {
-                    this.setState({error: ''})
-                }, 3000);
-            }
-            return;
-        }
-        let name = this.filterName(this.props.name);
-        sellCoin(name);
     }
 
     setGraphData(type:string) {
@@ -286,13 +217,6 @@ class BoardItemBind extends Component<BoardItemProps> {
     }
 
     componentDidUpdate(prevProps:BoardItemProps) {
-        if(this.props.session.loggedin) {
-            if(this.props.userinfo.wallet.balance 
-                !== prevProps.userinfo.wallet.balance) {
-                this.updateTransactionStatus();
-            }
-        }
-
         
         let name = this.formatName(this.props.name);
         if(this.props.rangeToday) {
@@ -318,15 +242,6 @@ class BoardItemBind extends Component<BoardItemProps> {
 
     componentDidMount() {
         this.setGraphData("price");
-        this.updateTransactionStatus();
-        this.intervalId = setInterval(() => {
-            this.updateTransactionStatus();
-        }, 1000);
-        
-    }
-
-    componentWillUnmount() {
-        clearInterval(this.intervalId);
     }
 
     priceDirectionIcon(delta:number) {
@@ -392,17 +307,12 @@ class BoardItemBind extends Component<BoardItemProps> {
                 ? 0 : Math.round(this.props.userinfo.wallet.coins[name].meanPurchasePrice * 100) / 100;
         }
         
-
-
         let subscriberCount = coinStats.subscriberCount.data.slice(-1)[0];
         let dailySubscriberCount = coinStats.dailySubscriberCount.data.slice(-1)[0];
         let weeklySubscriberCount = coinStats.weeklySubscriberCount.data.slice(-1)[0];
         let viewCount = coinStats.viewCount.data.slice(-1)[0];
         let dailyViewCount = coinStats.dailyViewCount.data.slice(-1)[0];
         let weeklyViewCount = coinStats.weeklyViewCount.data.slice(-1)[0];
-
-        let buyDisabled = this.state.buyDisabled ? "disabled" : "";
-        let sellDisabled = this.state.sellDisabled ? "disabled" : "";
 
         return(
             <div className="board-item">
@@ -496,20 +406,7 @@ class BoardItemBind extends Component<BoardItemProps> {
                         {
                             this.props.session.loggedin ?
                             <div className="action-container flex-col flex-center">
-                                <div className="action-buttons-container flex-col">
-                                    <Button
-                                        timeRemaining={this.state.timeRemaining}
-                                        className={`inverse green ${buyDisabled} umami--click--buy`}
-                                        onClick={() => this.buy()}>
-                                            BUY
-                                    </Button>
-                                    <Button 
-                                        timeRemaining={this.state.timeRemaining}
-                                        className={`inverse red ${sellDisabled} umami--click--sell`}
-                                        onClick={() => this.sell()}>
-                                            SELL
-                                    </Button>
-                                </div>
+                                <TradeButtonWrapper coin={this.props.name}/>
                                 <div className="shares flex-col flex-center">
                                     <div className="shares-label">You own</div>
                                     <div className="shares-amount">{amtOwned}</div>

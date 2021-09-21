@@ -8,17 +8,21 @@
     display:flex;
     flex-direction:row;
     justify-content: center;
-    background:rgba(255, 255, 255, 0.74);
     overflow-y:scroll;
-    .dark & {
-        background:rgba(17, 16, 27, 0.74);
+    .auto-trader-background {
+        position:fixed;
+        height:100vh;width:calc(100vw - 17px);
+        background:rgba(255, 255, 255, 0.74);
+        .dark & {
+            background:rgba(17, 16, 27, 0.74);
+        }
     }
     .auto-trader-inner {
         margin:30px 0;
-        padding:40px;
+        padding:30px;
         height:fit-content;
         height:-moz-max-content;
-        width:65vw;
+        width:80vw;
         position:relative;
         background:rgb(255, 255, 255);
         border:2px solid rgb(130, 143, 255);
@@ -34,14 +38,27 @@
             color:$text-light;
         }
         .auto-trader-header {
-            font-size:22px;
+            font-size:20px;
+        }
+        .auto-trader-toggle-info {
+            font-size:16px;
+            color:rgb(126, 126, 126);
+            cursor:pointer;
+            display:inline-block;
+            &:hover {
+                text-decoration: underline;
+            }
+            .dark & {
+                color:rgb(126, 126, 126);
+            }
         }
         .auto-trader-description {
             font-size:16px;
+            padding:10px 0;
         }
         @media (max-width:1300px) {
             .auto-trader-header {
-                font-size:18px;
+                font-size:16px;
             }
             .auto-trader-description {
                 font-size:14px;
@@ -50,14 +67,42 @@
     }
 }
 
+.trade-metrics {
+    padding:10px 0;
+    display:flex;
+    flex-direction:row;
+    justify-content:center;
+    gap:20px;
+    font-family:WorkSansSemiBold;
+
+    span.trade-amount-quant {
+        color:$default;
+    }
+}
+
+.trade-summary {
+    span.trade-summary-names {
+        font-family: WorkSansSemiBold;
+        &.buys {color:rgb(45, 197, 96);}
+        &.sells {color:rgb(255, 87, 87);}
+    }
+}
+
+.trade-countdown {
+    span.countdown-number {
+        font-family: WorkSansSemiBold;
+        color:rgb(147, 139, 255);
+    }
+}
+
 .trade-rules-container {
     width:100%;
-    margin-top:40px;
+    margin-top:10px;
     display:flex;
     flex-direction: row;
     position:relative;
     .trader-controls {
-        width:40%;
+        width:35%;
         position:sticky;
         top:0;
         display:flex;
@@ -154,7 +199,7 @@
     }
     .trade-rules-list {
         flex:1;
-        max-width:55%;
+        max-width:65%;
         padding:0 20px;
         margin-left:15px;
         @media (max-width:1300px) {
@@ -162,29 +207,44 @@
         }
         .trade-rule-item {
             width:100%;
-            height:80px;
+            //height:80px;
             margin:6px;
             background:rgb(255, 255, 255);
-            border:1px solid rgb(194, 194, 194);
+            border:2px solid rgb(194, 194, 194);
             border-radius:5px;
             position:relative;
             overflow:hidden;
             transform:translate(0,0);
 
+            
             .dark & {
-                border:1px solid rgb(109, 109, 109);
+                border:2px solid rgb(109, 109, 109);
                 background:rgb(27, 27, 27);
             }
 
+            &.trade-rule-neutral {border-color: rgb(71, 99, 255);}
+            &.trade-rule-buy {border-color:rgb(74, 228, 133);}
+            &.trade-rule-sell {border-color:rgb(255, 77, 77);}
+            
+            &.trade-rule-disabled {
+                filter:brightness(0.6);
+                opacity:0.6;
+            }
+            
             .trade-rule-item-content {
                 z-index:19000;
                 width:100%;
-                height:100%;
+                min-height:80px;
                 display:flex;
+                padding:10px 0;
                 flex-direction:row;
                 align-items:center;
+                justify-content:space-around;
                 position:relative;
                 background:none;
+                flex-wrap:wrap;
+                
+                //background:rgba(245, 56, 42, 0.171);
             }
 
             .trade-rule-item-cooldown {
@@ -193,9 +253,11 @@
                 top:0;right:0;
                 height:100%;
                 background:rgba(190, 190, 190, 0.61);
+                background:rgba(176, 181, 199, 0.473);
                 transition:width .1s ease-in-out;
                 .dark & {
                     background:rgba(8, 8, 8, 0.911);
+                    background:rgba(74, 74, 78, 0.664);
                 }
             }
 
@@ -232,16 +294,33 @@
             }
 
             .trade-rule-info-label,
-            .trade-rule-target-label {
+            .trade-rule-target-label,
+            .trade-rule-step-label {
                 font-size:14px;
                 opacity:0.5;
                 font-family:WorkSansSemiBold;
             }
 
-            .trade-rule-price {
+            .trade-rule-price,
+            .trade-rule-volume,
+            .trade-rule-quant {
                 font-size:16px;
                 color:rgb(58, 179, 94);
                 font-family:WorkSansSemiBold;
+                min-width:90px;
+            }
+
+            .trade-rule-volume,
+            .trade-rule-quant {
+                min-width:70px;
+            }
+
+            .trade-rule-volume,
+            .trade-rule-quant {
+                color:$text-dark;
+                .dark & {
+                    color:$text-light;
+                }
             }
 
             .trade-rule-type {
@@ -267,6 +346,10 @@
                         border:2px solid rgb(255, 96, 68);
                         color:rgb(255, 96, 68);
                     }
+                    &.trade-rule-done {
+                        border:2px solid rgb(98, 95, 255);
+                        color:rgb(137, 124, 255);
+                    }
                     &.trade-rule-inactive-type {
                         opacity:0.4;
                         filter:brightness(0.2) blur(1px);
@@ -280,32 +363,126 @@
                     }
                 }
             }
+
+
+
+            .trade-rule-step-quant {
+                margin:10px;
+                display:flex;
+                flex-direction: column;
+                align-items:stretch;
+                gap:3px;
+                .step-outer {
+                    border-radius:7px;
+                    overflow:hidden;
+                    display:flex;
+                    flex-direction: row;
+                    background:rgb(248, 248, 248);
+                    border:1px solid rgb(143, 143, 143);
+                    .dark & {
+                        background:rgb(24, 24, 24);
+                        border:1px solid rgb(97, 97, 97);
+                    }
+                    .step-quant {
+                        flex: 1; 
+                        font-family:WorkSansSemiBold;
+                        border-right:1px solid rgb(124, 124, 124);
+                    }
+                    .step-change-quant-outer {
+                        flex:1;
+                        display:flex;
+                        flex-direction: column;
+                        cursor:pointer;
+                        .step-increase,.step-decrease {
+                            transition:all .1s ease-in-out;
+                            background:rgb(235, 235, 235);
+                            .dark & {
+                                background:rgb(34, 34, 34);
+                            }
+                        }
+                        .step-increase {
+                            color:rgb(57, 184, 84);
+                            border-bottom:1px solid rgb(124, 124, 124);
+                            &:hover {
+                                background:rgb(57, 184, 84);
+                                color:#fff;
+                            }
+                        }
+                        .step-decrease {
+                            color:rgb(255, 82, 82);
+                            &:hover {
+                                background:rgb(255, 82, 82);
+                                color:#fff;
+                            }
+                        }
+                        svg {transform:translateY(2px)}
+                    }
+                }
+            }
+
             .trade-rule-target {
                 flex:1;
                 display:flex;
                 flex-direction:column;
                 align-items:center;
                 gap:5px;
-                input {
-                    background:none;
-                    border:1px solid rgb(97, 97, 97);
-                    border-radius:6px;
-                    height:30px;
-                    line-height:30px;
-                    text-align:center;
-                    font-family:WorkSans;
-                    font-size:18px;
-                    width:50px;
-                    color:$text-dark;
-                    .dark & {
-                        color:$text-light;
+                .target-input {
+                    display:flex;
+                    flex-direction:row;
+                    align-items:center;
+                    justify-content: center;
+                    gap:5px;
+                    .increment,
+                    .decrement {
+                        height:25px;width:25px;
+                        border-radius:20%;
+                        line-height:25px;
+                        text-align:center;
+                        font-size:18px;
+                        border:2px solid #fff;
+                        cursor:pointer;
+                        transition:all .1s ease-in-out;
+                        svg {
+                            transform:translate(0px, 2px);
+                        }
+                    }
+                    .increment {
+                        border-color:rgb(63, 206, 122);
+                        color:rgb(57, 184, 84);
+                        &:hover {
+                            background:rgb(63, 206, 122);
+                            color:#fff;
+                        }
+                    }
+                    .decrement {
+                        border-color:rgb(255, 73, 73);
+                        color:rgb(255, 82, 82);
+                        &:hover {
+                            background:rgb(255, 73, 73);
+                            color:#fff;
+                        }
+                    }
+                    input {
+                        background:none;
+                        border:1px solid rgb(97, 97, 97);
+                        border-radius:6px;
+                        height:30px;
+                        line-height:30px;
+                        text-align:center;
+                        font-family:WorkSans;
+                        font-size:18px;
+                        width:50px;
+                        color:$text-dark;
+                        .dark & {
+                            color:$text-light;
+                        }
                     }
                 }
             }
             
             
-            @media (max-width:1300px) {
-                height:60px;
+            @media (max-width:1350px) {
+                //height:60px;
                 margin:4px;
                 .trade-priority {
                     width:30px;

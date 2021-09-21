@@ -8,8 +8,8 @@ import { IWallet } from '../../interfaces/IWallet';
 import storageAvailable from '../../checkStorage';
 import { ICoinDataCollection } from '../../interfaces/ICoinInfo';
 import getTransactionStatus from '../../getTransactionStatus';
-import { TransactionType } from '../../interfaces/ITransaction';
-import { buyCoin, sellCoin } from '../../TradeActions';
+import { Order, TransactionType } from "../../interfaces/ITransaction";
+import { tradeCoins } from '../../TradeActions';
 
 const mapStateToProps = (state:any, props:any) => ({
     autotrader: state.autotrader,
@@ -21,7 +21,8 @@ const mapStateToProps = (state:any, props:any) => ({
 
 const mapDispatchToProps = {
     setRunning:autotraderActions.setRunning,
-    setRules:autotraderActions.setRules
+    setRules:autotraderActions.setRules,
+    setNextTradeTime:autotraderActions.setNextTradeTime
 }
 
 interface AutoTraderProps {
@@ -33,7 +34,8 @@ interface AutoTraderProps {
         wallet:IWallet,
         verified:boolean,
         muted:any,
-        loaded:boolean
+        loaded:boolean,
+        brokerFeeCredits:number
     },
     stats: {
         coinInfo:ICoinDataCollection
@@ -46,13 +48,16 @@ interface AutoTraderProps {
     },
     setRunning: (running:boolean) => {}
     setRules: (rules:Array<AutoTraderRule>) => {},
+    setNextTradeTime: (nextTradeTime:number) => {}
 }
 
 class AutoTraderBind extends Component<AutoTraderProps> {
-    intervals:any;
+    timeout:any;
+    failsafe:any;
     constructor(props:AutoTraderProps) {
         super(props);
-        this.intervals = {};
+        this.timeout = undefined;
+        this.failsafe = undefined;
     }
     filterName(name:string) {
         return (name === "luna") ? "himemoriluna" : name;
@@ -72,33 +77,68 @@ class AutoTraderBind extends Component<AutoTraderProps> {
             }
         }
 
+        let quantity = 1;
+        this.props.autotrader.rules.forEach((r:AutoTraderRule) => {
+            if(r.coin === coin && r.stepQuantity !== undefined) {
+                quantity = r.stepQuantity;
+            }
+        })
+
         return getTransactionStatus(
             this.props.userinfo.wallet,
             this.props.stats.coinInfo.data[name],
             name,
             this.props.userinfo.verified,
             showMuted,
+            quantity,
+            quantity,
+            this.props.userinfo.brokerFeeCredits,
             this.props.settings.marketSwitch
         )
     }
-    makeTrades() {
+    scheduleTrades() {
         if(!this.props.session.loggedin) return;
         if(!this.props.userinfo.loaded) return;
         const rules = [...this.props.autotrader.rules];
 
+        let wallet:IWallet = {...this.props.userinfo.wallet};
+        let now = new Date().getTime();
+
+        let maxCooldown = 0;
         for(let i = 0; i < rules.length; i++) {
 
-            let rule:AutoTraderRule = rules[i];
-            const {coin, type, targetQuantity} = rule;
-            this.intervals[coin] =  setInterval(() => {
-                let wallet:IWallet = {...this.props.userinfo.wallet};
+            let name = this.filterName(rules[i].coin);
+
+            let timestamp = 0;
+            if (wallet.coins[name] !== undefined) {
+                timestamp = wallet.coins[name].timestamp;
+            }
+
+            let nextTrade = timestamp + (1000 * 60 * 10);
+            let delay = nextTrade - now;
+
+            if(delay > maxCooldown) {
+                maxCooldown = delay;
+            }
+        }
+
+        this.props.setNextTradeTime(new Date().getTime() + maxCooldown);
+
+        this.timeout = setTimeout(() => {
+
+            let orders:Array<Order> = [];
+
+            //console.log(`Autotrader: Generating order list...`);
+            rules.forEach((rule:AutoTraderRule) => {
+
+                let name = this.filterName(rule.coin);
                 let {
                     buyDisabled,
                     sellDisabled,
                     timeRemaining
-                } = this.canTrade(coin);
+                } = this.canTrade(name);
 
-                let name = this.filterName(coin);
+                //console.log(`Autotrader for ${name}: buyDisabled: ${buyDisabled}, sellDisabled: ${sellDisabled}, timeRemaining: ${timeRemaining}`)
                 let currentAmount;
                 if(wallet.coins[name] === undefined) {
                     currentAmount = 0;
@@ -106,42 +146,54 @@ class AutoTraderBind extends Component<AutoTraderProps> {
                     currentAmount = wallet.coins[name].amt;
                 }
 
+                //console.log(`Autotrader for ${name}: currentAmount: ${currentAmount}, targetQuantity: ${rule.targetQuantity}`);
                 if(timeRemaining === 0) {
-                    if(type === TransactionType.BUY) {
-                        if(!buyDisabled && targetQuantity > currentAmount) {
-                            setTimeout(() => {
-                                buyCoin(name);
-                            }, i * 100);
+                    let step = rule.stepQuantity !== undefined ? rule.stepQuantity : 1;
+                    if(rule.type === TransactionType.BUY) {
+                        if(!buyDisabled && rule.targetQuantity > currentAmount) {
+                            //console.log(`Autotrader for ${name}: Adding to order list...`)
+                            let quantity = Math.min(rule.targetQuantity - currentAmount, step);
+                            orders.push({coin:name, quantity, type:TransactionType.BUY})
                         }
-                    } else if(type === TransactionType.SELL) {
-                        if(!sellDisabled && targetQuantity < currentAmount) {
-                            setTimeout(() => {
-                                sellCoin(name);
-                            }, i * 100)
+                    } else if(rule.type === TransactionType.SELL) {
+                        if(!sellDisabled && rule.targetQuantity < currentAmount) {
+                            //console.log(`Autotrader for ${name}: Adding to order list...`)
+                            let quantity = Math.min(currentAmount - rule.targetQuantity, step);
+                            orders.push({coin:name, quantity, type:TransactionType.SELL})
                         }
                     }
-                }
-            }, 5000);
-        }
-    }
-    componentDidUpdate(prevProps:AutoTraderProps) {
-        if(prevProps.autotrader.running !== this.props.autotrader.running) {
-            this.clearIntervals();
-            if(this.props.autotrader.running) {
-                this.makeTrades();
+                } 
+            });
+
+            //console.log(`Autotrader: Order list: `, orders);
+
+            if(orders.length > 0) {
+                //console.log(`Autotrader: Trading...`);
+                tradeCoins(orders);
             }
-        }
-        if(prevProps.autotrader.rules !== this.props.autotrader.rules) {
-            this.clearIntervals();
+        }, maxCooldown + 100);
+
+        clearTimeout(this.failsafe);
+        this.failsafe = setTimeout( this.scheduleTrades.bind(this), maxCooldown + 60150);
+    }
+
+    componentDidUpdate(prevProps:AutoTraderProps) {
+        if(
+            prevProps.autotrader.running !== this.props.autotrader.running ||
+            prevProps.autotrader.rules !== this.props.autotrader.rules ||
+            prevProps.userinfo.wallet !== this.props.userinfo.wallet) {
+            clearTimeout(this.timeout);
+            clearTimeout(this.failsafe);
             if(this.props.autotrader.running) {
-                this.makeTrades();
+                this.scheduleTrades();
             }
         }
         if(!prevProps.userinfo.loaded && this.props.userinfo.loaded) {
             this.loadSave();
         }
         if(prevProps.userinfo.loaded && !this.props.userinfo.loaded) {
-            this.clearIntervals();
+            clearTimeout(this.timeout);
+            clearTimeout(this.failsafe);
         }
     }
     loadSave() {
@@ -160,16 +212,9 @@ class AutoTraderBind extends Component<AutoTraderProps> {
             this.loadSave();
         }
     }
-    clearIntervals() {
-        Object.keys(this.intervals).forEach((coin:string) => {
-            if(this.intervals[coin] !== undefined) {
-                clearInterval(this.intervals[coin]);
-                delete this.intervals[coin];
-            }
-        });
-    }
     componentWillUnmount() {
-        this.clearIntervals();
+        clearTimeout(this.timeout);
+        clearTimeout(this.failsafe);
     }
     render() {
         if(!this.props.session.loggedin) return null;

@@ -48,7 +48,8 @@ class TransactionItem extends Component<TransactionItemProps> {
         if(name === "himemoriluna") name = "luna";
         let type = t.type === TransactionType.BUY ? "BUY" : "SELL";
         let status = t.completed ? "COMPLETED" : "PENDING";
-        let m = `${type} on ${name} ${status}`;
+        let quantity = t.quantity > 1 ? t.quantity : "";
+        let m = `${type} on ${quantity} ${name} ${status}`;
         return m;
     }
 

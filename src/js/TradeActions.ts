@@ -1,38 +1,23 @@
-export const buyCoin = (coin:string) => {
-    fetch('/api/buyCoin/', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            coin
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if(data.success) {
-            //this.updateTransactionStatus();
-        }
-    })
-    .catch(error => {
-        console.error('Error: ' +  error);
-    })
-}
+import { Order } from "./interfaces/ITransaction";
 
-export const sellCoin = (coin:string) => {
-    fetch('/api/sellCoin/', {
+export const tradeCoins = (orders:Array<Order>) => {
+    fetch('/api/trade/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            coin
+            orders
         })
     })
     .then(response => response.json())
     .then(data => {
+        //console.log(new Date().toLocaleString());
         if(data.success) {
             //this.updateTransactionStatus();
+            //console.log(data);
+        } else {
+            console.log("fail: ", data);
         }
     })
     .catch(error => {
