@@ -9,11 +9,16 @@ const autotrader = handleActions(
         SET_RULES: (state:any, action:any) => ({
             ...state,
             rules: action.payload.rules
+        }),
+        SET_NEXT_TRADE_TIME: (state:any, action:any) => ({
+            ...state,
+            nextTradeTime: action.payload.nextTradeTime
         })
     },
     {
         running:false,
-        rules:[]
+        rules:[],
+        nextTradeTime:0
     }
 )
 

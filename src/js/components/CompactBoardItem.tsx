@@ -15,10 +15,8 @@ import {
 } from 'react-icons/io';
 import { connect } from 'react-redux';
 import Coin from './Coin';
-import Button from './Button';
-import getTransactionStatus from '../getTransactionStatus';
+import TradeButtonWrapper from './TradeButton';
 import numberWithCommas from '../numberWithCommas';
-import { buyCoin, sellCoin } from '../TradeActions';
 import { Draggable } from 'react-beautiful-dnd';
 interface CompactBoardItemProps {
     name: string;
@@ -48,12 +46,6 @@ interface CompactBoardItemProps {
 class CompactBoardItemState {
 
     activeStat: string;
-
-    buyDisabled: boolean;
-    sellDisabled: boolean;
-
-    timeRemaining: number
-
     error: string;
 
     graphData: {
@@ -63,9 +55,6 @@ class CompactBoardItemState {
 
     constructor() {
         this.activeStat = "price";
-        this.buyDisabled = true;
-        this.sellDisabled = true;
-        this.timeRemaining = 0;
         this.error = '';
         this.graphData = {
             labels: [],
@@ -84,21 +73,9 @@ const mapStateToProps = (state:any, props:any) => ({
 class CompactBoardItemBind extends Component<CompactBoardItemProps> {
     
     state:CompactBoardItemState;
-    intervalId:any;
     constructor(props:CompactBoardItemProps) {
         super(props);
         this.state = new CompactBoardItemState();
-    }
-    
-    componentDidMount() {
-        this.updateTransactionStatus();
-        this.intervalId = setInterval(() => {
-            this.updateTransactionStatus();
-        }, 300);   
-    }
-    
-    componentWillUnmount() {
-        clearInterval(this.intervalId);
     }
     
     priceDirectionIcon(delta:number) {
@@ -120,72 +97,6 @@ class CompactBoardItemBind extends Component<CompactBoardItemProps> {
 
     filterName(name:string) {
         return (name === "luna") ? "himemoriluna" : name;
-    }
-    
-    updateTransactionStatus() {
-
-        if(!this.props.session.loggedin || !this.props.userinfo.loaded)
-            return;
-
-        let name = this.filterName(this.props.name);
-
-        let showMuted = false;
-        let muted:any = this.props.userinfo.muted;
-        if(this.props.userinfo.muted !== null) {
-            muted = JSON.parse(muted);
-            if(muted.until < new Date().getTime()) {
-                showMuted = false;
-            } else {
-                showMuted = true;
-            }
-        }
-
-        let {
-            timeRemaining,
-            buyDisabled,
-            sellDisabled
-        } = getTransactionStatus(
-            this.props.userinfo.wallet,
-            this.props.stats.coinInfo.data[name],
-            name,
-            this.props.userinfo.verified,
-            showMuted,
-            this.props.settings.marketSwitch
-        )
-
-        this.setState({
-            timeRemaining,
-            buyDisabled,
-            sellDisabled
-        })
-    }
-
-    buy() {
-        if(this.state.buyDisabled || this.state.timeRemaining > 0) {
-            if(!this.props.userinfo.verified) {
-                this.setState({error:'You must verify your account before trading'});
-                setTimeout(() => {
-                    this.setState({error: ''})
-                }, 3000);
-            }
-            return;
-        }
-        let name = this.filterName(this.props.name);
-        buyCoin(name);
-    }
-
-    sell() {
-        if(this.state.sellDisabled || this.state.timeRemaining > 0) {
-            if(!this.props.userinfo.verified) {
-                this.setState({error:'You must verify your account before trading'});
-                setTimeout(() => {
-                    this.setState({error: ''})
-                }, 3000);
-            }
-            return;
-        }
-        let name = this.filterName(this.props.name);
-        sellCoin(name);
     }
 
     render() {
@@ -242,9 +153,6 @@ class CompactBoardItemBind extends Component<CompactBoardItemProps> {
         let dailyViewCount = coinStats.dailyViewCount.data.slice(-1)[0];
         let weeklyViewCount = coinStats.weeklyViewCount.data.slice(-1)[0];
 
-        let buyDisabled = this.state.buyDisabled ? "disabled" : "";
-        let sellDisabled = this.state.sellDisabled ? "disabled" : "";
-
         let dirClass = delta > 0 ? "increase" : "decrease";
         if(delta === 0) dirClass = "stagnant";
         dirClass += " compact-price";
@@ -269,28 +177,9 @@ class CompactBoardItemBind extends Component<CompactBoardItemProps> {
                         <Coin name={displayName} />
                     </td>
                     <td className="compact-name">{displayName.toUpperCase()}</td>
-                    {
-                        this.props.session.loggedin ? 
-                        <td>
-                            <Button
-                                timeRemaining={this.state.timeRemaining}
-                                className={`inverse green ${buyDisabled} umami--click--buy`}
-                                onClick={() => this.buy()}>
-                                    BUY
-                            </Button>
-                        </td> : null
-                    }
-                    {
-                        this.props.session.loggedin ?
-                        <td>
-                            <Button 
-                                timeRemaining={this.state.timeRemaining}
-                                className={`inverse red ${sellDisabled} umami--click--sell`}
-                                onClick={() => this.sell()}>
-                                    SELL
-                            </Button>
-                        </td> : null
-                    }
+                    <td>
+                        <TradeButtonWrapper coin={this.props.name}/>
+                    </td>
                     <td 
                         className={dirClass}
                         title={meanPurchasePrice !== null ? `Mean purchase price: $${meanPurchasePrice}` : undefined}>

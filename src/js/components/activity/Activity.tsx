@@ -85,7 +85,7 @@ class ActivityBind extends Component<ActivityProps> {
     }
     listen(socket:Socket) {
         socket.on('historyUpdate', (data:any) => {
-            let recentHistory = [JSON.parse(data), ...this.state.recentHistory];
+            let recentHistory = [...JSON.parse(data), ...this.state.recentHistory];
             this.setState({
                 recentHistory
             });
@@ -125,7 +125,7 @@ class ActivityBind extends Component<ActivityProps> {
     }
     getTodayHistory() {
         if(!this.state.todayRetrieved) {
-            fetch('/api/getHistory', {
+            fetch('/api/getHistory?full', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
@@ -154,7 +154,7 @@ class ActivityBind extends Component<ActivityProps> {
             this.refreshRecentTransactions();
         }, 1000 * 10);
 
-        fetch('/api/getHistory?recent', {
+        fetch('/api/getHistory', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -393,7 +393,7 @@ class ActivityBind extends Component<ActivityProps> {
 
     changeActiveView(view:number) {
 
-        if(view === activeView.history) {
+        if(view === activeView.history || view === activeView.myHistory) {
             if(!this.state.todayRetrieved) {
                 this.getTodayHistory();
             }
