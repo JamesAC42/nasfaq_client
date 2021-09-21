@@ -42,7 +42,8 @@ const swatchColors:Array<string> = [
     "yellow",
     "green",
     "magenta",
-    "gray"
+    "gray",
+    "default"
 ];
 
 class ItemsBind extends Component<ItemsProps> {

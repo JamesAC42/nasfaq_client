@@ -106,6 +106,12 @@
                             &.green   { background: $leaderboard-green; }
                             &.magenta { background: $leaderboard-magenta; }
                             &.gray    { background: $leaderboard-gray; }
+                            &.default { 
+                                background: $text-dark;
+                                .dark & {
+                                    background: $text-light;
+                                }
+                            }
                         }
                     }
 

@@ -217,6 +217,8 @@ div.user-rank-info {
            width:100px;
         }
         .coin {
+            position:relative;
+            z-index:1;
             margin-left:auto;
             height:55px;
             width:85px;
@@ -418,4 +420,8 @@ div.oshiboard-item {
     &.green   { color: $leaderboard-green !important; }
     &.magenta { color: $leaderboard-magenta !important; }
     &.gray    { color: $leaderboard-gray !important; }
+    &.default {
+        color:$text-dark;
+        .dark & {color:$text-light;}
+    }
 }
