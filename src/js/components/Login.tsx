@@ -37,6 +37,7 @@ interface LoginProps {
     setMuted: (muted:any) => {},
     setItems: (items:any) => {},
     setColor: (color:string) => {},
+    setHat: (hat:string) => {},
     setSettings: (settings:any) => {},
     login: () => {},
     setBrokerFeeTotal: (brokerFeeTotal:any) => {},
@@ -66,6 +67,7 @@ const mapDispatchToProps = {
     setMuted: userinfoActions.setMuted,
     setItems: userinfoActions.setItems,
     setColor: userinfoActions.setColor,
+    setHat: userinfoActions.setHat,
     setSettings: userinfoActions.setSettings,
     setBrokerFeeTotal: userinfoActions.setBrokerFeeTotal,
     setBrokerFeeCredits: userinfoActions.setBrokerFeeCredits
@@ -131,6 +133,7 @@ class LoginBind extends Component<LoginProps> {
         this.props.setMuted(data.muted);
         this.props.setItems(data.items);
         this.props.setColor(data.color);
+        this.props.setHat(data.hat);
         this.props.setSettings(data.settings);
         this.props.setBrokerFeeTotal(data.brokerFeeTotal);
         this.props.setBrokerFeeCredits(data.taxCredits);

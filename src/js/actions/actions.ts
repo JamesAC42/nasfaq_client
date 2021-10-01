@@ -41,7 +41,8 @@ export const userinfoActions = createActions(
         SET_ITEMS: items => ({ items }),
         SET_MUTED: muted => ({ muted }),
         SET_BROKER_FEE_TOTAL: brokerFeeTotal => ({ brokerFeeTotal }),
-        SET_BROKER_FEE_CREDITS: brokerFeeCredits => ({ brokerFeeCredits })
+        SET_BROKER_FEE_CREDITS: brokerFeeCredits => ({ brokerFeeCredits }),
+        SET_HAT: hat => ({ hat })
     },
     "SET_LOADED",
     "UNLOAD"

@@ -29,6 +29,8 @@ interface LoginAdminProps {
     setVerified: (verified:boolean) => {},
     setMuted: (muted:any) => {},
     setSettings: (settings:any) => {},
+    setColor: (color:string) => {},
+    setHat: (hat:string) => {},
     login: () => {},
     setItems: (items:any) => {},
     setBrokerFeeTotal: (brokerFeeTotal:any) => {},
@@ -56,6 +58,8 @@ const mapDispatchToProps = {
     setVerified: userinfoActions.setVerified,
     setAdmin: userinfoActions.setAdmin,
     setMuted: userinfoActions.setMuted,
+    setColor: userinfoActions.setColor,
+    setHat: userinfoActions.setHat,
     setSettings: userinfoActions.setSettings,
     setItems: userinfoActions.setItems,
     setBrokerFeeTotal: userinfoActions.setBrokerFeeTotal,
@@ -107,6 +111,8 @@ class LoginAdminBind extends Component<LoginAdminProps> {
         this.props.setMuted(data.muted);
         this.props.setSettings(data.settings);
         this.props.setLoaded();
+        this.props.setColor(data.color);
+        this.props.setHat(data.hat);
         this.props.setItems(JSON.parse(data.items));
         this.props.setBrokerFeeTotal(data.brokerFeeTotal);
         this.props.setBrokerFeeCredits(data.taxCredits);

@@ -162,7 +162,20 @@ class AppBind extends Component<AppProps> {
       
       let multicoinSave = localStorage.getItem("nasfaq:multicoinSave");
       if(multicoinSave !== null) {
-        this.props.setMulticoinSave(JSON.parse(multicoinSave));
+        let multicoinSaveData = JSON.parse(multicoinSave);
+        let updated = false;
+        lineage.forEach((gen:Array<string>) => {
+          gen.forEach((coin:string) => {
+            if(multicoinSaveData[coin] === undefined) {
+              multicoinSaveData[coin] = {buy:1, sell:1};
+              updated = true;
+            }
+          })
+        })
+        this.props.setMulticoinSave(multicoinSaveData);
+        if(updated) {
+          localStorage.setItem("nasfaq:multicoinSave", JSON.stringify(multicoinSaveData))
+        }
       } else {
         let newMulticoin:{[coin:string]:any} = {};
         lineage.forEach((gen:Array<string>) => {

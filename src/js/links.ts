@@ -143,6 +143,10 @@ export const links:{[name:string]:{[link:string]:string}} = {
         youtube: 'https://www.youtube.com/channel/UCzKkwB84Y0ql0EvyOWRSkEw',
         twitter: 'https://twitter.com/nab0i'
     },
+    nachoneko: {
+        youtube: 'https://www.youtube.com/channel/UCvNn6mRroGDctnqU-FUsszg',
+        twitter: 'https://twitter.com/amsrntk3'
+    },
     nana: {
         youtube: 'https://www.youtube.com/channel/UCbfv8uuUXt3RSJGEwxny5Rw',
         twitter: 'https://twitter.com/nana_kaguraaa'

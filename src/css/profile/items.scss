@@ -41,7 +41,13 @@
                 img.item-image {
                     max-width:150px;
                     max-height:150px;
-                    &.jeb-img { cursor:pointer; }
+                    &.item-clickable { cursor:pointer; }
+                    &.hat-equipped { 
+                        outline:2px solid rgb(45, 47, 182);
+                        .dark & {
+                            outline:2px solid rgb(127, 129, 255);
+                        }
+                    }
                 }
 
                 @keyframes swatch-expand {
@@ -49,25 +55,44 @@
                     100% {max-width:300px;}
                 }
 
+                .hat-toggle,
                 .jeb-swatch {
                     position:absolute;
                     top:50%;right:0;
                     transform:translate(100%, -50%);
-                    border-radius:5px;
-                    max-width:300px;
-
-                    background:$ui-light;
                     border:2px solid $default;
+                    border-radius:5px;
+                    background:$ui-light;
+                    z-index:1000;
                     .dark & {
                         background:$ui-dark;
                         border-color:$primary;
                     }
+                }
+
+                .hat-toggle {
+                    padding:20px;
+                    .hat-toggle-inner {
+                        background:rgb(59, 199, 192);
+                        color:rgb(255, 255, 255);
+                        border-radius:3px;
+                        padding:8px 10px;
+                        font-size:18px;
+                        .dark & {
+                            color:rgb(31, 31, 31);
+                        }
+                        cursor:pointer;
+                        &:hover {
+                            opacity:0.7;
+                        }
+                    }
+                }
+
+                .jeb-swatch {
+                    max-width:300px;
 
                     overflow:hidden;
-
                     animation:swatch-expand .1s cubic-bezier(0.075, 0.82, 0.165, 1) 1;
-
-                    z-index:1000;
 
                     .jeb-swatch-inner {
                         display:flex;
