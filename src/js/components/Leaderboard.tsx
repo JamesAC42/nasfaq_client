@@ -36,7 +36,8 @@ interface LeaderboardUser {
     networth:number,
     walletIsPublic:boolean,
     hasItems:boolean,
-    color:string
+    color:string,
+    hat:string
 }
 
 interface IOshiInfo {
@@ -44,7 +45,9 @@ interface IOshiInfo {
     directors: Array<{
         username:string,
         icon:string,
-        amtOwned:number
+        amtOwned:number,
+        color:string,
+        hat:string
     }>
 }
 
@@ -252,6 +255,18 @@ class LeaderboardUserItem extends Component<LeaderboardUserProps> {
             </div>
         )
     }
+    renderHat() {
+        if(this.props.item.hat) {
+            return(
+                <div className="user-hat-container">
+                    <img 
+                        src={ItemImages[this.props.item.hat]} 
+                        alt={this.props.item.hat} 
+                        className={"user-hat " + this.props.item.hat}/>
+                </div>
+            )
+        }
+    }
     render() {
         let lbclass = 'user-row';
         if(this.props.userinfo.loaded) {
@@ -276,6 +291,7 @@ class LeaderboardUserItem extends Component<LeaderboardUserProps> {
                         {this.props.index + 1}
                     </div>
                     <div className="user-icon center-child">
+                        {this.renderHat()}
                         <Coin name={this.props.item.icon} />
                     </div>
                     <div 
@@ -408,6 +424,12 @@ class OshiboardItem extends Component<OshiboardItemProps> {
                                     {this.badge(i)}
                                 </div>
                                 <div className="director-icon">
+                                    <div className="user-hat-container">
+                                        <img 
+                                            src={ItemImages[d.hat]} 
+                                            alt={d.hat} 
+                                            className={"user-hat " + d.hat}/>
+                                    </div>
                                     <Coin name={d.icon} />
                                 </div>
                                 <div className={`director-username ${d.color}`}>
@@ -493,6 +515,7 @@ class LeaderboardBind extends Component<LeaderboardProps> {
         return visibleUsers;
     }
     renderLeaderboard() {
+        console.log(this.props.stats.leaderboard);
         if(this.state.activeView === activeView.leaderboard) {
             let visibleUsers = this.getPagedUsers(this.props.stats.leaderboard);
             let pageOffset = this.state.pageSize * this.state.activePage;
