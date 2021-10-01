@@ -216,6 +216,7 @@ div.user-rank-info {
         @media (max-width:1300px) {
            width:100px;
         }
+        
         .coin {
             position:relative;
             z-index:1;
@@ -424,4 +425,123 @@ div.oshiboard-item {
         color:$text-dark;
         .dark & {color:$text-light;}
     }
+}
+.user-hat {
+    position:absolute;
+    top:0;right:0;
+    z-index:1000;
+    
+    &.FubukiHat {
+        width:70px;
+        transform:translate(38%, -50%) rotate(23deg);
+    }
+    &.MarineHat {
+        width:105px;
+        transform:translate(28%, -35%) rotate(25deg);
+    }
+    &.RushiaBun {
+        width:120px;
+        transform:translate(10%, -10%) rotate(-0deg);
+    }
+    &.HaatoHat {
+        width:80px;
+        transform:translate(48%, -30%);
+    }
+    &.AmeHat {
+        width:100px;
+        transform:translate(3%, -43%);
+    }
+    &.SuiseiHat {
+        width:110px;
+        transform:translate(15%, -15%);
+    }
+    &.SoraHat {
+        width:70px;
+        transform:translate(60%, -55%) rotate(20deg);
+    }
+    &.ShionHat {
+        width:80px;
+        transform:translate(23%, -43%) rotate(90deg);
+    }
+    &.KanataHat {
+        width:70px;
+        transform:translate(23%, -23%) rotate(5deg);
+    }
+    &.PolkaHat {
+        width:90px;
+        transform:translate(50%, -50%) rotate(10deg);
+    }
+    &.OkayuHat {
+        width:120px;
+        transform:translate(15%, -46%) rotate(-2deg);
+    }
+    &.NoelHat {
+        width:88px;
+        transform:translate(-5%, -20%) rotate(-20deg);
+    }
+    &.MikoHat {
+        width:70px;
+        transform:translate(40%, -20%) rotate(5deg);
+    }
+    &.MatsuriHat {
+        width:65px;
+        transform:translate(44%, -35%);
+    }
+    &.MarineGothHat {
+        width:110px;
+        transform:translate(32%, -40%) rotateY(180deg) rotateZ(-10deg);
+    }
+    &.GuraHat {
+        width:50px;
+        transform:translate(55%, -15%);
+    }
+    &.WatameHat {
+        width:80px;
+        transform:translate(30%, -60%) rotate(20deg);
+    }
+    &.TowaHat {
+        width:110px;
+        transform:translate(-0%, -35%) rotateY(180deg) rotateZ(10deg);
+    }
+    &.InaHat {
+        width:100px;
+        transform:translate(10%, -27%) rotate(-5deg);
+    }
+    &.KiaraHat {
+        width:90px;
+        transform:translate(5%, -27%) rotateY(180deg) rotateZ(10deg);
+    }
+    &.MarineGyaruHat {
+        width:115px;
+        transform:translate(5%, -40%) rotate(2deg);
+    }
+    &.MumeiHat {
+        width:85px;
+        transform:translate(15%, -47%) rotate(10deg);
+    }
+    &.NeneHat {
+        width:115px;
+        transform:translate(10%, -20%);
+    }
+    &.PekoraHat {
+        width:165px;
+        transform:translate(23%, -56%);
+    }
+    &.AquaHat {
+        width:105px;
+        transform:translate(5%, -33%);
+    }
+    &.BotanHat {
+        width:110px;
+        transform:translate(7%, -30%);
+    }
+    &.CalliopeHat {
+        width:100px;
+        transform:translate(2%, -25%);
+    }
+    &.InaEarsHat {
+        width:115px;
+        transform:translate(11%, -30%);
+    }
+
 }

@@ -45,7 +45,8 @@ let initState = {
         loaded: false,
         items: {},
         brokerFeeTotal: 0,
-        brokerFeeCredits: 0
+        brokerFeeCredits: 0,
+        hat: undefined
     },
     stats: {
         stats: {},

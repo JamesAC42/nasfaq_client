@@ -62,6 +62,10 @@ const userinfo = handleActions(
             ...state,
             brokerFeeCredits:actions.payload.brokerFeeCredits
         }),
+        SET_HAT: (state:any, actions:any) => ({
+            ...state,
+            hat: actions.payload.hat
+        }),
         UNLOAD: (state:any, action:any) => ({
             username:undefined,
             email:undefined,
@@ -75,7 +79,8 @@ const userinfo = handleActions(
             items:{},
             loaded:false,
             brokerFeeTotal: 0,
-            brokerFeeCredits: 0
+            brokerFeeCredits: 0,
+            hat:undefined
         })
     },
     {
@@ -93,7 +98,8 @@ const userinfo = handleActions(
         items:[],
         loaded:false,
         brokerFeeTotal:0,
-        brokerFeeCredits:0
+        brokerFeeCredits:0,
+        hat:undefined
     }
 )
 
