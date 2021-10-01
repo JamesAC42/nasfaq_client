@@ -177,9 +177,12 @@ class CompactBoardItemBind extends Component<CompactBoardItemProps> {
                         <Coin name={displayName} />
                     </td>
                     <td className="compact-name">{displayName.toUpperCase()}</td>
-                    <td>
-                        <TradeButtonWrapper coin={this.props.name}/>
-                    </td>
+                    {
+                        this.props.session.loggedin ?
+                        <td>
+                            <TradeButtonWrapper coin={this.props.name}/>
+                        </td> : null
+                    }
                     <td 
                         className={dirClass}
                         title={meanPurchasePrice !== null ? `Mean purchase price: $${meanPurchasePrice}` : undefined}>
