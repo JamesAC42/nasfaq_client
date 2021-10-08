@@ -48,8 +48,8 @@
 }
 
 
-.word-filters-container, 
-.reports-container, 
+.word-filters-container,
+.reports-container,
 .adjustment-container,
 .admin-users-pane {
     padding:10px 20px;
@@ -585,7 +585,7 @@ input.fee-input {
     border:1px solid rgb(66, 66, 66);
     color:rgb(17, 17, 17);
     background:rgb(248, 248, 248);
-    
+
     .dark & {
         border:1px solid rgb(80, 80, 80);
         color:rgb(218, 218, 218);
@@ -603,7 +603,7 @@ input.fee-input {
     background:rgb(204, 204, 204);
     position:relative;
     overflow:hidden;
-    
+
     .dark & {
         background:rgb(17, 17, 17);
     }
@@ -638,4 +638,28 @@ input.fee-input {
 .fee-label {
     font-size:1.2rem;
     font-family: WorkSansSemiBold;
+}
+
+.adjust-params-container {
+    margin: 0 -20px 30px;
+    padding: 0 30px 25px;
+    border-bottom: 1px solid $ui-subtle;
+
+    .dark & {
+        color: $text-light;
+        border-color: $ui-dark-subtle;
+    }
+    .volatility-input {
+        margin: 0 15px;
+    }
+    .toggle-outer:first-of-type {
+        margin-right: 20px;
+    }
+    .volatility-input:first-of-type {
+        margin-right: 30px;
+    }
+    .button {
+        margin: 10px 6px 0 0;
+        float: right;
+    }
 }

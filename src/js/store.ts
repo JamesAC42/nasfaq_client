@@ -96,7 +96,11 @@ let initState = {
         spamTracker: undefined,
         dividendToggles: undefined,
         volatilityMultipliers: undefined,
-        brokerFee: undefined
+        brokerFee: undefined,
+        overbought: false,
+        oversold: false,
+        bogrationLevel: 0,
+        upwardsReductionLevel: 0
     },
     gacha: {
         receivedItems: []

@@ -33,7 +33,11 @@ const mapDispatchToProps = {
     setSpamTracker: adminActions.setSpamTracker,
     setDividendToggles: adminActions.setDividendToggles,
     setVolatilityMultipliers: adminActions.setVolatilityMultipliers,
-    setBrokerFee: adminActions.setBrokerFee
+    setBrokerFee: adminActions.setBrokerFee,
+    setOverbought: adminActions.setOverbought,
+    setOversold: adminActions.setOversold,
+    setBogrationLevel: adminActions.setBogrationLevel,
+    setUpwardsReductionLevel: adminActions.setUpwardsReductionLevel
 };
 
 interface AdminProps {
@@ -51,7 +55,7 @@ interface AdminProps {
         users: Array<any>,
         filters: any,
         reports: Array<any>,
-        adjustmentControls: any, 
+        adjustmentControls: any,
         volatilityMultipliers: any
     },
     setAdminFilters: (filters:any) => {},
@@ -61,7 +65,11 @@ interface AdminProps {
     setSpamTracker: (spamTracker:any) => {},
     setDividendToggles: (dividendToggles:any) => {},
     setVolatilityMultipliers: (setVolatilityMultipliers:any) => {},
-    setBrokerFee: (brokerFee:any) => {}
+    setBrokerFee: (brokerFee:any) => {},
+    setOverbought: (overbought: boolean) => {}
+    setOversold: (oversold: boolean) => {}
+    setBogrationLevel: (bogrationLevel: number) => {}
+    setUpwardsReductionLevel: (upwardsReductionLevel: number) => {}
 }
 
 enum AdminPanels {
@@ -108,6 +116,10 @@ class AdminBind extends Component<AdminProps> {
                 this.props.setDividendToggles(data.dividendToggles);
                 this.props.setVolatilityMultipliers(data.volatilityMultipliers);
                 this.props.setBrokerFee(data.brokerFee);
+                this.props.setOverbought(data.adjustmentParams.overbought);
+                this.props.setOversold(data.adjustmentParams.oversold);
+                this.props.setBogrationLevel(data.adjustmentParams.bogrationLevel);
+                this.props.setUpwardsReductionLevel(data.adjustmentParams.upwardsReduction);
             } else {
                 console.log(data);
             }
@@ -187,8 +199,8 @@ class AdminBind extends Component<AdminProps> {
                         <div className="admin-panel-select">
                             <div className="tabbed-view-select">
                                 {
-                                    panelNames.map((panel:string, index:number) => 
-                                    <div 
+                                    panelNames.map((panel:string, index:number) =>
+                                    <div
                                         key={panel}
                                         className={`view-item ${index === this.state.active ? 'view-item-active' : ''}`}
                                         onClick={() => this.setActiveView(index)}>
@@ -205,7 +217,7 @@ class AdminBind extends Component<AdminProps> {
                         </div>
                     </div>
                     <div className="market-switch flex flex-row flex-center">
-                        Market Status: 
+                        Market Status:
                         <ToggleSwitch
                             onLabel={"OPEN"}
                             offLabel={"CLOSED"}
@@ -217,7 +229,7 @@ class AdminBind extends Component<AdminProps> {
             </div>
         )
     }
-} 
+}
 
 const Admin = connect(
     mapStateToProps,

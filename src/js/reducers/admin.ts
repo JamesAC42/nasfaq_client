@@ -33,6 +33,22 @@ const admin = handleActions(
         SET_BROKER_FEE: (state:any, action:any) => ({
             ...state,
             brokerFee: action.payload.brokerFee
+        }),
+        SET_OVERBOUGHT: (state:any, action:any) => ({
+            ...state,
+            overbought: action.payload.overbought
+        }),
+        SET_OVERSOLD: (state:any, action:any) => ({
+            ...state,
+            oversold: action.payload.oversold
+        }),
+        SET_BOGRATION_LEVEL: (state:any, action:any) => ({
+            ...state,
+            bogrationLevel: action.payload.bogrationLevel
+        }),
+        SET_UPWARDS_REDUCTION_LEVEL: (state:any, action:any) => ({
+            ...state,
+            upwardsReductionLevel: action.payload.upwardsReductionLevel
         })
     },
     {
@@ -43,7 +59,11 @@ const admin = handleActions(
         spamTracker: undefined,
         dividendToggles: undefined,
         volatilityMultipliers: undefined,
-        brokerFee:undefined
+        brokerFee:undefined,
+        overbought: false,
+        oversold: false,
+        bogrationLevel: 0,
+        upwardsReductionLevel: 0
     }
 )
 
