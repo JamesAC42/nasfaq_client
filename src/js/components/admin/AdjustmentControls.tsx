@@ -5,6 +5,8 @@ import { adminActions } from '../../actions/actions';
 
 import AdjustmentItem, {AdjustmentType} from './AdjustmentItem';
 
+import AdjustmentParameters from './AdjustmentParameters';
+
 const mapStateToProps = (state:any, props:any) => ({
     admin:state.admin
 });
@@ -52,6 +54,7 @@ class AdjustmentControlsBind extends Component<AdjustmentProps> {
         coins.sort();
         return(
             <div className="adjustment-container">
+                <AdjustmentParameters />
                 <div className="control-header">
                     Adjustment Controls
                 </div>
@@ -76,8 +79,8 @@ class AdjustmentControlsBind extends Component<AdjustmentProps> {
                         </thead>
                         <tbody>
                         {
-                            coins.map((coin:string) => 
-                                <AdjustmentItem 
+                            coins.map((coin:string) =>
+                                <AdjustmentItem
                                     key={coin}
                                     coin={coin}
                                     adjustmentType={this.props.admin.adjustmentControls[coin]}

@@ -16,9 +16,9 @@ export const sessionActions = createActions(
 
 export const statsActions = createActions(
     {
-        SET_STATS: stats => ({ stats }),        
-        SET_HISTORY: coinHistory=> ({ coinHistory }),        
-        SET_COIN_INFO: coinInfo => ({ coinInfo }),        
+        SET_STATS: stats => ({ stats }),
+        SET_HISTORY: coinHistory=> ({ coinHistory }),
+        SET_COIN_INFO: coinInfo => ({ coinInfo }),
         SET_LEADERBOARD: leaderboard => ({ leaderboard }),
         SET_OSHIBOARD: oshiboard => ({ oshiboard }),
         SET_GACHABOARD: gachaboard => ({ gachaboard }),
@@ -103,7 +103,11 @@ export const adminActions = createActions(
         SET_SPAM_TRACKER: spamTracker => ({ spamTracker }),
         SET_DIVIDEND_TOGGLES: dividendToggles => ({ dividendToggles }),
         SET_VOLATILITY_MULTIPLIERS: volatilityMultipliers => ({ volatilityMultipliers }),
-        SET_BROKER_FEE: brokerFee => ({ brokerFee })
+        SET_BROKER_FEE: brokerFee => ({ brokerFee }),
+        SET_OVERBOUGHT: overbought => ({ overbought }),
+        SET_OVERSOLD: oversold => ({ oversold }),
+        SET_BOGRATION_LEVEL: bogrationLevel => ({ bogrationLevel }),
+        SET_UPWARDS_REDUCTION_LEVEL: upwardsReductionLevel => ({ upwardsReductionLevel })
     }
 )
 
