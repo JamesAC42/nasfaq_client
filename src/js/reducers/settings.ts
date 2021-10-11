@@ -2,10 +2,10 @@ import { handleActions } from 'redux-actions';
 
 const settings = handleActions(
     {
-        TOGGLE_DARKMODE: (state:any, action:any) => {
+        SET_THEME: (state:any, action:any) => {
             return {
                 ...state,
-                darkMode: action.payload.enabled
+                theme: action.payload.theme
             }
         },
         SET_MARKET_SWITCH: (state:any, action:any) => {
@@ -22,7 +22,7 @@ const settings = handleActions(
         }
     },
     {
-        darkMode: false,
+        theme: 0,
         marketSwitch: true,
         tradeNotifications: true
     }

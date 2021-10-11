@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import '../css/master.scss';
+import '../css/themes.scss';
 
 import Home from './components/Home';
 import Profile from './components/profile/Profile';
@@ -48,6 +49,7 @@ import {
 } from 'react-router-dom';
 import Info from './components/Info';
 import LoginAdmin from './components/LoginAdmin';
+import { Themes } from './Themes';
 
 const mapStateToProps = (state:any, props:any) => ({
   settings: state.settings
@@ -67,7 +69,7 @@ const mapDispatchToProps = {
 
 interface AppProps {
   settings: {
-    darkMode: boolean
+    theme: Themes
   },
   setStats: (stats:{}) => {},
   setHistory: (coinHistory:{}) => {},
@@ -189,13 +191,20 @@ class AppBind extends Component<AppProps> {
     }
   }
 
+  themeClass = () => {
+    if(this.props.settings.theme === Themes.LIGHT) {
+      return ""; 
+    } else if(this.props.settings.theme === Themes.DARK) {
+      return "dark";
+    } else {
+      return "halloween";
+    }
+  }
+
   render() {
 
     return(
-      <div className={
-        this.props.settings.darkMode ?
-        "dark" : ""
-      }>
+      <div className={this.themeClass()}>
 
         <SessionHandler />
         <SocketHandler />

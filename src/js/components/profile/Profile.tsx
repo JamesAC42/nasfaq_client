@@ -45,12 +45,14 @@ import { ICoinDataCollection, ICoinHistory } from '../../interfaces/ICoinInfo';
 import { Loading } from '../Loading';
 import { Link } from 'react-router-dom';
 import Items from './Items';
+import { Themes } from '../../Themes';
 
 const mapStateToProps = (state:any, props:any) => ({
     session: state.session,
     userinfo: state.userinfo,
     stats: state.stats,
-    itemcatalogue: state.itemcatalogue
+    itemcatalogue: state.itemcatalogue,
+    settings:state.settings
 });
 
 interface ProfileProps {
@@ -75,6 +77,9 @@ interface ProfileProps {
         },
         coinHistory: ICoinHistory,
         coinInfo: ICoinDataCollection
+    },
+    settings: {
+        theme: Themes
     }
 }
 
@@ -134,6 +139,14 @@ class ProfileBind extends Component<ProfileProps> {
         if(!this.props.userinfo.loaded) return;
         let datasets: Array<any> = [];
         let dataset = {...datasetTemplate};
+
+        if(this.props.settings.theme === Themes.HALLOWEEN) {
+            dataset.borderColor = 'rgb(255, 176, 124)';
+            dataset.pointBorderColor = 'rgb(255, 176, 124)';
+            dataset.pointHoverBackgroundColor = 'rgb(255, 176, 124)';
+            dataset.pointHoverBorderColor = 'rgb(255, 176, 124)';
+        }
+
         let data:any = {};
 
         dataset.label = "Performance History";

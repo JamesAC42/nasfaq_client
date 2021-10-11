@@ -2,11 +2,19 @@ import React, { Component } from 'react';
 import '../../css/info.scss';
 import '../../css/tabbedpage.scss';
 
+import {connect} from 'react-redux';
+
 import VisibilitySensor from 'react-visibility-sensor';
 
 import {Link} from 'react-router-dom';
 
 import okayu from '../../images/okayuquestion.png';
+import mummygura from '../../images/mummygura.png';
+import { Themes } from '../Themes';
+
+const mapStateToProps = (state:any) => ({
+    settings:state.settings
+})
 
 enum InfoSections {
     About,
@@ -21,6 +29,12 @@ enum InfoSections {
     News
 }
 
+interface InfoProps {
+    settings: {
+        theme:Themes
+    }
+}
+
 class InfoState {
     news:any;
     activeSection:InfoSections;
@@ -30,7 +44,7 @@ class InfoState {
     }
 }
 
-class Info extends Component {
+class InfoBind extends Component<InfoProps> {
     state:InfoState;
 
     constructor(props:any) {
@@ -96,6 +110,14 @@ class Info extends Component {
                 }
             </ul>
         )
+    }
+
+    getCornerImg() {
+        if(this.props.settings.theme === Themes.HALLOWEEN) {
+            return mummygura;
+        } else {
+            return okayu;
+        }
     }
     render() {
         return(
@@ -472,10 +494,12 @@ class Info extends Component {
                         </div>
                     </a>
                 </div>
-                <img className="corner-img br okayu-question" src={okayu} alt="okayu"/>
+                <img className="corner-img br okayu-question" src={this.getCornerImg()} alt="okayu"/>
             </div>
         )
     }
 }
+
+const Info = connect(mapStateToProps)(InfoBind);
 
 export default Info;

@@ -10,9 +10,11 @@ import storageAvailable from '../checkStorage';
 
 import sun from '../../images/sun-black.png';
 import moon from '../../images/moon-white.png';
+import web from '../../images/web-white.png';
 
 import {withRouter} from 'react-router-dom';
 
+import { Themes } from '../Themes';
 import {
     settingsActions
 } from '../actions/actions';
@@ -32,12 +34,12 @@ const mapStateToProps = (state:any, props:any) => ({
 });
 
 const mapDispatchToProps = {
-    toggleDarkmode: settingsActions.toggleDarkmode
+    setTheme: settingsActions.setTheme
 }
 
 interface NavbarProps {
     settings: {
-        darkMode: boolean,
+        theme: Themes,
         marketSwitch: boolean
     },
     session: {
@@ -53,7 +55,7 @@ interface NavbarProps {
         loaded:boolean,
         admin:boolean
     },
-    toggleDarkmode: (enabled: boolean) => {}
+    setTheme: (theme: Themes) => {}
 }
 
 class NavbarState {
@@ -94,11 +96,9 @@ class NavbarBind extends Component<NavbarProps> {
     }
     componentDidMount() {
         if(storageAvailable()) {
-            if(localStorage['darkMode'] === undefined) return;
-            const dark:boolean = JSON.parse(localStorage['darkMode']);
-            if(dark) {
-                this.props.toggleDarkmode(dark);
-            }
+            const theme = localStorage.getItem('nasfaq:theme');
+            if(theme === null) return;
+            this.props.setTheme(parseInt(theme));
         }
         setInterval(() => {
             const etTimeString = new Date().toLocaleString("en-US", {
@@ -124,10 +124,21 @@ class NavbarBind extends Component<NavbarProps> {
         }
     }
     handleClick = () => {
+        let nextTheme = this.props.settings.theme + 1;
+        if(Themes[nextTheme] === undefined) nextTheme = 0;
         if(storageAvailable()) {
-            localStorage['darkMode'] = JSON.stringify(!this.props.settings.darkMode);
+            localStorage.setItem('nasfaq:theme', JSON.stringify(nextTheme));
         }
-        this.props.toggleDarkmode(!this.props.settings.darkMode);
+        this.props.setTheme(nextTheme);
+    }
+    themeIcon = () => {
+        if(this.props.settings.theme === Themes.LIGHT) {
+            return sun;
+        } else if(this.props.settings.theme === Themes.DARK) {
+            return moon;
+        } else {
+            return web;
+        }
     }
     render() {
         let balance:String = '';
@@ -240,10 +251,7 @@ class NavbarBind extends Component<NavbarProps> {
                     }
                     <div className="nav-item nav-item-toggle-dark">
                         <img 
-                        src={
-                            this.props.settings.darkMode ?
-                                moon : sun
-                        } 
+                        src={this.themeIcon()} 
                         alt={"darkmode-img"} 
                         className="darkmode-img" 
                         onClick={(

@@ -11,6 +11,7 @@ import silvermedal from '../../images/silvermedal.svg';
 import bronzemedal from '../../images/bronzemedal.svg';
 
 import botangangimari from '../../images/botangangimari.png';
+import witchsora from '../../images/witchsora.png';
 
 import { connect } from 'react-redux';
 import Coin from './Coin';
@@ -28,6 +29,7 @@ import { IWallet } from '../interfaces/IWallet';
 import { ICoinInfo } from '../interfaces/ICoinInfo';
 import { UserItems, IItem } from '../interfaces/IItem';
 import fetchData from '../fetchData';
+import { Themes } from '../Themes';
 
 interface LeaderboardUser {
     userid:string,
@@ -471,11 +473,15 @@ interface LeaderboardProps {
     userinfo: {
         loaded: boolean,
         username: string
+    },
+    settings: {
+        theme: Themes
     }
 }
 const mapStateToProps = (state:any, props:any) => ({
     stats: state.stats,
-    userinfo: state.userinfo
+    userinfo: state.userinfo,
+    settings: state.settings
 });
 
 class LeaderboardState {
@@ -565,6 +571,20 @@ class LeaderboardBind extends Component<LeaderboardProps> {
             return null;
         }
     }
+    getCornerImage() {
+        if(this.props.settings.theme === Themes.HALLOWEEN) {
+            return witchsora;
+        } else {
+            return botangangimari;
+        }
+    }
+    getImageClass() {
+        let cname = "corner-img bl ";
+        if(this.props.settings.theme === Themes.HALLOWEEN) {
+            cname += "witchsora";
+        }
+        return cname;
+    }
     render() {
         let titles = ["LEADERBOARD", "OSHIBOARD"];
         let activeTitle = titles[this.state.activeView];
@@ -618,7 +638,7 @@ class LeaderboardBind extends Component<LeaderboardProps> {
                         </div>
                     </div>
                 </div>
-                <img className="corner-img bl" src={botangangimari} alt="botan"/>
+                <img className={this.getImageClass()} src={this.getCornerImage()} alt="botan"/>
             </div>
         )
     }

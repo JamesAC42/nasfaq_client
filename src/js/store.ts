@@ -23,7 +23,7 @@ let initState = {
         query: {}
     },
     settings: {
-        darkMode: false,
+        theme: 0,
         marketSwitch: true,
         tradeNotifications: true
     },

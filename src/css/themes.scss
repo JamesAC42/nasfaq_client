@@ -1,0 +1,854 @@
+.halloween {
+
+    $orange: rgb(255, 176, 124);
+
+    .container {
+        background-color:rgb(17, 17, 17);
+        .container-content {
+            .container-section {
+                .section-background {
+                    background:rgb(250, 147, 51);
+                    background: linear-gradient(135deg, rgb(255, 213, 123) 0%, rgb(252, 101, 64) 100%);
+                }
+                .section-content {
+                    border-color:rgb(255, 148, 61);
+                    background:rgb(17, 17, 17);
+                }
+            }
+            p, .header, .subheader {
+                color:rgb(255, 197, 122);
+                .broker {color:rgb(255, 108, 103)}
+            }
+        }
+    }
+
+    .nasfaq {
+        color:rgb(255, 149, 79);
+    }
+    
+    .circle {
+        &.circle-md {
+            background: linear-gradient(135deg, rgb(255, 178, 133) 0%, rgb(250, 128, 79) 9%, rgb(252, 138, 110) 100%);
+        }
+        &.circle-lg {
+            background: linear-gradient(135deg, rgb(246, 186, 56) 0%, rgb(255, 100, 72) 100%);
+        }
+    }
+
+    .title-banner {
+        background: linear-gradient(135deg, rgba(255, 155, 155, 0.966) 0%, rgba(255, 178, 78, 0.925) 15%, rgb(255, 214, 101) 100%);
+        box-shadow: 0px 0px 13px 5px rgba(255, 117, 74, 0.54);
+    }
+
+    .button {
+        .button-background {
+            background:rgb(255, 97, 97);
+        }
+        .button-container {
+            border-color:$orange;
+            background:rgb(255, 140, 87);
+        }
+        &.inverse {
+            .button-container,
+            .button-increment,
+            .button-decrement {
+                background: rgb(15, 15, 15);
+                color:$orange;
+            }
+        }
+    }
+
+    .info-container {
+        li {
+            color:rgb(255, 170, 131);
+        }
+        a {color:rgb(255, 226, 95);}
+    }
+
+    .vertical-tab {
+        color:rgb(255, 255, 255);
+        background:rgb(7, 7, 7);
+        border-color:rgb(241, 90, 44);
+        &.vertical-tab-active {
+            border-color:rgb(255, 147, 74);
+        }
+    }
+
+    .navbar {
+        background:rgb(0, 0, 0);
+        .nav-item, .nav-dropdown {
+            a {color:rgb(255, 159, 81);}
+        }
+        .nav-pages {
+            @media (max-width: 1500px) {
+                & {
+                    background:rgb(34, 34, 34);
+                    .nav-item, .nav-dropdown {
+                        &:hover {
+                            background:rgb(0, 0, 0);
+                            a {color:rgb(255, 246, 123);}
+                        }
+                    }
+                }
+            }
+        }
+        .navbar-collapse {color:rgb(255, 142, 66);}
+        .username-nav {color:rgb(253, 160, 106);}
+        .datetime {color:rgb(255, 200, 97);}
+    }
+
+    .tabbed-view-select {
+        .view-item {
+            color:$orange;
+            &.view-item-active, &:hover {
+                &::after {
+                    background:rgb(255, 129, 97);
+                }
+            }
+        }
+    }
+    .tabbed-content {
+        .tabbed-content-container {
+            .tabbed-content-background {
+                background: linear-gradient(135deg, rgb(255, 132, 83) 0%, rgb(255, 229, 81) 100%);
+            }
+            .tabbed-content-content {
+                border-color:$orange;
+                background:#000;
+                color:$orange;
+            }
+        }
+    }
+
+    .coin-sidebar {
+        background:rgb(17, 17, 17);
+    }
+
+    .dropdown-label {
+        color:rgb(255, 171, 74);
+    }
+
+    .selected-option,
+    .dropdown-arrow {
+        color:rgb(255, 177, 131);
+    }
+
+    .dropdown-options {
+        background:rgb(27, 27, 27);
+        color:rgb(255, 179, 93);
+    }
+
+    .dropdown-option:hover {
+        background:rgb(0, 0, 0);
+    }
+
+    .coin-searchbar {
+        background:rgb(20, 20, 20);
+        .searchbar-tab {
+            background:rgb(49, 49, 49) !important;
+        }
+        input.search-input {color:#fff !important;}
+        .coin-searchbar-inner {
+            .sort-method {
+                color:#fff;
+            }
+        }
+        .toggle-all-boards {
+            div {
+                color:$orange !important;
+                border-color:$orange !important;
+                &:hover {
+                    background:$orange !important;
+                    color:#fff !important;
+                }
+            }
+        }
+
+        .price-range {
+            .price-input-container {
+                .price-filter-label {
+                    color:$orange !important;
+                }
+            }
+            input.price-filter {
+                background:#000 !important;
+            }
+        }
+
+        .apply-filter-outer {
+            .apply-filter-btn {
+                color:$orange !important;
+                border-color:$orange !important;
+                &:hover {
+                    background:$orange !important;
+                    color:#fff !important;
+                }
+            }
+        }
+
+        .toggle-auto-trader {
+            .toggle-auto-trader-button {
+                color:rgb(255, 153, 94) !important;
+                &:hover {
+                    color:rgb(180, 43, 43) !important;
+                }
+            }
+        }
+
+        .broker-fee-total {
+            color:$orange !important;
+        }
+
+    }
+
+    
+    .board-outer {
+        .no-coins {color:rgb(219, 138, 138);}
+        .compact-board-container {
+            table {
+                color:rgb(255, 172, 116);
+                th,tr {background:none;}
+                td {
+                    &.compact-name {color:rgb(255, 196, 129);}
+                }
+            }
+        }
+    }
+
+    .toggle-outer {
+        background:rgb(15, 15, 15);
+        .tp-label {color:$orange;}
+        .tp-switch-outer{
+            .tp-switch-circle {background:$orange;}
+        }
+    }
+
+    .board-item {
+        .board-item-background {
+            background: linear-gradient(135deg, rgb(255, 149, 123) 0%, rgb(252, 226, 110) 100%);
+        }
+    }
+    .board-item-content {
+        background:rgb(15, 15, 15);
+        border-color:$orange;
+        .action-section {
+            .action-container {
+                .shares {
+                    color:rgb(255, 225, 143);
+                }
+            }
+        }
+    }
+    .stats-container {
+        background:rgb(26, 26, 26);
+        .stat-row {
+            color:#fff;
+            &:hover {
+                background:rgb(0, 0, 0);
+            }
+        }
+    }
+    .toggle-stats-button {
+        background:rgb(136, 136, 136);
+    }
+
+    .auto-trader-editor {
+        .auto-trader-background {
+            background:rgba(3, 3, 3, 0.726);
+        }
+        .auto-trader-inner {
+            background:rgb(0, 0, 0);
+            border-color:$orange;
+            color:$orange;
+        }
+    }
+    .trade-rules-container {
+        .trade-rules-list {
+            .trade-rule-item {
+                background:rgb(24, 24, 24);
+                color:rgb(255, 209, 148);
+                .trade-rule-item-cooldown {
+                    background:rgb(59, 53, 50);
+                }
+                .trade-rule-volume,
+                .trade-rule-quant {
+                    color:$orange;
+                }
+                .trade-rule-type {
+                    div {background:rgb(0, 0, 0);}
+                }
+                .trade-rule-step-quant {
+                    .step-outer {
+                        background:#000;
+                        .step-change-quant-outer {
+                            .step-increase, .step-decrease {
+                                background:#000;
+                            }
+                        }
+                    }
+                }
+                .trade-rule-target {
+                    .target-input {
+                        input {
+                            color:rgb(247, 218, 125);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .login-backdrop {
+        background:$orange;
+    }
+    .login-modal {
+        border-color:$orange;
+    }
+    .login, .register {
+        background:#000;
+        color:$orange;
+        input {
+            background:#000;
+            color:$orange;
+        }
+    }
+    .modal-header,
+    .input-label {
+        color:$orange;
+        background:#000;
+    }
+    .register {
+        .register-filter {
+            background:#000;
+            .hide-filter-pane {
+                color:$orange;
+            }
+        }
+    }
+    .reset-link {a {color:rgb(255, 151, 151);}}
+    .placeholder-link {a {color:#000 !important;}}
+
+    .admin-header,
+    .admin-space,
+    .word-filters-container,
+    .reports-container,
+    .adjustment-container,
+    .admin-users-pane,
+    .download-pane,
+    .control-header,
+    .control-description {color:$orange}
+    textarea.admin-textarea {
+        background:#000;
+        color:$orange;
+    }
+    .admin-users-container {
+        table {
+            background:#000 !important;
+            tr, thead {background:#000 !important;}
+            tr.users-container-header {
+                background:#000 !important;
+                th {background:#000;}
+            }
+            td,th{
+                background:#000;
+                color:$orange;
+            }
+        }
+    }
+
+    .delete-dialogue,
+    .settings-dialogue,
+    .mute-dialogue {
+        background:#000;
+        z-index:12000;
+    }
+    .mute-dialogue {
+        .mute-message textarea {background:rgb(0, 0, 0) !important;}
+        .mute-until-input {
+            .date-updater-calendar {
+                button {
+                    background:#000;
+                    color:#fff;
+                }
+                .react-calendar__tile {
+                    color:$orange;
+                }
+                .react-calendar__tile--active {
+                    color:rgb(255, 255, 255);
+                }
+                .react-calendar__navigation__label {
+                    color:#fff;
+                }
+            }
+        }
+    }
+    .market-switch{color:$orange;}
+    table.adjustment-table,
+    table.spam-table {
+        color:$orange;
+        tr.table-subheader {
+            td {
+                background:#000;
+            }
+        }
+        input {
+            background:#000;
+            color:$orange;
+        }
+    }
+    .adjustment-container {
+        .adjust-params-container {
+            input {
+                background:#000;
+                color:$orange;
+            }
+        }
+    }
+
+    .report-item {
+        color:$orange;
+        .report-message-text {
+            background:#000;
+            color:rgb(253, 117, 117);
+        }
+    }
+
+    .transaction-container {
+        .transaction-name {
+            color:rgb(255, 161, 161);
+        }
+        .transaction-userid {
+            color:rgb(255, 208, 163);
+        }
+    }
+    .date-updater {
+        background:#000;
+    }
+    .date-updater-calendar {
+        button {
+            background:rgb(31, 31, 31);
+            color:rgb(255, 221, 148);
+        }
+    }
+
+    .floor-outer {
+        border-color:rgb(49, 49, 49);
+    }
+    .submit-message-button {
+        color:rgb(255, 214, 168);
+        border-color:$orange;
+        &:hover {
+            background:$orange;
+            color:#000;
+        }
+    }
+    .message {
+        background:rgb(29, 29, 29);
+        color:rgb(255, 181, 83);
+        border-color:rgb(255, 203, 32);
+        .message-info {
+            .message-id:hover {
+                color:rgb(194, 104, 19);
+            }
+            .message-user {
+                color:rgb(226, 226, 226);
+            }
+            .report-msg-btn {
+                .report-btn-confirm {
+                    background:#000;
+                    color:$orange;
+                }
+            }
+            .delete-message {
+                color:rgb(255, 121, 121);
+            }
+        }
+        .message-text {
+            span.quotation {color:rgb(151, 253, 137);}
+            a.mention {color:rgb(159, 185, 241)}
+            a.msg-link {color:#fff;}
+        }
+        .message-replies {
+            color:rgb(221, 221, 221);
+        }
+        &.op {
+            background:rgb(253, 146, 6);
+            color:rgb(0, 0, 0);
+            .message-info {
+                .message-user {color:rgb(41, 41, 41);}
+                .delete-message {color:rgb(70, 13, 13);}
+            }
+            .message-text {
+                color:#000;
+                span.quotation {color:rgb(76, 117, 79);}
+                a {color:rgb(9, 15, 46);}
+            }
+        }
+        &.you, &.me {
+            border-color:rgb(255, 117, 93);
+        }
+    }
+    .no-messages,
+    .no-room {color:$orange !important;}
+    .new-messages-notif {
+        background:rgb(255, 182, 86);
+        color:#000;
+    }
+    .cooldown-timer {
+        border-color:$orange !important;
+    }
+    .message-container-background {
+        background: linear-gradient(135deg, rgb(219, 163, 78) 0%, rgb(247, 229, 69) 100%);
+    }
+    .replies-container {
+        background:rgba(31, 31, 31, 0.479);
+    }
+    .replies-modal {
+        .replies-modal-inner {
+            .replies-modal-content {
+                background:#000;
+                border-color:rgb(255, 155, 62);
+            }
+            .replies-modal-background {
+                background: linear-gradient(135deg, rgb(255, 165, 61) 0%, rgb(255, 229, 79) 100%);
+            }
+            .replies-up {
+                background:$orange;
+                border-color:#000;
+                color:#000;
+            }
+        }
+    }
+    .room-container {
+        .room-header {
+            color:#fff;
+            background:#000;
+        }
+    }
+    .message-input {
+        .message-input-inner {
+            background:#000;
+        }
+        textarea {
+            background:rgb(20, 20, 20);
+            color:rgb(250, 193, 108);
+        }
+        .input-control {
+            .character-count {
+                color:$orange;
+            }
+        }
+    }
+    .toggle-message-input {
+        background:rgb(27, 27, 27);
+        color:rgb(255, 134, 134);
+        border-color:rgb(255, 255, 255);
+    }
+    .room-select {
+        background:rgb(14, 14, 14);
+        .room-item {
+            background:#000;
+            a{color:$orange}
+            &:hover {
+                background:rgb(34, 34, 34);
+            }
+        }
+        .room-list-header {
+            background:rgb(14, 14, 14);
+            .new-room-outer {
+                input, textarea {
+                    background:rgb(0, 0, 0);
+                    color:rgb(236, 158, 105);
+                }
+            }
+            .room-list-filter {
+                .room-list-refresh {
+                    color:$orange;
+                }
+                input {
+                    color:$orange;
+                    border-color:$orange;
+                }
+            }
+        }
+    }
+    .room-item-select {
+        &:hover {
+            background:rgb(19, 19, 19);
+        }
+    }
+
+    .superchats-billboard {
+        background:#000;
+        .superchats-title {color:$orange;}
+        .superchats-view-select {
+            .superchats-view-tab {
+                color:rgb(241, 123, 93);
+            }
+        }
+        .superchat-settings {
+            color:$orange;
+        }
+        .superchats-leaders {
+            .top-donator-container {
+                .top-donator.first-donator {
+                    color:rgb(245, 203, 89);
+                }
+                .top-donator.second-donator {
+                    color:rgb(255, 180, 109);
+                }
+                .top-donator.third-donator {
+                    color:rgb(255, 180, 109);
+                }
+                .top-donator {
+                    color:$orange;
+                }
+            }
+        }
+    }
+
+    .superchat-item {
+        border-color:rgb(255, 136, 68);
+        box-shadow: 0px 7px 20px -6px #070707;
+        .superchat-list-container {
+            background:#000;
+            .no-superchats {
+                color:$orange;
+            }
+        }
+        .superchat-input-container {
+            .sc-open-input-outer {
+                .toggle-rank-view {color:$orange;}
+            }
+        }
+    }
+    .rank-view-header,
+    .donator-rank-item {
+        color:$orange;
+    }
+    .sc-input-outer {
+        background:#000;
+        .sc-input-header {
+            background:rgb(34, 34, 34);
+            color:$orange;
+        }
+        .sc-input-info {color:rgb(255, 200, 154);}
+        .sc-input-amount {
+            color:rgb(252, 210, 119);
+            input {
+                color:rgb(255, 206, 132);
+                border-color:rgb(255, 222, 115);
+            }
+        }
+    }
+    .sc-ranking-table {
+        td.rank-number {color:$orange;}
+    }
+
+    .user-row {
+        .user-rank-info {
+            .user-rank {color:$orange;}
+            .username {color:#fff;}
+            .show-wallet,
+            .show-items {
+                color:rgb(255, 219, 198);
+            }
+        }
+        &.user-row-me {
+            .user-rank-info {
+                background:rgb(255, 158, 67);
+                .user-rank {color:#fff;}
+                .net-worth {color:rgb(7, 90, 18);}
+                .show-wallet,
+                .show-items {
+                    color:rgb(184, 80, 20);
+                }
+            }
+        }
+    }
+    .user-rank-wallet,
+    .user-rank-items {
+        .wallet-inner,
+        .items-inner {
+            .user-item {
+                border-color:$orange;
+                .item-image {
+                    background:rgb(31, 31, 31);
+                }
+                .item-quantity {
+                    background:rgb(22, 22, 22);
+                    color:rgb(255, 230, 147);
+                }
+            }
+            .wallet-item {
+                .wallet-coin-amt {color:rgb(255, 223, 164);}
+            }
+            .wallet-statistics,
+            .item-statistics {
+                color:rgb(252, 124, 124);
+                .wallet-stat-item,
+                .item-stat-item {
+                    span.stat-number {color:rgb(255, 241, 117);}
+                }
+            }
+        }
+    }
+    .oshiboard-item {
+        .oshi-info {
+            .oshi-name {color:rgb(250, 228, 129);}
+        }
+        span.oshi-stat {color:rgb(243, 104, 99);}
+    }
+
+    .gacha-container {
+        .gacha-header-container {
+            background:#000;
+            .gacha-header-inner {
+                .gacha-header-title {
+                    color:rgb(236, 171, 145);
+                }
+            }
+            .gacha-view-control {
+                .view-tab-active::after {
+                    background:rgb(255, 82, 82);
+                }
+            }
+        }
+        .gacha-panel {
+            .button-row {
+                background:rgb(20, 20, 20);
+                box-shadow: inset 0px 0px 9px -1px #242424;
+            }
+            .drop-container {
+                background:rgb(0, 0, 0);
+                box-shadow: inset 0px 0px 9px -1px #2b2b2b;
+                .drop-container-header {
+                    color:rgb(253, 191, 109);
+                }
+                .drop-container-items {
+                    .drop-item {
+                        border-color:rgb(255, 181, 120);
+                        background:rgb(32, 32, 32);
+                        .drop-item-name {
+                            background:rgb(0, 0, 0);
+                            color:$orange;
+                        }
+                    }
+                    .no-items {color:rgb(247, 205, 128);}
+                }
+            }
+        }
+    }
+    .gacha-button {
+        .gacha-button-inner { 
+            background:#000;
+        }
+    }
+
+    .gachaboard-outer {
+        .gachaboard-description {color:$orange;}
+        table {
+            td.gachaboard-rank {color:$orange;}
+        }
+        .refresh-gachaboard {
+            color:$orange;
+        }
+    }
+
+    .transactions-container {
+        .transaction-item {
+            background:rgb(0, 0, 0);
+            border-color:rgb(255, 139, 72);
+            .transaction-message{color:$orange;}
+        }
+    }
+    .transaction-container {
+        &.transaction-mine {
+            background:rgb(243, 159, 49);
+        }
+    }
+
+    .profile-card {color:$orange;}
+    .profile-name,
+    .profile-email {
+        input {
+            border-color:rgb(97, 75, 56);
+            color:#fff;
+            background:rgb(31, 31, 31);
+            &:hover, &:focus {
+                border-color:rgb(231, 166, 80);
+            }
+        }
+    }
+    .reset-password {a{color:$orange;}}
+    .delete-dialogue {
+        .delete-message {
+            color:$orange !important;
+        }
+        input {
+            background:#000;
+            color:rgb(250, 204, 152);
+        }
+    }
+    .profile-balance-items {
+        .profile-balance-item {
+            border-color:$orange;
+        }
+    }
+    div.not-verified-msg,
+    div.muted-msg {
+        color:$orange;
+    }
+    .dialogue {
+        .dialogue-container {
+            background:rgb(24, 24, 24);
+            border-color:$orange;
+            .dialogue-header {
+                color:$orange;
+            }
+            .settings-row {
+                .settings-label {color:$orange;}
+            }
+        }
+    }
+    .no-assets {color:$orange}
+    .profile-view-select {
+        .profile-view-tab {
+            color:$orange;
+            &.active::after {
+                background:rgb(255, 211, 92);
+            }
+        }
+    }
+    .asset-header {
+        color:rgb(255, 223, 185);
+    }
+    .asset-row {
+        .asset-item {
+            .asset-item-name {
+                color:rgb(245, 152, 98);
+            }
+        }
+        .asset-shares {
+            color:rgb(249, 252, 110);
+        }
+    }
+
+    .items {
+        table {
+            thead tr {
+                color:$orange;
+            }
+            tbody tr {
+                td {
+                    color:$orange;
+                    border-color: rgb(143, 111, 111);
+                    .item-name {
+                        color:rgb(255, 220, 181);
+                    }
+                }
+            }
+        }
+    }
+
+}

@@ -6,12 +6,14 @@ import { Socket } from 'socket.io-client'
 import { connect } from 'react-redux';
 
 import ina from '../../../images/ina.png';
+import miohood from '../../../images/miohood.png';
 import {lineage} from '../Icons';
 
 import Coin from '../Coin';
 import { ICoinInfo } from '../../interfaces/ICoinInfo';
 
 import {TransactionStats, TransactionItem, DateUpdater} from './Stats';
+import { Themes } from '../../Themes';
 
 export enum activeView {
     history,
@@ -24,7 +26,8 @@ const mapStateToProps = (state:any, props:any) => ({
     userinfo: state.userinfo,
     session: state.session,
     stats: state.stats,
-    socket: state.socket
+    socket: state.socket,
+    settings:state.settings
 });
 
 interface ActivityProps {
@@ -41,6 +44,9 @@ interface ActivityProps {
     },
     socket: {
         socket:any
+    },
+    settings: {
+        theme: Themes
     }
 }
 
@@ -416,6 +422,22 @@ class ActivityBind extends Component<ActivityProps> {
 
     }
 
+    getCornerImg() {
+        if(this.props.settings.theme === Themes.HALLOWEEN) {
+            return miohood;
+        } else {
+            return ina;
+        }
+    }
+
+    getImgClass() {
+        let cname = "corner-img bl ina-bino ";
+        if(this.props.settings.theme === Themes.HALLOWEEN) {
+            cname += "miohood";
+        }
+        return cname;
+    }
+
     render() {
         let titles = ["HISTORY", "DIVIDENDS", "MY HISTORY", "RECENT HISTORY"];
         let activeTitle = titles[this.state.activeView];
@@ -520,7 +542,7 @@ class ActivityBind extends Component<ActivityProps> {
                         </div>
                     </div>
                 </div>
-                <img className="corner-img bl ina-bino" src={ina} alt="ina"/>
+                <img className={this.getImgClass()} src={this.getCornerImg()} alt="ina"/>
             </div>
         )
     }

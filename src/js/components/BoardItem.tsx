@@ -32,9 +32,10 @@ import StatRowItem from './StatRowItem';
 import graphEntryFromTodayPrices from '../graphEntryFromTodayPrices';
 import { ICoinDataCollection, ICoinHistory } from '../interfaces/ICoinInfo';
 import ToggleSwitch from './ToggleSwitch';
+import { Themes } from '../Themes';
 
 interface BoardItemProps {
-    name: string;
+    name: string,
     session: {
         loggedin: boolean
     },
@@ -52,7 +53,8 @@ interface BoardItemProps {
         muted:string
     },
     settings: {
-        marketSwitch:boolean
+        marketSwitch:boolean,
+        theme:Themes
     },
     rangeToday: boolean,
     closeBoard: () => {},
@@ -151,6 +153,14 @@ class BoardItemBind extends Component<BoardItemProps> {
 
         let datasets: Array<any> = [];
         let dataset = {...datasetTemplate};
+
+        if(this.props.settings.theme === Themes.HALLOWEEN) {
+            dataset.borderColor = 'rgb(255, 176, 124)';
+            dataset.pointBorderColor = 'rgb(255, 176, 124)';
+            dataset.pointHoverBackgroundColor = 'rgb(255, 176, 124)';
+            dataset.pointHoverBorderColor = 'rgb(255, 176, 124)';
+        }
+
         let data:any = {};
 
         let priceData = graphEntryFromTodayPrices(this.props.stats.coinInfo.data[coin].history);

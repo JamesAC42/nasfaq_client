@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import {IWallet} from '../interfaces/IWallet';
 import tako from '../../images/tako.png';
 import fubogki from '../../images/fubogki.png';
+import witchmiko from '../../images/witchmiko.png';
 
 import BoardItem from './BoardItem';
 import DropdownInput from './DropdownInput';
@@ -39,11 +40,13 @@ import { ICoinDataCollection, ICoinHistory } from '../interfaces/ICoinInfo';
 import CompactBoardItem from './CompactBoardItem';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import numberWithCommas from '../numberWithCommas';
+import { Themes } from '../Themes';
 
 const mapMarketStateToProps = (state:any, props:any) => ({
     userinfo: state.userinfo,
     stats: state.stats,
-    session: state.session
+    session: state.session,
+    settings:state.settings
 });
 type formEvent = React.ChangeEvent<HTMLInputElement>;
 
@@ -81,6 +84,9 @@ interface MarketProps {
         coinHistory: ICoinHistory,
         coinInfo: ICoinDataCollection,
         brokerTotal: number
+    }, 
+    settings: {
+        theme: Themes
     }
 }
 
@@ -722,6 +728,14 @@ class MarketBind extends Component<MarketProps> {
         }
     }
 
+    getCornerImage() {
+        if(this.props.settings.theme === Themes.HALLOWEEN) {
+            return witchmiko;
+        } else {
+            return tako;
+        }
+    }
+
     render() {
         let searchbarClass = this.state.showSearchBar ? "visible" : "";
         let sortMethods = ["Price", "Generation", "Name", "Change", "% Change", 
@@ -739,7 +753,7 @@ class MarketBind extends Component<MarketProps> {
                     }
 
                     <div className="tako-box">
-                        <img src={tako} alt="tako" className="tako"/>
+                        <img src={this.getCornerImage()} alt="tako" className="tako"/>
                     </div>
                     <div className={`coin-searchbar ${searchbarClass}`}>
                         <div className={`coin-searchbar-inner`}>

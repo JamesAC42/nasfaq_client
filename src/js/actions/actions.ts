@@ -2,7 +2,7 @@ import { createActions } from 'redux-actions';
 
 export const settingsActions = createActions(
     {
-        TOGGLE_DARKMODE: enabled => ({ enabled }),
+        SET_THEME: theme => ({ theme }),
         SET_MARKET_SWITCH: open => ({ open }),
         SET_TRADE_NOTIFICATIONS: tradeNotifications => ({ tradeNotifications })
     }
