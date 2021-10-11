@@ -23,6 +23,7 @@ import SuperchatDanmaku from './components/superchats/SuperchatDanmaku';
 import AutoTrader from './components/autotrader/AutoTrader';
 import Gacha from './components/gacha/Gacha';
 import Docs from './components/docs/Docs';
+import Auctions from './components/auctions/Auctions';
 
 import SessionHandler from './components/SessionHandler';
 import SocketHandler from './components/SocketHandler';
@@ -289,6 +290,11 @@ class AppBind extends Component<AppProps> {
             exact
             path="/gacha"
             component={Gacha}/>
+
+          <Route
+            exact
+            path="/auctions"
+            component={Auctions}/>
 
           <Route
             exact
