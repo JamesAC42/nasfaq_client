@@ -85,7 +85,9 @@ let initState = {
     autotrader: {
         running:false,
         nextTradeTime:0,
-        rules:[]
+        expectedBalance:0,
+        rules:[],
+        pendingOrder:[]
     },
     itemcatalogue: {},
     admin: {

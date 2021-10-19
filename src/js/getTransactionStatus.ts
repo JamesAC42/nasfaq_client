@@ -5,7 +5,7 @@ import {COOLDOWN} from './components/constants';
 
 const getTransactionStatus = (
         wallet:IWallet,
-        coinData:ICoinData, 
+        coinData:ICoinData,
         name:string,
         verified:boolean,
         muted:boolean,
@@ -29,9 +29,9 @@ const getTransactionStatus = (
     if(sellQuantity > 1) {
         sellRate = sellQuantity * 0.1;
     }
-    let buyRate = 0;
+    let buyRate = 0.05;
     if(buyQuantity > 1) {
-        buyRate = (buyQuantity * 0.1) + 0.05;
+        buyRate += (buyQuantity * 0.1);
     }
 
     let buyFee = Math.max((buyQuantity * price * buyRate) - credits, 0);
@@ -39,12 +39,12 @@ const getTransactionStatus = (
 
     let buyTotal = (buyQuantity * price) + buyFee;
 
-    buyDisabled = 
+    buyDisabled =
         (balance < buyTotal)
         || !verified
         || muted
-        || !marketSwitch; 
-    sellDisabled = 
+        || !marketSwitch;
+    sellDisabled =
         (amtOwned < sellQuantity)
         || (balance + (sellQuantity * saleValue) < sellFee)
         || !verified
@@ -57,7 +57,7 @@ const getTransactionStatus = (
     if((now - lastBought) < e) {
         timeRemaining = e - (now - lastBought);
     }
-    
+
     return {
         timeRemaining,
         buyDisabled,
