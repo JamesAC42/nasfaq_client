@@ -3,6 +3,67 @@ import '../../../css/auctions/auctions.scss';
 
 import DropdownInput from '../DropdownInput';
 import AuctionPreview from './AuctionPreview';
+import { IAuctionItem } from './IAuction';
+
+
+let auctions:Array<IAuctionItem> = [
+    {
+        auctionID: "abcdef",
+        expiration: new Date().getTime() + 1000 * 60 * 60 * 10,
+        item: "MarineHat",
+        amount: 2, 
+        sellerID: "sellerId",
+        sellerUsername: "mogu",
+        bidderID: "bidderId",
+        bidderUsername: "tft",
+        currentBid: 80768,
+        lastOutbidID: "lastoutbidId",
+        lastOutbidUsername: "cypher",
+        lastBid: 60000
+    },
+    {
+        auctionID: "abcdef",
+        expiration: new Date().getTime() + 1000 * 60 * 60 * 24,
+        item: "WatsonConcoction",
+        amount: 2, 
+        sellerID: "sellerId",
+        sellerUsername: "mogu",
+        bidderID: "bidderId",
+        bidderUsername: "tft",
+        currentBid: 80768,
+        lastOutbidID: "lastoutbidId",
+        lastOutbidUsername: "cypher",
+        lastBid: 60000
+    },
+    {
+        auctionID: "abcdef",
+        expiration: new Date().getTime() + 1000 * 60 * 60 * 24 * 3,
+        item: "MioOmamori",
+        amount: 2, 
+        sellerID: "sellerId",
+        sellerUsername: "mogu",
+        bidderID: "bidderId",
+        bidderUsername: "tft",
+        currentBid: 80768,
+        lastOutbidID: "lastoutbidId",
+        lastOutbidUsername: "cypher",
+        lastBid: 60000
+    },
+    {
+        auctionID: "abcdef",
+        expiration: new Date().getTime() + 1000 * 60,
+        item: "FubukiHat",
+        amount: 2, 
+        sellerID: "sellerId",
+        sellerUsername: "mogu",
+        bidderID: "bidderId",
+        bidderUsername: "tft",
+        currentBid: 80768,
+        lastOutbidID: "lastoutbidId",
+        lastOutbidUsername: "cypher",
+        lastBid: 60000
+    },
+];
 
 class Auctions extends Component {
     render() {
@@ -21,97 +82,12 @@ class Auctions extends Component {
                             onChange={(val:any) => {console.log(val)}} />
                     </div>
                     <div className="auction-container">
+                    {
+                        auctions.map((item:IAuctionItem) => 
                         <AuctionPreview
-                            item="MarineHat"
-                            seller="mogu"
-                            bidders={6}
-                            quantity={1}
-                            expiration={new Date()}
-                            bid={40000} />
-                        <AuctionPreview
-                            item="OkayuHat"
-                            seller="mogu"
-                            bidders={6}
-                            quantity={1}
-                            expiration={new Date()}
-                            bid={40000} />
-                        <AuctionPreview
-                            item="AquaEnergyDrink"
-                            seller="mogu"
-                            bidders={6}
-                            quantity={1}
-                            expiration={new Date()}
-                            bid={40000} />
-                        <AuctionPreview
-                            item="WatsonConcoction"
-                            seller="mogu"
-                            bidders={6}
-                            quantity={1}
-                            expiration={new Date()}
-                            bid={40000} />
-                        <AuctionPreview
-                            item="Jeb"
-                            seller="mogu"
-                            bidders={6}
-                            quantity={1}
-                            expiration={new Date()}
-                            bid={40000} />
-                        <AuctionPreview
-                            item="MioOmamori"
-                            seller="mogu"
-                            quantity={1}
-                            bidders={6}
-                            expiration={new Date()}
-                            bid={40000} />
-                        <AuctionPreview
-                            item="RushiaHat"
-                            seller="mogu"
-                            quantity={1}
-                            bidders={6}
-                            expiration={new Date()}
-                            bid={40000} />
-                        <AuctionPreview
-                            item="Jeb"
-                            seller="mogu"
-                            bidders={6}
-                            quantity={1}
-                            expiration={new Date()}
-                            bid={40000} />
-                        <AuctionPreview
-                            item="MioOmamori"
-                            seller="mogu"
-                            quantity={1}
-                            bidders={6}
-                            expiration={new Date()}
-                            bid={40000} />
-                        <AuctionPreview
-                            item="RushiaHat"
-                            seller="mogu"
-                            quantity={1}
-                            bidders={6}
-                            expiration={new Date()}
-                            bid={40000} />
-                        <AuctionPreview
-                            item="Jeb"
-                            seller="mogu"
-                            bidders={6}
-                            quantity={1}
-                            expiration={new Date()}
-                            bid={400000000} />
-                        <AuctionPreview
-                            item="MioOmamori"
-                            seller="mogu"
-                            quantity={1}
-                            bidders={6}
-                            expiration={new Date()}
-                            bid={40000} />
-                        <AuctionPreview
-                            item="RushiaHat"
-                            seller="mogu"
-                            quantity={1}
-                            bidders={6}
-                            expiration={new Date()}
-                            bid={40000} />
+                            auction={item}/>
+                        )
+                    }
                     </div>
                 </div>
             </div>

@@ -49,6 +49,8 @@
 
         margin:10px;
 
+        min-height:300px;
+
         border-radius:5px;
         border:3px solid rgb(75, 204, 236);
         
@@ -82,7 +84,7 @@
         }
         
         .auction-preview-info {
-            padding:30px 20px;
+            padding:30px 40px;
             max-width:150px;
             display:flex;
             flex-direction:column;
@@ -96,7 +98,11 @@
             .auction-preview-info-name {
                 font-family:WorkSansSemiBold;
                 cursor:pointer;
-                &:hover {color:rgb(73, 136, 218);}
+                a {
+                    color:#fff;
+                    text-decoration:none;
+                    &:hover {color:rgb(73, 136, 218);}
+                }
             }
 
             .auction-preview-info-seller {
@@ -107,6 +113,15 @@
             .auction-preview-info-current-bid { 
                 margin-top:10px;
                 font-size:1.6rem;
+            }
+
+            .auction-preview-info-time-remaining {
+                span.time-remaining {
+                    color:rgb(87, 243, 204);
+                    &.red {color:rgb(245, 56, 56)}
+                    &.orange {color:rgb(253, 167, 97)}
+                    &.yellow {color:rgb(226, 252, 112)}
+                }
             }
 
             gap:10px;
