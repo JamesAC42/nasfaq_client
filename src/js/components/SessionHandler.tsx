@@ -71,7 +71,7 @@ class SessionHandlerBind extends Component<SessionProps> {
                 this.props.setWallet(JSON.parse(data.wallet));
                 this.props.setId(data.id);
                 this.props.setIcon(data.icon);
-                this.props.setPerformance(JSON.parse(data.performance));
+                this.props.setPerformance(data.performance);
                 this.props.setAdmin(data.admin);
                 this.props.setVerified(data.verified);
                 this.props.setMuted(data.muted);
