@@ -24,6 +24,7 @@ import AutoTrader from './components/autotrader/AutoTrader';
 import Gacha from './components/gacha/Gacha';
 import Docs from './components/docs/Docs';
 import Auctions from './components/auctions/Auctions';
+import Auction from './components/auctions/Auction';
 
 import SessionHandler from './components/SessionHandler';
 import SocketHandler from './components/SocketHandler';
@@ -290,6 +291,11 @@ class AppBind extends Component<AppProps> {
             exact
             path="/gacha"
             component={Gacha}/>
+
+          <Route
+            exact
+            path="/auctions/:auctionid"
+            component={Auction}/>
 
           <Route
             exact
