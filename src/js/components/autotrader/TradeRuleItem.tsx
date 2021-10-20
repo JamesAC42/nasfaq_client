@@ -4,16 +4,17 @@ import {
     IoIosArrowDown,
     IoIosArrowUp
 } from 'react-icons/io';
-import { TransactionType } from '../../interfaces/ITransaction';
+import { Order, TransactionType } from '../../interfaces/ITransaction';
 import numberWithCommas from '../../numberWithCommas';
 import Coin from '../Coin';
 
-import { 
+import {
     BiPlus,
     BiMinus
 } from 'react-icons/bi';
 
 interface TradeRuleItemProps {
+    pendingOrder:Array<Order>,
     coin:string,
     price:number,
     saleValue:number,
@@ -53,7 +54,7 @@ class TradeRuleItem extends Component<TradeRuleItemProps> {
             amt = 0;
         } else {
             let textv:string = a.target.value;
-            if(textv.slice(-1) === ".") textv = textv + "0"; 
+            if(textv.slice(-1) === ".") textv = textv + "0";
             amt = parseFloat(textv);
         }
         if(isNaN(amt)) amt = 0;
@@ -135,13 +136,14 @@ class TradeRuleItem extends Component<TradeRuleItemProps> {
             }
         }
 
-        if(this.props.type === TransactionType.SELL && this.props.quantity === 0) {
+        let inOrder = false;
+        for(let i = 0; i < this.props.pendingOrder.length; i++)
+            if(this.props.pendingOrder[i].coin == this.props.coin) {
+                inOrder = true;
+                break;
+            }
+        if(!inOrder)
             className += " trade-rule-disabled";
-        }
-
-        if(this.props.type === TransactionType.BUY && (this.props.price > this.props.balance)) {
-            className += " trade-rule-disabled";
-        }
 
         return(
             <Draggable
@@ -150,12 +152,12 @@ class TradeRuleItem extends Component<TradeRuleItemProps> {
                 key={this.props.coin}>
 
                 {(providedDrag:any) => (
-                <div 
+                <div
                     className={className}
                     {...providedDrag.draggableProps}
                     ref={providedDrag.innerRef}>
                     <div className="trade-rule-item-content">
-                        <div 
+                        <div
                             className="trade-priority flex flex-col flex-center"
                             {...providedDrag.dragHandleProps}>
                             <IoIosArrowUp />
@@ -164,19 +166,19 @@ class TradeRuleItem extends Component<TradeRuleItemProps> {
                         <div className="trade-rule-coin">
                             <Coin name={this.props.coin}/>
                         </div>
-                        <div 
+                        <div
                             className="trade-rule-info"
                             title={"Mean purchase price: $" + numberWithCommas(this.props.meanPurchasePrice)}>
                             <div className="trade-rule-info-label">Current Price</div>
                             <div className="trade-rule-price">${numberWithCommas(this.props.price)}</div>
                         </div>
-                        <div 
+                        <div
                             className="trade-rule-info"
                             title={"Mean purchase price: $" + numberWithCommas(this.props.meanPurchasePrice)}>
                             <div className="trade-rule-info-label">Sale Value</div>
                             <div className="trade-rule-price">${numberWithCommas(this.props.saleValue)}</div>
                         </div>
-                        <div 
+                        <div
                             className="trade-rule-info">
                             <div className="trade-rule-info-label">Volume</div>
                             <div className="trade-rule-volume">{numberWithCommas(this.props.volume)}</div>
@@ -206,8 +208,8 @@ class TradeRuleItem extends Component<TradeRuleItemProps> {
                                 <div className="decrement" title="Subtract 100" onClick={() => this.increment(-100)}><BiMinus/></div>
                                 <div className="decrement" title="Subtract 10" onClick={() => this.increment(-10)}><BiMinus/></div>
                                 <div className="decrement" title="Subtract 1" onClick={() => this.increment(-1)}><BiMinus/></div>
-                                <input 
-                                    type="text" 
+                                <input
+                                    type="text"
                                     maxLength={5}
                                     value={this.props.targetQuantity}
                                     onChange={(
@@ -220,7 +222,7 @@ class TradeRuleItem extends Component<TradeRuleItemProps> {
                             </div>
                         </div>
                     </div>
-                    <div 
+                    <div
                         className="trade-rule-item-cooldown"
                         style={{
                             width:this.getCooldownWidth() + "%"
