@@ -22,7 +22,8 @@ export const statsActions = createActions(
         SET_LEADERBOARD: leaderboard => ({ leaderboard }),
         SET_OSHIBOARD: oshiboard => ({ oshiboard }),
         SET_GACHABOARD: gachaboard => ({ gachaboard }),
-        SET_BROKER_TOTAL: brokerTotal => ({ brokerTotal })
+        SET_BROKER_TOTAL: brokerTotal => ({ brokerTotal }),
+        SET_BROKER_FEE: brokerFee => ({ brokerFee })
     }
 )
 
@@ -105,7 +106,6 @@ export const adminActions = createActions(
         SET_SPAM_TRACKER: spamTracker => ({ spamTracker }),
         SET_DIVIDEND_TOGGLES: dividendToggles => ({ dividendToggles }),
         SET_VOLATILITY_MULTIPLIERS: volatilityMultipliers => ({ volatilityMultipliers }),
-        SET_BROKER_FEE: brokerFee => ({ brokerFee }),
         SET_OVERBOUGHT: overbought => ({ overbought }),
         SET_OVERSOLD: oversold => ({ oversold }),
         SET_BOGRATION_LEVEL: bogrationLevel => ({ bogrationLevel }),

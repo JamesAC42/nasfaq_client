@@ -1,18 +1,18 @@
 import React, {Component} from 'react';
 
 import { connect } from 'react-redux';
-import { adminActions } from '../../actions/actions';
+import { statsActions } from '../../actions/actions';
 
 const mapStateToProps = (state:any, props:any) => ({
-    admin:state.admin
+    stats:state.stats
 });
 
 const mapDispatchToProps = {
-    setBrokerFee: adminActions.setBrokerFee
+    setBrokerFee: statsActions.setBrokerFee
 };
 
 interface BrokerFeeProps {
-    admin: {
+    stats: {
         brokerFee:any
     },
     setBrokerFee: (brokerFee:any) => {}
@@ -35,16 +35,16 @@ class BrokerFeeBind extends Component<BrokerFeeProps> {
     }
 
     componentDidMount() {
-        if(this.props.admin.brokerFee !== undefined) {
-            this.setState({fee: this.props.admin.brokerFee});
+        if(this.props.stats.brokerFee !== undefined) {
+            this.setState({fee: this.props.stats.brokerFee});
         }
     }
 
     componentDidUpdate(prevProps:BrokerFeeProps) {
         if(
-            prevProps.admin.brokerFee === undefined && 
-            this.props.admin.brokerFee !== undefined) {
-            this.setState({fee: this.props.admin.brokerFee});
+            prevProps.stats.brokerFee === undefined &&
+            this.props.stats.brokerFee !== undefined) {
+            this.setState({fee: this.props.stats.brokerFee});
         }
     }
 
@@ -59,7 +59,7 @@ class BrokerFeeBind extends Component<BrokerFeeProps> {
 
         let fee = parseFloat(this.state.fee);
         if(isNaN(fee)) {return;}
-        
+
         fetch('/api/setBrokerFee', {
             method: 'POST',
             headers: {
@@ -101,14 +101,14 @@ class BrokerFeeBind extends Component<BrokerFeeProps> {
                                     <div className="fee-label">Fee</div>
                                 </td>
                                 <td>
-                                    <input 
-                                        type="text" 
+                                    <input
+                                        type="text"
                                         className="fee-input"
                                         value={this.state.fee}
                                         onChange={(e:formEvent) => this.handleChange(e)}/>
                                 </td>
                                 <td>
-                                    <div 
+                                    <div
                                         className="update-fee"
                                         onClick={() => this.updateFee()}>
                                             Update
