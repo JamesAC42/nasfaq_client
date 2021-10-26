@@ -13,7 +13,8 @@ import mummygura from '../../images/mummygura.png';
 import { Themes } from '../Themes';
 
 const mapStateToProps = (state:any) => ({
-    settings:state.settings
+    settings:state.settings,
+    stats:state.stats
 })
 
 enum InfoSections {
@@ -123,6 +124,7 @@ class InfoBind extends Component<InfoProps> {
         }
     }
     render() {
+        const brokerFee = Math.round(this.props.stats.brokerFee * 10000) / 100;
         return(
             <div className="container tabbed-outer">
                 <div className="container-content info-container">
@@ -178,12 +180,12 @@ class InfoBind extends Component<InfoProps> {
                                         The <span className="broker"> Broker</span> adjusts the ask/ bid prices of each coin
                                         on a transaction-by-transaction basis. Consecutive purchases of a coin raise the value,
                                         while consecutive sales decrease the value.
-                                        The <span className="broker"> Broker</span> will take a fee of {this.props.stats.brokerFee * 10000 / 100}% of the coin's asking price on each purchase of said coin. Donating money through the superchats system will earn you an equivalent amount of credits that will be used to pay the fees in place of your balance.
+                                        The <span className="broker"> Broker</span> will take a fee of {brokerFee}% of the coin's asking price on each purchase of said coin. Donating money through the superchats system will earn you an equivalent amount of credits that will be used to pay the fees in place of your balance.
                                         A running log of transactions that have occurred throughout the day, as well as the price and quantity
                                         that they were performed at, can be viewed on the Activity page.
                                     </p>
                                     <p>
-                                        You can buy and sell up to 5 coins at once. Use the tabs that appear on the side of the buy and sell buttons to change the quantity to be traded. You can also set the quantity in the autotrader. If trading more than 1 coin at once, you will be charged a 10% fee per coin on the total order. For example, buying 4 coins at $1000 each will cost a total of $1000 * 4 * 1.45 (additional 5% broker fee) = $5800. Selling 5 coins at $1000 each would require a fee of $5000 * 0.5 = $2500. If you have 0 credits, this means you would then receive a total of $2500 in liquid for selling those coins. If you have credits, the fee would be taken out of your credit total rather than your balance and you would receive the full $5000. Credits also apply to the fee for buying. Each coin has a cooldown period of 10 minutes starting from when you begin the
+                                        You can buy and sell up to 5 coins at once. Use the tabs that appear on the side of the buy and sell buttons to change the quantity to be traded. You can also set the quantity in the autotrader. If trading more than 1 coin at once, you will be charged a 10% fee per coin on the total order. For example, buying 4 coins at $1000 each will cost a total of $1000 * 4 * {1.4 + brokerFee / 100} (additional {brokerFee}% broker fee) = ${1000 * 4 * (1.4 + (brokerFee / 100))}. Selling 5 coins at $1000 each would require a fee of $5000 * 0.5 = $2500. If you have 0 credits, this means you would then receive a total of $2500 in liquid for selling those coins. If you have credits, the fee would be taken out of your credit total rather than your balance and you would receive the full $5000. Credits also apply to the fee for buying. Each coin has a cooldown period of 10 minutes starting from when you begin the
                                         transaction. This is to promote smart trading and prevent market dumps. You can view how the
                                         price of a coin has changed over the past 24 hours on the coin's market module on the market
                                         page. A coin's price will be added to the graph every 16 transactions, or on each quarter hour if more

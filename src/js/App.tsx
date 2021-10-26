@@ -104,7 +104,7 @@ class AppBind extends Component<AppProps> {
       }
     });
 
-    fetchData('/api/getMarketInfo?all&history&brokerFeeTotal')
+    fetchData('/api/getMarketInfo?all&history&brokerFeeTotal&brokerFee')
     .then((data:any) => {
       this.props.setCoinInfo(data.coinInfo);
       this.props.setMarketSwitch(data.marketSwitch);
