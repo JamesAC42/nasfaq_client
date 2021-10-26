@@ -3,14 +3,85 @@ import '../../../css/auctions/auctions.scss';
 
 import DropdownInput from '../DropdownInput';
 import AuctionPreview from './AuctionPreview';
+import CreateAuction from './CreateAuction';
 import { IAuctionItem } from './IAuction';
 
 
 let auctions:Array<IAuctionItem> = [
     {
         auctionID: "abcdef",
-        expiration: new Date().getTime() + 1000 * 60 * 60 * 10,
+        expiration: new Date().getTime() + 1000 * 60 * 60 * 30,
         item: "MarineHat",
+        amount: 2, 
+        sellerID: "sellerId",
+        sellerUsername: "mogu",
+        bidderID: "bidderId",
+        bidderUsername: "tft",
+        currentBid: 80768,
+        lastOutbidID: "lastoutbidId",
+        lastOutbidUsername: "cypher",
+        lastBid: 60000
+    },
+    {
+        auctionID: "abcdef",
+        expiration: new Date().getTime() + 1000 * 60 * 60 * 10,
+        item: "HaachamaTarantula",
+        amount: 10, 
+        sellerID: "sellerId",
+        sellerUsername: "tft",
+        bidderID: "bidderId",
+        bidderUsername: "tft",
+        currentBid: 80768,
+        lastOutbidID: "lastoutbidId",
+        lastOutbidUsername: "cypher",
+        lastBid: 60000
+    },
+    {
+        auctionID: "abcdef",
+        expiration: new Date().getTime() + 1000 * 60 * 60 * 1,
+        item: "YellowCard",
+        amount: 2, 
+        sellerID: "sellerId",
+        sellerUsername: "cypher",
+        bidderID: "bidderId",
+        bidderUsername: "tft",
+        currentBid: 80768,
+        lastOutbidID: "lastoutbidId",
+        lastOutbidUsername: "cypher",
+        lastBid: 60000
+    },
+    {
+        auctionID: "abcdef",
+        expiration: new Date().getTime() + 1000 * 60,
+        item: "KiryuKaiBadge",
+        amount: 2, 
+        sellerID: "sellerId",
+        sellerUsername: "yfp",
+        bidderID: "bidderId",
+        bidderUsername: "tft",
+        currentBid: 80768,
+        lastOutbidID: "lastoutbidId",
+        lastOutbidUsername: "cypher",
+        lastBid: 60000
+    },
+    {
+        auctionID: "abcdef",
+        expiration: new Date().getTime() + 1000 * 60 * 60 * 10,
+        item: "MumeiHat",
+        amount: 2, 
+        sellerID: "sellerId",
+        sellerUsername: "mofumofu",
+        bidderID: "bidderId",
+        bidderUsername: "tft",
+        currentBid: 80768,
+        lastOutbidID: "lastoutbidId",
+        lastOutbidUsername: "cypher",
+        lastBid: 60000
+    },
+    {
+        auctionID: "abcdef",
+        expiration: new Date().getTime() + 1000 * 60 * 60 * 10,
+        item: "PekoraHat",
         amount: 2, 
         sellerID: "sellerId",
         sellerUsername: "mogu",
@@ -65,7 +136,32 @@ let auctions:Array<IAuctionItem> = [
     },
 ];
 
+enum AuctionView {
+    LIVE,
+    PAST
+}
+
+class AuctionsState {
+    activeView: AuctionView;
+    showCreateWindow: boolean;
+    constructor() {
+        this.activeView = AuctionView.LIVE;
+        this.showCreateWindow = false;
+    } 
+}
+
 class Auctions extends Component {
+    state:AuctionsState;
+    constructor(props:any) {
+        super(props);
+        this.state = new AuctionsState();
+    }
+    selectTabClass(view:AuctionView) {
+        return `view-select-tab ${this.state.activeView === view ? "active" : ""}`
+    }
+    setView(view:AuctionView) {
+        this.setState({activeView:view});
+    }
     render() {
         return(
             <div className="container fill">
@@ -75,18 +171,41 @@ class Auctions extends Component {
                         <div className="auctions-description">bid on rare items!</div>
                     </div>
                     <div className="auction-filters flex flex-row flex-center">
-                        <DropdownInput 
-                            label=""
-                            options={["1 day", "1 week", "1 month"]}
-                            default="1 day"
-                            onChange={(val:any) => {console.log(val)}} />
+                        <div className="view-select">
+                            <div 
+                                className={this.selectTabClass(AuctionView.LIVE)}
+                                onClick={() => this.setView(AuctionView.LIVE)}>
+                                    Live Auctions
+                            </div>
+
+                            <div 
+                                className={this.selectTabClass(AuctionView.PAST)}
+                                onClick={() => this.setView(AuctionView.PAST)}>
+                                    Past Auctions
+                            </div>
+                        </div>
+                        <div 
+                            className="add-auction-button"
+                            onClick={() => this.setState({showCreateWindow: !this.state.showCreateWindow})}>
+                            Create Auction
+                        </div>
                     </div>
+                    { this.state.showCreateWindow ?
+                        <CreateAuction /> : null
+                    }
                     <div className="auction-container">
                     {
-                        auctions.map((item:IAuctionItem) => 
-                        <AuctionPreview
-                            auction={item}/>
-                        )
+                        this.state.activeView === AuctionView.LIVE ?
+                        <>
+                            {
+                                auctions.map((item:IAuctionItem) => 
+                                <AuctionPreview
+                                    auction={item}/>
+                                )
+                            }
+                        </>
+                        :
+                        <div>PAST AUCTIONS</div>
                     }
                     </div>
                 </div>
