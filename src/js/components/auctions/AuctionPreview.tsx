@@ -90,11 +90,6 @@ class AuctionPreviewBind extends Component<AuctionPreviewProps> {
         return(
             
             <div className="auction-preview">
-
-                <div className="watch-auction">
-                    <AiOutlineEye />
-                </div>
-
                 <div className="item-auction-thumbnail flex center-child">
                     <Link to={`/auctions/${auction.auctionID}`}>
                     <img src={ItemImages[auction.item]} alt={this.props.itemcatalogue[auction.item].name} />
