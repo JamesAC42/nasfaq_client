@@ -84,7 +84,9 @@ export const autotraderActions = createActions(
     {
         SET_RUNNING: running => ({ running }),
         SET_RULES: rules => ({ rules }),
-        SET_NEXT_TRADE_TIME: nextTradeTime => ({ nextTradeTime })
+        SET_NEXT_TRADE_TIME: nextTradeTime => ({ nextTradeTime }),
+        SET_EXPECTED_BALANCE: expectedBalance => ({expectedBalance}),
+        SET_PENDING_ORDER: pendingOrder => ({ pendingOrder })
     }
 )
 

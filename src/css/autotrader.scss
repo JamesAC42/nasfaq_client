@@ -29,7 +29,7 @@
         border-radius:10px;
         color:$text-dark;
         text-align:center;
-        
+
         @media (max-width:1550px) {
             & { width:80vw;}
         }
@@ -68,7 +68,7 @@
 }
 
 .trade-metrics {
-    padding:10px 0;
+    margin:10px 0;
     display:flex;
     flex-direction:row;
     justify-content:center;
@@ -92,6 +92,14 @@
     span.countdown-number {
         font-family: WorkSansSemiBold;
         color:rgb(147, 139, 255);
+    }
+}
+
+.trade-balance {
+    margin: 10px 0;
+
+    span {
+        font-family: WorkSansSemiBold;
     }
 }
 
@@ -149,7 +157,7 @@
                         width:50%;
                     }
                     @media (max-width:1300px) {
-                        & { 
+                        & {
                             height:45px;
                             width:45px;
                         }
@@ -216,7 +224,7 @@
             overflow:hidden;
             transform:translate(0,0);
 
-            
+
             .dark & {
                 border:2px solid rgb(109, 109, 109);
                 background:rgb(27, 27, 27);
@@ -225,12 +233,12 @@
             &.trade-rule-neutral {border-color: rgb(71, 99, 255);}
             &.trade-rule-buy {border-color:rgb(74, 228, 133);}
             &.trade-rule-sell {border-color:rgb(255, 77, 77);}
-            
+
             &.trade-rule-disabled {
                 filter:brightness(0.6);
                 opacity:0.6;
             }
-            
+
             .trade-rule-item-content {
                 z-index:19000;
                 width:100%;
@@ -243,7 +251,7 @@
                 position:relative;
                 background:none;
                 flex-wrap:wrap;
-                
+
                 //background:rgba(245, 56, 42, 0.171);
             }
 
@@ -384,7 +392,7 @@
                         border:1px solid rgb(97, 97, 97);
                     }
                     .step-quant {
-                        flex: 1; 
+                        flex: 1;
                         font-family:WorkSansSemiBold;
                         border-right:1px solid rgb(124, 124, 124);
                     }
@@ -479,8 +487,8 @@
                     }
                 }
             }
-            
-            
+
+
             @media (max-width:1350px) {
                 //height:60px;
                 margin:4px;
