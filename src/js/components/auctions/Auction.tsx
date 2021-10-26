@@ -29,7 +29,7 @@ class Auction extends Component {
                             Marine's Hat
                         </div>
                         <div className="auction-seller">
-                            Seller: mogu
+                            Seller: smiles
                         </div>
                         <div className="auction-item-image">
                             <div className="auction-item-image-container">
@@ -68,14 +68,26 @@ class Auction extends Component {
                         <div className="auction-log">
                             <div className="auction-log-item">
                                 <span className="auction-log-timestamp">
-                                    10/12/2012 04:23:01
+                                    10/12/2012 01:13:01
                                 </span>
                                 <span className="auction-log-username">
-                                mogu{" "}
+                                cypher{" "}
                                 </span>
                                 bid {" "}
                                 <span className="auction-log-amount">
-                                $10,000
+                                $20,000
+                                </span>
+                            </div>
+                            <div className="auction-log-item">
+                                <span className="auction-log-timestamp">
+                                    10/12/2012 03:23:01
+                                </span>
+                                <span className="auction-log-username">
+                                tft{" "}
+                                </span>
+                                bid {" "}
+                                <span className="auction-log-amount">
+                                $50,000
                                 </span>
                             </div>
                             <div className="auction-log-item">
@@ -87,115 +99,7 @@ class Auction extends Component {
                                 </span>
                                 bid {" "}
                                 <span className="auction-log-amount">
-                                $10,000
-                                </span>
-                            </div>
-                            <div className="auction-log-item">
-                                <span className="auction-log-timestamp">
-                                    10/12/2012 04:23:01
-                                </span>
-                                <span className="auction-log-username">
-                                mogu{" "}
-                                </span>
-                                bid {" "}
-                                <span className="auction-log-amount">
-                                $10,000
-                                </span>
-                            </div>
-                            <div className="auction-log-item">
-                                <span className="auction-log-timestamp">
-                                    10/12/2012 04:23:01
-                                </span>
-                                <span className="auction-log-username">
-                                mogu{" "}
-                                </span>
-                                bid {" "}
-                                <span className="auction-log-amount">
-                                $10,000
-                                </span>
-                            </div>
-                            <div className="auction-log-item">
-                                <span className="auction-log-timestamp">
-                                    10/12/2012 04:23:01
-                                </span>
-                                <span className="auction-log-username">
-                                mogu{" "}
-                                </span>
-                                bid {" "}
-                                <span className="auction-log-amount">
-                                $10,000
-                                </span>
-                            </div>
-                            <div className="auction-log-item">
-                                <span className="auction-log-timestamp">
-                                    10/12/2012 04:23:01
-                                </span>
-                                <span className="auction-log-username">
-                                mogu{" "}
-                                </span>
-                                bid {" "}
-                                <span className="auction-log-amount">
-                                $10,000
-                                </span>
-                            </div>
-                            <div className="auction-log-item">
-                                <span className="auction-log-timestamp">
-                                    10/12/2012 04:23:01
-                                </span>
-                                <span className="auction-log-username">
-                                mogu{" "}
-                                </span>
-                                bid {" "}
-                                <span className="auction-log-amount">
-                                $10,000
-                                </span>
-                            </div>
-                            <div className="auction-log-item">
-                                <span className="auction-log-timestamp">
-                                    10/12/2012 04:23:01
-                                </span>
-                                <span className="auction-log-username">
-                                mogu{" "}
-                                </span>
-                                bid {" "}
-                                <span className="auction-log-amount">
-                                $10,000
-                                </span>
-                            </div>
-                            <div className="auction-log-item">
-                                <span className="auction-log-timestamp">
-                                    10/12/2012 04:23:01
-                                </span>
-                                <span className="auction-log-username">
-                                mogu{" "}
-                                </span>
-                                bid {" "}
-                                <span className="auction-log-amount">
-                                $10,000
-                                </span>
-                            </div>
-                            <div className="auction-log-item">
-                                <span className="auction-log-timestamp">
-                                    10/12/2012 04:23:01
-                                </span>
-                                <span className="auction-log-username">
-                                mogu{" "}
-                                </span>
-                                bid {" "}
-                                <span className="auction-log-amount">
-                                $10,000
-                                </span>
-                            </div>
-                            <div className="auction-log-item">
-                                <span className="auction-log-timestamp">
-                                    10/12/2012 04:23:01
-                                </span>
-                                <span className="auction-log-username">
-                                mogu{" "}
-                                </span>
-                                bid {" "}
-                                <span className="auction-log-amount">
-                                $10,000
+                                $87,000
                                 </span>
                             </div>
                             
