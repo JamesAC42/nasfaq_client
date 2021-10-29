@@ -115,7 +115,6 @@ class AdminBind extends Component<AdminProps> {
                 this.props.setSpamTracker(data.spamTracker);
                 this.props.setDividendToggles(data.dividendToggles);
                 this.props.setVolatilityMultipliers(data.volatilityMultipliers);
-                this.props.setBrokerFee(data.brokerFee);
                 this.props.setOverbought(data.adjustmentParams.overbought);
                 this.props.setOversold(data.adjustmentParams.oversold);
                 this.props.setBogrationLevel(data.adjustmentParams.bogrationLevel);
