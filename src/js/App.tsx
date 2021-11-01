@@ -38,9 +38,9 @@ import {lineage} from './components/Icons';
 
 import { connect } from 'react-redux';
 
-import { 
-  settingsActions, 
-  statsActions, 
+import {
+  settingsActions,
+  statsActions,
   itemcatalogueActions,
   multicoinSaveActions,
   itemmarketpricesActions,
@@ -70,6 +70,7 @@ const mapDispatchToProps = {
   setMarketSwitch: settingsActions.setMarketSwitch,
   setItemCatalogue: itemcatalogueActions.setCatalogue,
   setBrokerTotal: statsActions.setBrokerTotal,
+  setBrokerFee: statsActions.setBrokerFee,
   setMulticoinSave: multicoinSaveActions.setMulticoinSave,
   setItemMarketPrices: itemmarketpricesActions.setItemMarketPrices,
   setActiveAuctions: auctionsActions.setActiveAuctions,
@@ -97,6 +98,7 @@ interface AppProps {
   setActiveAuctions: (activeAuctions:any) => {},
   setPastAuctions: (pastAuctions:any) => {},
   setAuctionSubscriptions: (subscriptions:any) => {}
+  setBrokerFee: (brokerFee:number) => {},
 }
 
 const adjustmentTime = {
@@ -126,11 +128,12 @@ class AppBind extends Component<AppProps> {
       }
     })
 
-    fetchData('/api/getMarketInfo?all&history&brokerFeeTotal')
+    fetchData('/api/getMarketInfo?all&history&brokerFeeTotal&brokerFee')
     .then((data:any) => {
       this.props.setCoinInfo(data.coinInfo);
       this.props.setMarketSwitch(data.marketSwitch);
       this.props.setBrokerTotal(data.brokerFeeTotal);
+      this.props.setBrokerFee(data.brokerFee);
       let shouldRequest = false;
       if(checkStorage()) {
         let cachedStatsStore = localStorage.getItem("nasfaq:stats");
@@ -165,14 +168,14 @@ class AppBind extends Component<AppProps> {
       } else {
         shouldRequest = true;
       }
-      
+
       if(shouldRequest) {
         fetchData('/api/getStats')
         .then((data:any) => {
           this.props.setStats(data.stats);
           let coinHistory = parseCoinHistory(JSON.parse(data.coinHistory));
           this.props.setHistory(coinHistory);
-          
+
           if(checkStorage()) {
             localStorage.setItem("nasfaq:stats", JSON.stringify({
               timestamp:new Date().getTime(),
@@ -185,7 +188,7 @@ class AppBind extends Component<AppProps> {
     });
 
     if(checkStorage()) {
-      
+
       let multicoinSave = localStorage.getItem("nasfaq:multicoinSave");
       if(multicoinSave !== null) {
         let multicoinSaveData = JSON.parse(multicoinSave);
@@ -236,7 +239,7 @@ class AppBind extends Component<AppProps> {
 
   themeClass = () => {
     if(this.props.settings.theme === Themes.LIGHT) {
-      return ""; 
+      return "";
     } else if(this.props.settings.theme === Themes.DARK) {
       return "dark";
     } else {
@@ -265,9 +268,9 @@ class AppBind extends Component<AppProps> {
 
         <Switch>
 
-          <Route 
-            exact 
-            path="/" 
+          <Route
+            exact
+            path="/"
             component={Home}/>
 
           <Route
@@ -275,12 +278,12 @@ class AppBind extends Component<AppProps> {
             path="/info"
             component={Info}/>
 
-          <Route 
+          <Route
             exact
             path="/profile"
             component={Profile}/>
-          
-          <Route 
+
+          <Route
             exact
             path="/market"
             component={Market}/>
@@ -289,18 +292,18 @@ class AppBind extends Component<AppProps> {
             exact
             path="/floor/:room?"
             component={Floor}/>
-          
+
           <Route
             exact
             path="/activity"
             component={Activity}/>
 
-          <Route 
+          <Route
             exact
             path="/leaderboard"
             component={Leaderboard}/>
-          
-          <Route 
+
+          <Route
             exact
             path="/login/:from?"
             component={Login}/>
@@ -309,8 +312,8 @@ class AppBind extends Component<AppProps> {
             exact
             path="/loginAdmin"
             component={LoginAdmin}/>
-          
-          <Route 
+
+          <Route
             exact
             path="/logout"
             component={Logout}/>
@@ -319,7 +322,7 @@ class AppBind extends Component<AppProps> {
             exact
             path="/admin"
             component={Admin}/>
-          
+
           <Route
             exact
             path="/resetPassword"

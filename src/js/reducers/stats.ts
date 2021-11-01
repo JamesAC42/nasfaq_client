@@ -29,6 +29,10 @@ const stats = handleActions(
         SET_BROKER_TOTAL: (state:any, action:any) => ({
             ...state,
             brokerTotal:action.payload.brokerTotal
+        }),
+        SET_BROKER_FEE: (state:any, action:any) => ({
+            ...state,
+            brokerFee:action.payload.brokerFee
         })
     },
     {
@@ -38,7 +42,8 @@ const stats = handleActions(
         leaderboard: [],
         oshiboard: {},
         gachaboard: [],
-        brokerTotal: 0
+        brokerTotal: 0,
+        brokerFee: 0
     }
 )
 

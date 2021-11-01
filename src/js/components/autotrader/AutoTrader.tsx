@@ -41,6 +41,7 @@ interface AutoTraderProps {
     },
     stats: {
         coinInfo:ICoinDataCollection
+        brokerFee:number;
     },
     settings: {
         marketSwitch:boolean
@@ -100,7 +101,8 @@ class AutoTraderBind extends Component<AutoTraderProps> {
             quantity,
             quantity,
             runningCredits,
-            this.props.settings.marketSwitch
+            this.props.settings.marketSwitch,
+            this.props.stats.brokerFee
         )
     }
     scheduleTrades() {

@@ -57,7 +57,8 @@ let initState = {
         leaderboard: [],
         oshiboard: {},
         gachaboard: [],
-        brokerTotal: 0
+        brokerTotal: 0,
+        brokerFee:0,
     },
     floor: {
         floorSpace: null,
@@ -109,7 +110,6 @@ let initState = {
         spamTracker: undefined,
         dividendToggles: undefined,
         volatilityMultipliers: undefined,
-        brokerFee: undefined,
         overbought: false,
         oversold: false,
         bogrationLevel: 0,

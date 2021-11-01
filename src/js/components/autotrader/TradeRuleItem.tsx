@@ -137,11 +137,14 @@ class TradeRuleItem extends Component<TradeRuleItemProps> {
         }
 
         let inOrder = false;
-        for(let i = 0; i < this.props.pendingOrder.length; i++)
-            if(this.props.pendingOrder[i].coin == this.props.coin) {
+        for(let i = 0; i < this.props.pendingOrder.length; i++) {
+            let coin = this.props.pendingOrder[i].coin;
+            if(coin == "himemoriluna") coin = "luna"
+            if(coin == this.props.coin) {
                 inOrder = true;
                 break;
             }
+        }
         if(!inOrder)
             className += " trade-rule-disabled";
 
