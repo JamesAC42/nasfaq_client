@@ -70,6 +70,7 @@ class TransactionItem extends Component<TransactionItemProps> {
 
 class TransactionUpdaterBind extends Component<TransactionUpdaterProps> {
 
+    intervalId:any;
     componentDidMount() {
         if(storageAvailable()) {
             let storedNotif = localStorage.getItem("nasfaq:tradeNotifications");
@@ -77,7 +78,7 @@ class TransactionUpdaterBind extends Component<TransactionUpdaterProps> {
                 this.props.setTradeNotifications(JSON.parse(storedNotif));
             }
         }
-        setInterval(() => {
+        this.intervalId = setInterval(() => {
             if(this.props.transactions.length > 0) {
                 if(this.props.transactions !== undefined) {
                     let now = new Date().getTime();
@@ -87,6 +88,10 @@ class TransactionUpdaterBind extends Component<TransactionUpdaterProps> {
                 }
             }
         },5000)
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.intervalId);
     }
 
     render() {

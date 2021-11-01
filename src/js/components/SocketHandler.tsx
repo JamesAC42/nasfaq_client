@@ -7,7 +7,8 @@ import {
     transactionActions,
     settingsActions,
     socketActions,
-    gachaActions
+    gachaActions,
+    auctionsActions
 } from '../actions/actions';
 import { connect } from 'react-redux';
 import { ITransaction } from "../interfaces/ITransaction";
@@ -15,13 +16,15 @@ import { IWallet } from "../interfaces/IWallet";
 import { ICoinDataCollection, ICoinInfo } from "../interfaces/ICoinInfo";
 import { UserItems, IItemCatalogue, IItem } from '../interfaces/IItem';
 import checkStorage from '../checkStorage';
+import { IAuctionItem, IAuctionFeedItem, IAuctionHistoryEntry, IAuctionNotificationItem } from "./auctions/IAuction";
 
 const mapStateToProps = (state:any, props:any) => ({
     session: state.session,
     userinfo: state.userinfo,
     stats: state.stats,
     socket: state.socket,
-    itemcatalogue: state.itemcatalogue
+    itemcatalogue: state.itemcatalogue,
+    auctions: state.auctions
 });
 
 const mapDispatchToProps = {
@@ -40,7 +43,12 @@ const mapDispatchToProps = {
     setReceivedItems: gachaActions.setReceivedItems,
     setBrokerTotal: statsActions.setBrokerTotal,
     setBrokerFeeTotal: userinfoActions.setBrokerFeeTotal,
-    setBrokerFeeCredits: userinfoActions.setBrokerFeeCredits
+    setBrokerFeeCredits: userinfoActions.setBrokerFeeCredits,
+    setActiveAuctions: auctionsActions.setActiveAuctions,
+    setPastAuctions: auctionsActions.setPastAuctions,
+    setAuctionPriceHistory: auctionsActions.setAuctionPriceHistory,
+    setAuctionFeeds: auctionsActions.setAuctionFeeds,
+    setAuctionNotifications: auctionsActions.setAuctionNotifications
 }
 
 interface SocketHandlerProps {
@@ -64,6 +72,14 @@ interface SocketHandlerProps {
         socket: any,
         query: any
     },
+    auctions: {
+        activeAuctions: Array<IAuctionItem>,
+        auctionFeeds: {},
+        pastAuctions: Array<IAuctionHistoryEntry>,
+        auctionPriceHistory: {},
+        subscriptions: Array<string>,
+        auctionNotifications: Array<IAuctionNotificationItem>
+    },
     itemcatalogue: IItemCatalogue,
     setStats: (stats:{}) => {},
     setHistory: (coinHistory:{}) => {},
@@ -74,18 +90,24 @@ interface SocketHandlerProps {
     
     setWallet: (wallet:any) => {},
     addTransaction: (transaction:ITransaction) => {},
-
+    
     setMarketSwitch: (open:boolean) => {},
     
     setItems: (items:any) => {},
     setSocket: (socket:any) => {},
     removeSocket: () => {},
-
+    
     setReceivedItems: (receivedItems:Array<string>) => {},
-
+    
     setBrokerTotal: (brokerTotal:number) => {},
     setBrokerFeeTotal: (brokerFeeTotal:number) => {},
     setBrokerFeeCredits: (brokerFeeCredits:number) => {}
+    
+    setActiveAuctions: (activeAuctions:any) => {},
+    setAuctionFeeds: (auctionFeeds:any) => {},
+    setPastAuctions: (pastAuctions:any) => {},
+    setAuctionPriceHistory: (auctionPriceHistory:any) => {},
+    setAuctionNotifications: (auctionNotifications:any) => {}
 }
 
 class SocketHandlerBind extends Component<SocketHandlerProps> {
@@ -331,6 +353,96 @@ class SocketHandlerBind extends Component<SocketHandlerProps> {
 
         socket.on('creditsUpdate', (data:any) => {
             this.props.setBrokerFeeCredits(Math.round((this.props.userinfo.brokerFeeCredits + data.amount) * 100) / 100);
+        })
+
+        socket.on('walletUpdate', (data:any) => {
+
+            const wallet:IWallet = JSON.parse(data).wallet;
+            this.props.setWallet(wallet);
+        })
+
+        socket.on('auctionUpdate', (data:any) => {
+
+            const message = JSON.parse(data);
+            const auction:IAuctionItem = message.auction;
+            const updateType:string = message.type;
+
+            let activeAuctions = [...this.props.auctions.activeAuctions];
+
+            if(updateType === "newAuction") {
+                activeAuctions.push(auction);
+            } else {
+                for(let i = 0; i < activeAuctions.length; i++) {
+                    if(activeAuctions[i].auctionID === auction.auctionID) {
+                        if(updateType === 'removeAuction') {
+                            activeAuctions.splice(i, 1);
+                        } else {
+                            activeAuctions[i] = auction;
+                        }
+                        break;
+                    }
+                }
+            }
+            this.props.setActiveAuctions(activeAuctions);
+
+            if(updateType === 'completeAuction') {
+                let auctionHistoryEntry:IAuctionHistoryEntry = {
+                    expiration:auction.expiration,
+                    sellerID:auction.sellerid,
+                    seller:auction.seller,
+                    bidder:auction.bidder,
+                    bidderID:auction.bidderid,
+                    amount:auction.amount,
+                    currentBid:auction.currentBid,
+                    item:auction.item
+                }
+
+                let pastAuctions = [auctionHistoryEntry, ...this.props.auctions.pastAuctions];
+                let auctionPriceHistory:any = {...this.props.auctions.auctionPriceHistory};
+
+                this.props.setPastAuctions(pastAuctions);
+
+                if(auctionPriceHistory[auction.item] === undefined) {
+                    auctionPriceHistory[auction.item] = []
+                }
+                auctionPriceHistory[auction.item].push(auction.currentBid);
+                this.props.setAuctionPriceHistory(auctionPriceHistory);
+            }
+
+            if(updateType === 'newBid') {
+                let auctionFeeds:any = {...this.props.auctions.auctionFeeds};
+                let feedItem:IAuctionFeedItem = {
+                    username: auction.bidder,
+                    amount: auction.currentBid,
+                    timestamp: new Date().getTime()
+                }
+                if(auctionFeeds[auction.auctionID] === undefined) {
+                    auctionFeeds[auction.auctionID] = [feedItem];
+                } else {
+                    auctionFeeds[auction.auctionID].push(feedItem);
+                }
+                this.props.setAuctionFeeds(auctionFeeds);
+
+                if(this.props.auctions.subscriptions.indexOf(auction.auctionID) !== -1) {
+                    let auctionNotification:IAuctionNotificationItem = {
+                        seller:auction.seller,
+                        bidder:auction.bidder,
+                        amount:auction.amount,
+                        bid:auction.currentBid,
+                        item:auction.item,
+                        timestamp: new Date().getTime()
+                    }
+                    let auctionNotifications:Array<IAuctionNotificationItem> = [
+                        ...this.props.auctions.auctionNotifications,
+                        auctionNotification
+                    ];
+                    this.props.setAuctionNotifications(auctionNotifications);
+                }
+
+
+            }
+
+
         })
     }
 

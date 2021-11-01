@@ -1,0 +1,77 @@
+@import '../settings.scss';
+
+.auction-notifications-outer {
+    position:fixed;
+
+    top:$nav-height;
+    left:50%;
+    transform:translate(-50%, 0);
+
+    z-index:100000;
+
+    .auction-notification-item {
+        display:flex;
+        flex-direction: row;
+        align-items:center;
+        margin:10px;
+        border-radius:7px;
+        padding:10px 15px;
+        max-width:300px;
+        border:3px solid rgb(84, 180, 175);
+        background:rgb(245, 255, 253);
+        color:rgb(39, 40, 90);
+        gap:5px;
+        transition:transform .1s cubic-bezier(0.39, 0.575, 0.565, 1);
+        animation:slide-in-notification 0.1s cubic-bezier(0.39, 0.575, 0.565, 1) 1;
+        box-shadow: 0px 5px 15px -6px #000000;
+        .item-img {
+            width:100px;
+            max-width:100px;
+            img {
+                max-width:100px;
+                max-height:80px;
+            }
+        }
+        .notif-desc {
+            min-width:1%;
+            flex:1;
+            display:flex;
+            flex-wrap:wrap;
+            flex-direction: row;
+            text-align:center;
+            justify-content:center;
+            span { 
+                max-width:100%;
+                min-width:1%;
+                overflow-wrap:break-word;
+                word-wrap:break-word;
+                display:inline-block;
+                margin:0 2px;
+            }
+            .bidder,
+            .bid-amount,
+            .seller,
+            .item-amount,
+            .item {
+                font-family:WorkSansSemiBold;
+            }
+            .bid-amount {
+                color:rgb(58, 163, 84);
+            }
+        }
+    }
+
+    .dark & {
+        .auction-notification-item {
+            border:3px solid rgb(84, 180, 175);
+            background:rgb(31, 31, 31);
+            color:rgb(255, 255, 255);
+            box-shadow: 0px 5px 15px -6px #000000;
+            .notif-desc {
+                .bid-amount {
+                    color:rgb(115, 250, 149);
+                }
+            }
+        }
+    }
+}

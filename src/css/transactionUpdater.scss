@@ -1,16 +1,5 @@
 @import 'settings.scss';
 
-@keyframes slide-in-notification {
-    0% {
-        transform:translateY(-100%);
-        opacity:0;
-    }
-    100% {
-        transform:translateY(0);
-        opacity:1;
-    }
-}
-
 div.transactions-container {
     position:fixed;
     z-index:1000;

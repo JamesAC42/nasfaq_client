@@ -16,6 +16,8 @@ import admin from './reducers/admin';
 import socket from './reducers/socket';
 import gacha from './reducers/gacha';
 import multicoinSave from './reducers/multicoinSave';
+import itemmarketprices from './reducers/itemMarketPrices';
+import auctions from './reducers/auctions';
 
 let initState = {
     socket: {
@@ -90,6 +92,15 @@ let initState = {
         pendingOrder:[]
     },
     itemcatalogue: {},
+    itemmarketprices: {},
+    auctions: {
+        activeAuctions:[],
+        pastAuctions:[],
+        auctionFeeds:{},
+        subscriptions:[],
+        auctionPriceHistory:{},
+        auctionNotifications:[]
+    },
     admin: {
         users: undefined,
         filters: undefined,
@@ -121,6 +132,8 @@ const holoReducer = combineReducers({
     superchats,
     autotrader,
     itemcatalogue,
+    itemmarketprices,
+    auctions,
     admin,
     gacha,
     multicoinSave

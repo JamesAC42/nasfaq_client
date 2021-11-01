@@ -54,6 +54,17 @@ import BotanHat from '../../images/items/BotanHat.png';
 import CalliopeHat from '../../images/items/CalliopeHat.png';
 import InaEarsHat from '../../images/items/InaEarsHat.png';
 import Cash from '../../images/items/Cash.png';
+import AuctionLicense from '../../images/items/License.png';
+import AyameHat from '../../images/items/AyameHat.png';
+import BaelzHat from '../../images/items/BaelzHat.png';
+import ChocoHat from '../../images/items/ChocoHat.png';
+import FaunaHat from '../../images/items/FaunaHat.png';
+import KroniiHat from '../../images/items/KroniiHat.png';
+import LunaHat from '../../images/items/LunaHat.png';
+import MioHat from '../../images/items/MioHat.png';
+import NabiHat from '../../images/items/NabiHat.png';
+import ReineHat from '../../images/items/ReineHat.png';
+import SanaHat from '../../images/items/SanaHat.png';
 
 export const ItemList = [
     "KiryuKaiBadge",
@@ -73,6 +84,7 @@ export const ItemList = [
     "SubaruWhistle",
     "GuraLostLoaf",
     "OllieBuns",
+    "AuctionLicense",
     "TowaWebcam",
     "ReineAirFryer",
     "MatsuriBandaids",
@@ -111,6 +123,16 @@ export const ItemList = [
     "BotanHat",
     "CalliopeHat",
     "InaEarsHat",
+    "AyameHat",
+    "BaelzHat",
+    "ChocoHat",
+    "FaunaHat",
+    "KroniiHat",
+    "LunaHat",
+    "MioHat",
+    "NabiHat",
+    "ReineHat",
+    "SanaHat",
     "Cash",
 ]
 
@@ -145,6 +167,7 @@ export const ItemImages:{[type:string]:any} = {
     MarineHat,
     RushiaBun,
     FubukiHat,
+    AuctionLicense,
     HaatoHat,
     AmeHat,
     SuiseiHat,
@@ -170,5 +193,15 @@ export const ItemImages:{[type:string]:any} = {
     BotanHat,
     CalliopeHat,
     InaEarsHat,
+    AyameHat,
+    BaelzHat,
+    ChocoHat,
+    FaunaHat,
+    KroniiHat,
+    LunaHat ,
+    MioHat,
+    NabiHat, 
+    ReineHat,
+    SanaHat,
     Cash
 }

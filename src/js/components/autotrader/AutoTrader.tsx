@@ -66,7 +66,7 @@ class AutoTraderBind extends Component<AutoTraderProps> {
     filterName(name:string) {
         return (name === "luna") ? "himemoriluna" : name;
     }
-    canTrade(coin:string, runningBalance:number) {
+    canTrade(coin:string, runningBalance:number, runningCredits:number) {
 
         let name = this.filterName(coin);
 
@@ -99,7 +99,7 @@ class AutoTraderBind extends Component<AutoTraderProps> {
             showMuted,
             quantity,
             quantity,
-            this.props.userinfo.brokerFeeCredits,
+            runningCredits,
             this.props.settings.marketSwitch
         )
     }
@@ -132,6 +132,7 @@ class AutoTraderBind extends Component<AutoTraderProps> {
         this.props.setNextTradeTime(new Date().getTime() + maxCooldown);
 
         let runningBalance = wallet.balance;
+        let runningCredits = this.props.userinfo.brokerFeeCredits;
 
         let orders:Array<Order> = [];
 
@@ -143,7 +144,7 @@ class AutoTraderBind extends Component<AutoTraderProps> {
                 buyDisabled,
                 sellDisabled,
                 timeRemaining
-            } = this.canTrade(name, runningBalance);
+            } = this.canTrade(name, runningBalance, runningCredits);
 
             //console.log(`Autotrader for ${name}: buyDisabled: ${buyDisabled}, sellDisabled: ${sellDisabled}, timeRemaining: ${timeRemaining}`)
             let currentAmount;
@@ -160,14 +161,39 @@ class AutoTraderBind extends Component<AutoTraderProps> {
                     if(!buyDisabled && rule.targetQuantity > currentAmount) {
                         //console.log(`Autotrader for ${name}: Adding to order list...`)
                         let quantity = Math.min(rule.targetQuantity - currentAmount, step);
-                        runningBalance -= (1.05 + .1 * (quantity ===  1 ? 0 : quantity)) * (quantity * this.props.stats.coinInfo.data[name].price);
+                        let tax = 0.05;
+                        if(quantity > 1) {
+                            tax += quantity * 0.1;
+                        }
+                        tax = tax * this.props.stats.coinInfo.data[name].price * quantity;
+                        if(tax >= runningCredits) {
+                            runningCredits = 0;
+                            tax -= runningCredits;
+                        } else {
+                            runningCredits -= tax;
+                            tax = 0;
+                        }
+                        let totalCost = (quantity * this.props.stats.coinInfo.data[name].price) + tax;
+                        runningBalance -= totalCost;
                         orders.push({coin:name, quantity, type:TransactionType.BUY})
                     }
                 } else if(rule.type === TransactionType.SELL) {
                     if(!sellDisabled && rule.targetQuantity < currentAmount) {
                         //console.log(`Autotrader for ${name}: Adding to order list...`)
                         let quantity = Math.min(currentAmount - rule.targetQuantity, step);
-                        runningBalance += (1 - .1 * (quantity ===  1 ? 0 : quantity)) * (quantity * this.props.stats.coinInfo.data[name].saleValue);
+                        let tax = 0;
+                        if(quantity > 1) {
+                            tax += quantity * 0.1;
+                        }
+                        tax = tax * this.props.stats.coinInfo.data[name].saleValue * quantity;
+                        if(tax >= runningCredits) {
+                            runningCredits = 0;
+                            tax -= runningCredits;
+                        } else {
+                            runningCredits -= tax;
+                            tax = 0;
+                        }
+                        runningBalance += (this.props.stats.coinInfo.data[name].saleValue * quantity) - tax;
                         orders.push({coin:name, quantity, type:TransactionType.SELL})
                     }
                 }

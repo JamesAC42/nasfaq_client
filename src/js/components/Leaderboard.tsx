@@ -521,7 +521,6 @@ class LeaderboardBind extends Component<LeaderboardProps> {
         return visibleUsers;
     }
     renderLeaderboard() {
-        console.log(this.props.stats.leaderboard);
         if(this.state.activeView === activeView.leaderboard) {
             let visibleUsers = this.getPagedUsers(this.props.stats.leaderboard);
             let pageOffset = this.state.pageSize * this.state.activePage;

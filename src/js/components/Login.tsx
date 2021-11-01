@@ -309,6 +309,11 @@ class LoginBind extends Component<LoginProps> {
                     if(paramParts.length > 1) {
                         r += "/" + paramParts[1];
                     }
+                } else if(paramParts[0] === "auctions") {
+                    r = "/auctions";
+                    if(paramParts.length > 1) {
+                        r += "/" + paramParts[1];
+                    }
                 } else {
                     r = "/" + paramParts[0];
                 }

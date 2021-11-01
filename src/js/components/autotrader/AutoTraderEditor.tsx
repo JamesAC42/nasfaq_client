@@ -331,7 +331,7 @@ class AutoTraderEditorBind extends Component<AutoTraderEditorProps> {
                             The auto-trader is subject to all limitations
                             that a normal player is subject to. The auto-trader is a purely client-side tool. It will not operate if the website is not open (the editor can be closed). <br/>
                             The background progress bar of each rule indicates the cooldown remaining on that coin.
-                            Darkened rule items indicate that the coin cannot be traded to the desired quantity at the moment because of insufficient funds or assets.
+                            Darkened rule items indicate coins that are not currently pending an order. This means coins that have reached their target, coins that cannot be afforded at the desired quantity, the auto-trader being off, etc. 
                             Rules with a green border are being purchased. Rules with a red border are being sold. Rules with a blue border have reached their target quantity.
                         </div> : null }
                         {
@@ -405,12 +405,12 @@ class AutoTraderEditorBind extends Component<AutoTraderEditorProps> {
                             && this.props.autotrader.pendingOrder.length ?
                             <div className="trade-balance">
                             Expected Balance: <span>
-                                ${Math.round(this.props.autotrader.expectedBalance * 100) / 100}
+                                ${numberWithCommas(Math.round(this.props.autotrader.expectedBalance * 100) / 100)}
                             </span> <span className={
                                 delta > 0 ? "green" : "red"
                             }>({
                                 delta > 0 ? <BiUpArrow style={{verticalAlign: 'middle'}}/> : <BiDownArrow style={{verticalAlign: 'middle'}}/>
-                            }${Math.abs(delta)})</span>
+                            }${numberWithCommas(Math.abs(delta))})</span>
                             </div> : null
                         }
                         <div className="trade-rules-container">

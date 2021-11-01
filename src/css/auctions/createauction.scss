@@ -1,0 +1,170 @@
+@import "../settings.scss";
+
+.create-auction-window {
+    background:rgb(249, 250, 252);
+
+    overflow:hidden;
+    @keyframes expand-create-auction {
+        0% {
+            max-height:0px;
+        }
+        100% {
+            max-height:100vh;
+        }
+    }
+    animation:expand-create-auction .5s cubic-bezier(0.165, 0.84, 0.44, 1) 1;
+
+    display:flex;
+    flex-direction:row;
+    justify-content:center;
+    align-items:center;
+    padding:20px 0;
+
+    gap:20px;
+
+    .auction-item-select {
+        max-width:40vw;
+        .auction-item-select-header {
+            font-family:WorkSansSemiBold;
+            color:rgb(0, 0, 0);
+            font-size:1.4rem;
+            margin:10px 0;
+        }
+        .auction-item-select-inner {
+            border-radius:10px;
+            box-shadow: inset 0px 0px 18px 5px #1818183b;
+            background:rgb(210, 213, 233);
+            display:flex;
+            flex-direction:row;
+            flex-wrap: wrap;
+            justify-content:center;
+            padding:20px;
+            gap:20px;
+            max-height:70vh;
+            overflow-y:scroll;
+            img {
+                max-height: 100px;
+                width:auto;
+                cursor:pointer;
+                &.selected-item, &:hover {
+                    outline:2px solid $primary;
+                }
+            }
+        }
+    }
+    .auction-item-input {
+        width:40vw;
+        display:flex;
+        flex-direction: column;
+        align-items:center;
+        color:rgb(66, 66, 66);
+
+        .item-name {
+            font-size:1.4rem;
+            font-family:WorkSansSemiBold;
+        }
+        .item-amount-owned {
+            margin-bottom:10px;
+        }
+
+        .sell-quantity,
+        .minimum-bid {
+            width:50%;
+            align-items:center;
+            justify-content: space-between;
+            margin:5px 0;
+            font-family:WorkSansSemiBold;
+            input {
+                border:1px solid rgb(58, 58, 58);
+                border-radius:7px;
+                color:rgb(36, 36, 36);
+                height:30px;
+                max-width:50%;
+                font-size:1rem;
+                text-align:center;
+                padding:5px;
+                font-family:WorkSans;
+                background:rgb(255, 255, 255);
+                margin-left:auto;
+            }
+        }
+
+        .expiration-outer {
+            padding:20px 0;
+            max-width:50%;
+            text-align:center;
+
+            input.expiration-time-input {
+                background:rgb(255, 255, 255);
+                color:rgb(49, 49, 49);
+                font-size:1.3rem;
+                outline:none;
+                border:1px solid $default;
+                border-radius:6px;
+                padding:10px;
+                font-family:WorkSans;
+            }
+        }
+        .create-auction {
+            width:60%;
+            .create-auction-button {
+                width:100%;
+                border:1px solid rgb(69, 199, 108);
+                background:rgb(69, 199, 108);
+                text-align:center;
+                padding:10px 0;
+                color:rgb(39, 39, 39);
+                border-radius:5px;
+                transition:all .05s ease-in-out;
+                cursor:pointer;
+                transition:transform .1s ease-in-out;
+                &:hover {
+                    transform:translateY(-3px);
+                }
+            }
+        }
+        .create-auction-error {
+            font-size:1rem;
+            color:$error;
+            margin:10px 0;
+        }
+    }
+    .dark & {
+        background:rgb(26, 26, 26);
+
+        .auction-item-select {
+            .auction-item-select-header {
+                color:#fff;
+            }
+            .auction-item-select-inner {
+                box-shadow: inset 0px 0px 18px 5px #181818;
+                background:rgb(50, 51, 59);
+            }
+        }
+        .auction-item-input {
+            color:#fff;
+            .sell-quantity,
+            .minimum-bid {
+                input {
+                    border:1px solid rgb(58, 58, 58);
+                    color:#fff;
+                    background:rgb(20, 20, 20);
+                }
+            }
+            .expiration-outer {
+
+                input.expiration-time-input {
+                    background:rgb(17, 17, 17);
+                    color:#fff;
+                    border:1px solid $default;
+                }
+            }
+            .create-auction {
+                .create-auction-button {
+                    border:1px solid rgb(69, 199, 108);
+                    background:rgb(69, 199, 108);
+                }
+            }
+        }
+    }
+}
