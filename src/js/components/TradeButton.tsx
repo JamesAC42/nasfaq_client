@@ -9,7 +9,7 @@ import { tradeCoins } from '../TradeActions';
 
 import checkStorage from '../checkStorage';
 
-import { 
+import {
     BiPlus,
     BiMinus
 } from 'react-icons/bi';
@@ -53,7 +53,7 @@ class TradeButton extends Component<TradeButtonProps> {
         if(this.props.timeRemaining) {
             const e = (1000 * 60 * COOLDOWN);
             timerWidth = Math.round((this.props.timeRemaining / e) * 10000) / 100;
-            
+
             let secondsRemaining = Math.floor(this.props.timeRemaining / 1000) % 60;
             let minutesRemaining = Math.floor((this.props.timeRemaining / 1000) / 60);
             if(minutesRemaining > 0) {
@@ -76,9 +76,9 @@ class TradeButton extends Component<TradeButtonProps> {
         let classNameType = this.props.type === TransactionType.BUY ? 'buy' : 'sell';
         let classDisabled = this.props.disabled ? 'disabled' : '';
         let className = `button ${classNameColor} inverse ${classDisabled} umami--click--${classNameType} ${buttonActive}`;
-        
+
         return(
-            <div 
+            <div
                 className={className}
                 title={remainingString}>
                 <div className="button-inner">
@@ -86,19 +86,19 @@ class TradeButton extends Component<TradeButtonProps> {
                     </div>
                     {
                         this.props.quantity > 1 ?
-                        <div 
+                        <div
                             className="button-decrement"
                             onClick={() => this.changeQuantity(-1)}><BiMinus /></div>
                         : null
                     }
                     {
                         this.props.quantity < 5 ?
-                        <div 
+                        <div
                             className="button-increment"
                             onClick={() => this.changeQuantity(1)}><BiPlus /></div>
                         : null
                     }
-                    <div 
+                    <div
                         className="button-container"
                         onClick={() => {
                             this.props.trade()
@@ -114,7 +114,7 @@ class TradeButton extends Component<TradeButtonProps> {
                             this.props.quantity > 1 ?
                             " " + this.props.quantity : null
                         }
-                        <div 
+                        <div
                             className="button-timer"
                             style={{
                                 width: timerWidth + "%"
@@ -149,7 +149,8 @@ interface TradeButtonWrapperProps {
         loaded:boolean
     },
     stats: {
-        coinInfo: ICoinDataCollection
+        coinInfo: ICoinDataCollection,
+        brokerFee:number
     },
     settings: {
         marketSwitch:boolean
@@ -177,7 +178,7 @@ class TradeButtonWrapperBind extends Component<TradeButtonWrapperProps> {
         super(props);
         this.state = new TradeButtonWrapperState();
     }
-    
+
     componentWillUnmount() {
         clearInterval(this.intervalId);
     }
@@ -187,7 +188,7 @@ class TradeButtonWrapperBind extends Component<TradeButtonWrapperProps> {
         if(this.state.buyDisabled || this.state.timeRemaining > 0) return;
         let name = this.props.coin;
         if(name === "luna") name = "himemoriluna";
-        let order:Order = { 
+        let order:Order = {
             coin:name,
             quantity:this.props.multicoinSave[this.filterName(this.props.coin)].buy,
             type:TransactionType.BUY
@@ -201,7 +202,7 @@ class TradeButtonWrapperBind extends Component<TradeButtonWrapperProps> {
         if(this.state.sellDisabled || this.state.timeRemaining > 0) return;
         let name = this.props.coin;
         if(name === "luna") name = "himemoriluna";
-        let order:Order = { 
+        let order:Order = {
             coin:name,
             quantity:this.props.multicoinSave[this.filterName(this.props.coin)].sell,
             type:TransactionType.SELL
@@ -218,7 +219,7 @@ class TradeButtonWrapperBind extends Component<TradeButtonWrapperProps> {
 
     componentDidUpdate(prevProps:TradeButtonWrapperProps) {
         if(!this.props.userinfo.loaded) return;
-        if(this.props.userinfo.wallet.balance 
+        if(this.props.userinfo.wallet.balance
             !== prevProps.userinfo.wallet.balance) {
             this.updateTransactionStatus();
         }
@@ -227,7 +228,7 @@ class TradeButtonWrapperBind extends Component<TradeButtonWrapperProps> {
     updateTransactionStatus() {
 
         if(!this.props.userinfo.loaded) return;
-        
+
         let showMuted = false;
         let muted:any = this.props.userinfo.muted;
         if(this.props.userinfo.muted !== null) {
@@ -238,7 +239,7 @@ class TradeButtonWrapperBind extends Component<TradeButtonWrapperProps> {
                 showMuted = true;
             }
         }
-        
+
         let name = this.props.coin;
         if(name === "luna") name = "himemoriluna";
         let coinData:ICoinData = this.props.stats.coinInfo.data[name];
@@ -258,7 +259,8 @@ class TradeButtonWrapperBind extends Component<TradeButtonWrapperProps> {
             buy,
             sell,
             this.props.userinfo.brokerFeeCredits,
-            this.props.settings.marketSwitch
+            this.props.settings.marketSwitch,
+            this.props.stats.brokerFee
         )
 
         this.setState({

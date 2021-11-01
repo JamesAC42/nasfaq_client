@@ -30,10 +30,6 @@ const admin = handleActions(
             ...state,
             volatilityMultipliers: action.payload.volatilityMultipliers
         }),
-        SET_BROKER_FEE: (state:any, action:any) => ({
-            ...state,
-            brokerFee: action.payload.brokerFee
-        }),
         SET_OVERBOUGHT: (state:any, action:any) => ({
             ...state,
             overbought: action.payload.overbought
@@ -59,7 +55,6 @@ const admin = handleActions(
         spamTracker: undefined,
         dividendToggles: undefined,
         volatilityMultipliers: undefined,
-        brokerFee:undefined,
         overbought: false,
         oversold: false,
         bogrationLevel: 0,

@@ -41,6 +41,7 @@ interface AutoTraderProps {
     },
     stats: {
         coinInfo:ICoinDataCollection
+        brokerFee:number;
     },
     settings: {
         marketSwitch:boolean
@@ -100,7 +101,8 @@ class AutoTraderBind extends Component<AutoTraderProps> {
             quantity,
             quantity,
             this.props.userinfo.brokerFeeCredits,
-            this.props.settings.marketSwitch
+            this.props.settings.marketSwitch,
+            this.props.stats.brokerFee
         )
     }
     scheduleTrades() {
@@ -160,7 +162,7 @@ class AutoTraderBind extends Component<AutoTraderProps> {
                     if(!buyDisabled && rule.targetQuantity > currentAmount) {
                         //console.log(`Autotrader for ${name}: Adding to order list...`)
                         let quantity = Math.min(rule.targetQuantity - currentAmount, step);
-                        runningBalance -= (1.05 + .1 * (quantity ===  1 ? 0 : quantity)) * (quantity * this.props.stats.coinInfo.data[name].price);
+                        runningBalance -= (1 + this.props.stats.brokerFee + .1 * (quantity ===  1 ? 0 : quantity)) * (quantity * this.props.stats.coinInfo.data[name].price);
                         orders.push({coin:name, quantity, type:TransactionType.BUY})
                     }
                 } else if(rule.type === TransactionType.SELL) {

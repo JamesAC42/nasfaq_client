@@ -12,7 +12,8 @@ const getTransactionStatus = (
         buyQuantity:number,
         sellQuantity:number,
         credits:number,
-        marketSwitch:boolean) => {
+        marketSwitch:boolean,
+        brokerFee:number) => {
 
     let coins = wallet.coins;
     let amtOwned = (coins[name] === undefined) ? 0 : coins[name].amt;
@@ -29,7 +30,7 @@ const getTransactionStatus = (
     if(sellQuantity > 1) {
         sellRate = sellQuantity * 0.1;
     }
-    let buyRate = 0.05;
+    let buyRate = brokerFee;
     if(buyQuantity > 1) {
         buyRate += (buyQuantity * 0.1);
     }

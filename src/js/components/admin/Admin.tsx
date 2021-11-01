@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
 
 import '../../../css/admin.scss';
-import { adminActions } from '../../actions/actions';
+import { adminActions, statsActions } from '../../actions/actions';
 
 import Users from './Users';
 import Filters from './Filters';
@@ -33,7 +33,7 @@ const mapDispatchToProps = {
     setSpamTracker: adminActions.setSpamTracker,
     setDividendToggles: adminActions.setDividendToggles,
     setVolatilityMultipliers: adminActions.setVolatilityMultipliers,
-    setBrokerFee: adminActions.setBrokerFee,
+    setBrokerFee: statsActions.setBrokerFee,
     setOverbought: adminActions.setOverbought,
     setOversold: adminActions.setOversold,
     setBogrationLevel: adminActions.setBogrationLevel,
@@ -115,7 +115,6 @@ class AdminBind extends Component<AdminProps> {
                 this.props.setSpamTracker(data.spamTracker);
                 this.props.setDividendToggles(data.dividendToggles);
                 this.props.setVolatilityMultipliers(data.volatilityMultipliers);
-                this.props.setBrokerFee(data.brokerFee);
                 this.props.setOverbought(data.adjustmentParams.overbought);
                 this.props.setOversold(data.adjustmentParams.oversold);
                 this.props.setBogrationLevel(data.adjustmentParams.bogrationLevel);
