@@ -543,5 +543,45 @@ div.oshiboard-item {
         width:115px;
         transform:translate(11%, -30%);
     }
+    &.AyameHat {
+        width:100px;
+        transform:translate(30%, -35%);
+    }
+    &.BaelzHat {
+        width:170px;
+        transform:translate(28%, -40%) rotate(-8deg);
+    }
+    &.ChocoHat {
+        width:130px;
+        transform:translate(19%, -50%) rotate(5deg) rotateY(180deg);
+    }
+    &.FaunaHat {
+        width:200px;
+        transform:translate(30%, -52%) rotate(-3deg) rotateY(180deg);
+    }
+    &.KroniiHat {
+        width:190px;
+        transform:translate(27%, -30%);
+    }
+    &.LunaHat {
+        width:80px;
+        transform:translate(60%, -55%);
+    }
+    &.MioHat {
+        width:50px;
+        transform:translate(10%, 20%) rotate(-20deg);
+    }
+    &.NabiHat {
+        width:60px;
+        transform:translate(60%, -50%);
+    }
+    &.ReineHat {
+        width:70px;
+        transform:translate(-35%, -30%);
+    }
+    &.SanaHat {
+        width:70px;
+        transform:translate(50%, -55%);
+    }
 
 }
