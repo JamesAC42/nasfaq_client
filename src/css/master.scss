@@ -1,5 +1,7 @@
 @import 'settings.scss';
 
+body {overflow:hidden}
+
 .flex-col {
   display:flex;
   flex-direction:column;
@@ -615,6 +617,17 @@ div.pagenav {
               border-color:rgb(196, 186, 255);
           }
       }
+  }
+}
+
+@keyframes slide-in-notification {
+  0% {
+      transform:translateY(-100%);
+      opacity:0;
+  }
+  100% {
+      transform:translateY(0);
+      opacity:1;
   }
 }
 

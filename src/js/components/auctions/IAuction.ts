@@ -3,24 +3,39 @@ export interface IAuctionItem {
     expiration: number,
     item: string,
     amount: number, 
-    sellerID: string,
-    sellerUsername: string,
-    bidderID: string,
-    bidderUsername: string,
+    seller: string,
+    sellerid: string,
+    bidder: string,
+    bidderid: string,
     currentBid: number,
-    lastOutbidID: string,
-    lastOutbidUsername: string,
+    lastOutbid: string,
     lastBid: number
 }
 
 export interface IAuctionHistoryEntry {
     expiration: number,
     item: string, 
+    amount: number,
     sellerID: string,
-    sellerUsername: string,
+    seller: string,
     bidderID: string,
-    bidderUsername: string
+    bidder: string
     currentBid: number
+}
+
+export interface IAuctionFeedItem {
+    username:string,
+    amount:number,
+    timestamp:number
+}
+
+export interface IAuctionNotificationItem {
+    timestamp:number,
+    seller:string,
+    bidder:string,
+    item:string,
+    amount:number,
+    bid:number
 }
 
 export type IAuctionHistory = Array<IAuctionHistoryEntry>

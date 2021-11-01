@@ -6,32 +6,55 @@ import {ItemImages} from '../ItemImages';
 
 import {connect} from 'react-redux';
 
+
+import {
+    userinfoActions,
+    auctionsActions
+} from '../../actions/actions';
+import { Redirect } from 'react-router';
+
 const mapStateToProps = (state:any) => ({
-    userinfo: state.userinfo
+    userinfo: state.userinfo,
+    itemcatalogue: state.itemcatalogue,
+    auctions: state.auctions
 });
+
+const mapDispatchToProps = {
+    setItems: userinfoActions.setItems,
+    setActiveAuctions: auctionsActions.setActiveAuctions
+}
 
 interface CreateAuctionProps {
     userinfo: {
         items:any
-    }
+    },
+    itemcatalogue: any,
+    auctions: {
+        activeAuctions: any
+    },
+    setItems: (items:any) => {},
+    setActiveAuctions: (activeAuctions:any) => {}
 }
 
 class CreateAuctionState {
     selectedItem:any;
     minBid:string;
-    sellQuantity:number;
+    sellQuantity:string;
     expirationDay:Date;
     expirationTime:string;
     auctionError:string;
+    redirect:string;
     constructor() {
         this.selectedItem = null;
         this.minBid = "1000";
-        this.sellQuantity = 1;
+        this.sellQuantity = "1";
         let nextHour = (new Date().getHours() + 2) % 24;
         this.expirationDay = new Date(new Date().getTime() + (1000 * 60 * 60 * 2))
         let nextHourString = `${nextHour < 10 ? "0" : ""}${nextHour}`;
-        this.expirationTime = nextHourString + ":" + new Date().getMinutes();
+        let nextMinutes = new Date().getMinutes();
+        this.expirationTime = nextHourString + ":" + `${nextMinutes < 10 ? "0" : ""}${nextMinutes}`;
         this.auctionError = "";
+        this.redirect = "";
     }
 }
 
@@ -54,9 +77,6 @@ class CreateAuctionBind extends Component<CreateAuctionProps> {
         let minutes = this.state.expirationTime.split(":")[1];
         date.setHours(parseInt(hours), parseInt(minutes));
 
-        console.log(this.state.selectedItem);
-        console.log(this.props.userinfo.items);
-
         let bid = parseInt(this.state.minBid);
         if(isNaN(bid) || bid < 1000) {
             this.setState({auctionError:"Invalid bid."})
@@ -74,14 +94,21 @@ class CreateAuctionBind extends Component<CreateAuctionProps> {
             this.setState({auctionError:"Invalid quantity"});
             return;
         }
-        if(typeof(this.state.sellQuantity) !== "number") {
-            this.setState({auctionError:"Invalid input."});
-            return;
-        }
-        if(this.state.sellQuantity < 1 || this.state.selectedItem.quantity < this.state.sellQuantity) {
+        let sellQuantity = parseInt(this.state.sellQuantity);
+        if(isNaN(sellQuantity)) {
             this.setState({auctionError:"Invalid quantity."});
             return;
         }
+        if(sellQuantity < 1 || this.state.selectedItem.quantity < sellQuantity) {
+            this.setState({auctionError:"Invalid quantity."});
+            return;
+        }
+        const elapsed = date.getTime() - new Date().getTime();
+        if(elapsed < (1000 * 60 * 60 * 2 - (1000 * 60))
+            || elapsed > (1000 * 60 * 60 * 24 * 3)) {
+                this.setState({auctionError:"Invalid expiration."});
+                return;
+            }
 
         fetch('/api/placeAuctionSell/', {
             method: 'POST',
@@ -90,15 +117,20 @@ class CreateAuctionBind extends Component<CreateAuctionProps> {
             },
             body: JSON.stringify({
                 item: this.state.selectedItem.itemType,
-                amount: this.state.sellQuantity,
-                minimumBid: bid
+                amount: sellQuantity,
+                minimumBid: bid,
+                expiration: date
             })
         })
         .then(response => response.json())
         .then(data => {
-            console.log(data);
             if(!data.success) {
-                this.setState({auctionError:data.message})
+                this.setState({auctionError:data.reason})
+            } else {
+                this.props.setItems(data.items);
+                //let activeAuctions = [...this.props.auctions.activeAuctions, data.auction];
+                //this.props.setActiveAuctions(activeAuctions);
+                this.setState({selectedItem:null, redirect:data.auction.auctionID});
             }
         })
         .catch(error => {
@@ -123,9 +155,13 @@ class CreateAuctionBind extends Component<CreateAuctionProps> {
         Object.keys(this.props.userinfo.items).forEach((type:any) => {
             items = [...items, ...this.props.userinfo.items[type]];
         });
+        items = items.filter((item:any) => {
+            return this.props.itemcatalogue[item.itemType].tradeable;
+        });
         return items;
     }
     render() {
+        if(this.state.redirect) return <Redirect to={"/auctions/" + this.state.redirect} />;
         let items = this.getUserItems();
         return(
             <div className="create-auction-window">
@@ -145,6 +181,10 @@ class CreateAuctionBind extends Component<CreateAuctionProps> {
                                         className={this.getItemClass(item)}/> : null
                                 )}
                             )
+                        }
+                        {
+                            items.length === 0 ?
+                            "You don't own any items!" : null
                         }
                     </div>
                 </div>
@@ -190,6 +230,9 @@ class CreateAuctionBind extends Component<CreateAuctionProps> {
     }
 }
 
-const CreateAuction = connect(mapStateToProps)(CreateAuctionBind);
+const CreateAuction = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(CreateAuctionBind);
 
 export default CreateAuction;

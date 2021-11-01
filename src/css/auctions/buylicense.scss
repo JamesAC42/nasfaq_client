@@ -1,0 +1,76 @@
+.buy-auction-license {
+
+    background:rgb(230, 230, 230);
+    display:flex;
+    flex-direction:row;
+    align-items:center;
+    justify-content:center;
+
+    overflow:hidden;
+    
+    @keyframes expand-buy-license {
+        0% {
+            max-height:0px;
+        }
+        100% {
+            max-height:100vh;
+        }
+    }
+    animation:expand-buy-license .8s cubic-bezier(0.165, 0.84, 0.44, 1) 1;
+
+    padding:30px 0;
+
+    .license-image {
+        img {
+            max-height:300px;
+        }
+    }
+
+    .buy-license-action {
+        max-width:30vw;
+
+        text-align:center;
+        display:flex;
+        flex-direction: column;
+        align-items:center;
+        justify-content:center;
+        gap:10px;
+        padding:0 30px;
+
+        color:rgb(35, 34, 110);
+
+        .buy-license-header {
+            font-family: WorkSansSemiBold;
+            font-size:1.6rem;
+            color:rgb(47, 42, 107);
+        }
+
+        .buy-license-description {
+            font-size:1rem;
+        }
+
+        .buy-license-price {
+            font-family:WorkSansSemiBold;
+            font-size:2rem;
+            color:rgb(33, 160, 61);
+        }
+
+    }
+
+    .dark & {
+        
+        background:rgb(32, 32, 32);
+        .buy-license-action {
+            color:#fff;
+    
+            .buy-license-header {
+                color:rgb(188, 183, 253);
+            }
+            .buy-license-price {
+                color:rgb(50, 255, 94);
+            }
+    
+        }
+    }
+
+}

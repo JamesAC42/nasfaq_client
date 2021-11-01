@@ -8,12 +8,10 @@
     height:15vh;
     max-height:200px;
     text-align:center;
-    background:rgb(34, 34, 34);
+    background:rgb(222, 232, 255);
+    background-image: url('../../images/watasmug.png');
     color:$text-dark;
     gap:10px;
-    .dark & {
-        color:$text-light;
-    }
     .auctions-title-text {
         font-family:Chicago;
         font-size:2.3rem;
@@ -26,40 +24,61 @@
 .auction-filters {
     height:50px;
     padding:10px 20px;
-    background:rgb(17, 17, 20);
+    background:rgb(150, 206, 233);
     gap: 10px;
     justify-content: center;
     position:sticky;
     top:0;
-    z-index:1000;
+    z-index:15000;
+    
+    .dark & {
+        background:rgb(17, 17, 20);
+    }
 
     .view-select {
         display:flex;
         flex-direction:row;
         border-radius:6px;
         overflow:hidden;
-        border:1px solid rgb(68, 68, 68);
+        border:1px solid rgb(45, 53, 124);
         cursor:pointer;
         &:hover {border-width:2px;}
         .view-select-tab {
             padding:15px;
-            background:rgb(24, 24, 24);
-            color:rgb(110, 110, 110);
+            background:rgba(245, 246, 255, 0.322);
+            color:rgb(26, 26, 26);
             position:relative;
             z-index:100;
-            box-shadow: inset 0px 0px 18px 5px #000000;
+            box-shadow: inset 0px 0px 18px 5px #00000000;
             &.active {
-                background:rgb(64, 67, 77);
+                background:rgb(32, 79, 139);
                 color:rgb(239, 228, 248);
-                box-shadow: 0px 0px 18px 5px #000000;
+                box-shadow: 0px 0px 18px 5px #00000000;
                 z-index:150;
             }
             &:first-child {
                 border-right:1px solid rgb(22, 22, 22);
             }
         }
+
+        .dark & {
+            border:1px solid rgb(68, 68, 68);
+            .view-select-tab {
+                background:rgb(24, 24, 24);
+                color:rgb(110, 110, 110);
+                &.active {
+                    background:rgb(64, 67, 77);
+                    color:rgb(239, 228, 248);
+                    box-shadow: 0px 0px 18px 5px #000000;
+                }
+                &:first-child {
+                    border-right:1px solid rgb(22, 22, 22);
+                }
+            }
+        }
     }
-    .add-auction-button {
+    .add-auction-button,
+    .buy-auction-license-button {
         position:absolute;
         left:0;
         top:50%;
@@ -71,6 +90,25 @@
         color:#fff;
         cursor:pointer;
         &:hover {background:rgb(62, 68, 153);}
+
+        .dark & {
+            background:rgb(75, 137, 218);
+            color:#fff;
+            &:hover {background:rgb(62, 68, 153);}
+        }
+    }
+    .info-button {
+        position:absolute;
+        margin:0 20px;
+        right:0;top:50%;
+        transform:translate(0, -50%);
+        font-size:2rem;
+        color:#fff;
+        cursor:pointer;
+        &:hover {opacity:0.5}
+        svg {
+            transform:translateY(2px);
+        }
     }
 }
 
@@ -101,7 +139,7 @@
         transition:all .1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         
         &:hover {
-            box-shadow: 0px 9px 18px -3px #000000;
+            box-shadow: 0px 9px 18px -3px #00000085;
             transform:translateY(-3px);
         }
 
@@ -118,7 +156,7 @@
 
         .item-auction-thumbnail {
             padding:10px;
-            background:rgb(21, 25, 32);
+            background:rgb(255, 255, 255);
             cursor:pointer;
             img {
                 max-width:300px;
@@ -129,11 +167,12 @@
         
         .auction-preview-info {
             padding:30px 40px;
+            width:150px;
             max-width:150px;
             display:flex;
             flex-direction:column;
             align-items:center;
-            background:rgb(19, 18, 22);
+            background:rgb(40, 60, 114);
 
             color:#fff;
             text-align:center;
@@ -169,6 +208,35 @@
             }
 
             gap:10px;
+        }
+        
+
+        .no-active-auctions {
+            font-size:1.4rem;
+            font-family:WorkSansSemiBold;
+        }
+
+        .dark & {
+            &:hover {
+                box-shadow: 0px 9px 18px -3px #000000;
+            }
+            border:3px solid rgb(75, 204, 236);
+            .item-auction-thumbnail {
+                background:rgb(21, 25, 32);
+            }
+            .auction-preview-info {
+                
+                background:rgb(18, 18, 22);
+                color:#fff;
+                
+                .auction-preview-info-name {
+                    a {
+                        color:#fff;
+                        &:hover {color:rgb(73, 136, 218);}
+                    }
+                }
+            }
+            .no-active-auctions {color:#fff;}
         }
     }
 }

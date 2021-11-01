@@ -55,6 +55,17 @@ export const transactionActions = createActions(
     "REMOVE_TRANSACTION"
 )
 
+export const auctionsActions = createActions(
+    {
+        SET_ACTIVE_AUCTIONS: activeAuctions => ({ activeAuctions }),
+        SET_PAST_AUCTIONS: pastAuctions => ({ pastAuctions }),
+        SET_AUCTION_FEEDS: auctionFeeds => ({ auctionFeeds }),
+        SET_AUCTION_SUBSCRIPTIONS: subscriptions => ({ subscriptions }),
+        SET_AUCTION_PRICE_HISTORY: auctionPriceHistory => ({ auctionPriceHistory }),
+        SET_AUCTION_NOTIFICATIONS: auctionNotifications => ({ auctionNotifications }),
+    }
+)
+
 export const floorActions = createActions(
     {
         SET_FLOOR_SPACE: floorSpace => ({ floorSpace }),
@@ -93,6 +104,12 @@ export const autotraderActions = createActions(
 export const itemcatalogueActions = createActions(
     {
         SET_CATALOGUE: catalogue => ({ catalogue })
+    }
+)
+
+export const itemmarketpricesActions = createActions(
+    {
+        SET_ITEM_MARKET_PRICES: itemMarketPrices => ({ itemMarketPrices })
     }
 )
 

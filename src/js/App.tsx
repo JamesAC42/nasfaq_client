@@ -42,7 +42,9 @@ import {
   settingsActions, 
   statsActions, 
   itemcatalogueActions,
-  multicoinSaveActions
+  multicoinSaveActions,
+  itemmarketpricesActions,
+  auctionsActions
 } from './actions/actions';
 
 import {
@@ -52,9 +54,11 @@ import {
 import Info from './components/Info';
 import LoginAdmin from './components/LoginAdmin';
 import { Themes } from './Themes';
+import AuctionNotifications from './components/auctions/AuctionNotification';
 
 const mapStateToProps = (state:any, props:any) => ({
-  settings: state.settings
+  settings: state.settings,
+  session: state.session
 });
 
 const mapDispatchToProps = {
@@ -67,11 +71,18 @@ const mapDispatchToProps = {
   setItemCatalogue: itemcatalogueActions.setCatalogue,
   setBrokerTotal: statsActions.setBrokerTotal,
   setMulticoinSave: multicoinSaveActions.setMulticoinSave,
+  setItemMarketPrices: itemmarketpricesActions.setItemMarketPrices,
+  setActiveAuctions: auctionsActions.setActiveAuctions,
+  setPastAuctions: auctionsActions.setPastAuctions,
+  setAuctionSubscriptions: auctionsActions.setAuctionSubscriptions
 }
 
 interface AppProps {
   settings: {
     theme: Themes
+  },
+  session: {
+    loggedin: boolean
   },
   setStats: (stats:{}) => {},
   setHistory: (coinHistory:{}) => {},
@@ -81,7 +92,11 @@ interface AppProps {
   setMarketSwitch: (open:boolean) => {},
   setItemCatalogue: (catalogue:any) => {},
   setBrokerTotal: (brokerTotal:any) => {},
-  setMulticoinSave: (multicoinSave:any) => {}
+  setMulticoinSave: (multicoinSave:any) => {},
+  setItemMarketPrices: (itemmarketprices:any) => {},
+  setActiveAuctions: (activeAuctions:any) => {},
+  setPastAuctions: (pastAuctions:any) => {},
+  setAuctionSubscriptions: (subscriptions:any) => {}
 }
 
 const adjustmentTime = {
@@ -103,6 +118,13 @@ class AppBind extends Component<AppProps> {
         this.props.setItemCatalogue(data.catalogue);
       }
     });
+
+    fetchData('/api/getItemMarketPrices')
+    .then((data:any) => {
+      if(data.success) {
+        this.props.setItemMarketPrices(data.catalogue)
+      }
+    })
 
     fetchData('/api/getMarketInfo?all&history&brokerFeeTotal')
     .then((data:any) => {
@@ -190,6 +212,25 @@ class AppBind extends Component<AppProps> {
         this.props.setMulticoinSave(newMulticoin);
         localStorage.setItem("nasfaq:multicoinSave", JSON.stringify(newMulticoin));
       }
+
+      let subscriptions = localStorage.getItem("nasfaq:auction_subscriptions");
+      if(subscriptions !== null) {
+        this.props.setAuctionSubscriptions(JSON.parse(subscriptions));
+      }
+
+    }
+  }
+
+  componentDidUpdate(prevProps:AppProps) {
+    if(this.props.session.loggedin && !prevProps.session.loggedin) {
+      fetchData('/api/getAuctionCurrent')
+      .then((data:any) => {
+          this.props.setActiveAuctions(data.auctions);
+      })
+      fetchData('/api/getAuctionHistory')
+      .then((data:any) => {
+          this.props.setPastAuctions(data.auctionHistory);
+      })
     }
   }
 
@@ -219,6 +260,8 @@ class AppBind extends Component<AppProps> {
         <AutoTrader />
 
         <Announcement />
+
+        <AuctionNotifications />
 
         <Switch>
 

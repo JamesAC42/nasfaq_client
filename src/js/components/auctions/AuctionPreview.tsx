@@ -8,14 +8,25 @@ import {ItemImages} from '../ItemImages';
 import numberWithCommas from '../../numberWithCommas';
 import { IAuctionItem } from './IAuction';
 import { Link } from 'react-router-dom';
+import { auctionsActions } from '../../actions/actions';
+import storageAvailable from '../../checkStorage';
 
 const mapStateToProps = (state:any) => ({
-    itemcatalogue: state.itemcatalogue
+    itemcatalogue: state.itemcatalogue,
+    auctions: state.auctions
 })
+
+const mapDispatchToProps = {
+    setAuctionSubscriptions: auctionsActions.setAuctionSubscriptions
+}
 
 interface AuctionPreviewProps {
     auction:IAuctionItem,
-    itemcatalogue: any
+    auctions: {
+        subscriptions: any
+    },
+    itemcatalogue: any,
+    setAuctionSubscriptions: (subscriptions:any) => {}
 }
 
 class AuctionPreviewState {
@@ -46,6 +57,22 @@ class AuctionPreviewBind extends Component<AuctionPreviewProps> {
     }
     formatNumber(t:number) {
         return t < 10 ? "0" + t : t.toString();
+    }
+    subscribed() {
+        return this.props.auctions.subscriptions.indexOf(this.props.auction.auctionID) !== -1;
+    }
+    toggleSubscribed() {
+        let subscriptions:Array<string> = [...this.props.auctions.subscriptions];
+        if(this.subscribed()) {
+            subscriptions = subscriptions.filter((s:string) => {return s !== this.props.auction.auctionID});
+        } else {
+            subscriptions.push(this.props.auction.auctionID);
+        }
+        this.props.setAuctionSubscriptions(subscriptions);
+
+        if(storageAvailable()) {
+            localStorage.setItem('nasfaq:auction_subscriptions', JSON.stringify(subscriptions));
+        }
     }
     updateTimeRemaining() {
         const now = new Date().getTime();
@@ -90,6 +117,15 @@ class AuctionPreviewBind extends Component<AuctionPreviewProps> {
         return(
             
             <div className="auction-preview">
+                
+                <div 
+                    className="watch-auction"
+                    onClick={() => this.toggleSubscribed()}>
+                    {
+                        this.subscribed() ?
+                        <AiFillEye /> : <AiOutlineEye />
+                    }
+                </div>
                 <div className="item-auction-thumbnail flex center-child">
                     <Link to={`/auctions/${auction.auctionID}`}>
                     <img src={ItemImages[auction.item]} alt={this.props.itemcatalogue[auction.item].name} />
@@ -103,7 +139,12 @@ class AuctionPreviewBind extends Component<AuctionPreviewProps> {
                     </div>
                     <div className="auction-preview-info-seller">
                         Seller: <span className="highlight">
-                            {auction.sellerUsername}
+                            {auction.seller}
+                        </span>
+                    </div>
+                    <div className="auction-preview-info-seller">
+                        Highest Bidder: <span className="highlight">
+                            {auction.bidder ? auction.bidder : "-"}
                         </span>
                     </div>
                     <div className="auction-preview-info-quantity">
@@ -123,6 +164,9 @@ class AuctionPreviewBind extends Component<AuctionPreviewProps> {
     }
 }
 
-const AuctionPreview = connect(mapStateToProps)(AuctionPreviewBind);
+const AuctionPreview = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(AuctionPreviewBind);
 
 export default AuctionPreview;

@@ -1,3 +1,5 @@
+@import "./settings.scss";
+
 .halloween {
 
     $orange: rgb(255, 176, 124);
@@ -851,4 +853,286 @@
         }
     }
 
+    .auctions-title {
+        background:rgb(24, 17, 43);
+        color:#fff;
+    }
+    .auction-filters {
+        background:rgb(13, 13, 15);
+        .view-select {
+            border:1px solid rgb(207, 173, 98);
+            .view-select-tab {
+                background:rgba(185, 170, 146, 0.212);
+                color:rgb(230, 230, 230);
+                &.active { 
+                    background:rgb(240, 174, 76);
+                    color:rgb(32, 16, 44);
+                }
+                &:first-child {
+                    border-right:1px solid rgb(22, 22, 22);
+                }
+            }
+        }
+    
+        .add-auction-button,
+        .buy-auction-license-button {
+            background:rgb(240, 129, 78) !important;
+            color:#fff;
+            &:hover {background:rgb(187, 95, 52) !important;}
+        }
+    }
+
+    .auction-container {
+        .auction-preview {
+            border:3px solid rgb(236, 172, 75);
+            &:hover {
+                box-shadow: 0px 9px 18px -3px #000000;
+            }
+            .item-auction-thumbnail {
+                background:rgb(37, 34, 80);
+            }
+            .auction-preview-info {
+                
+                background:rgb(9, 13, 51);
+                color:#fff;
+                
+                .auction-preview-info-name {
+                    a {
+                        color:#fff;
+                        &:hover {color:rgb(238, 198, 67);}
+                    }
+                }
+            }
+        }
+        .no-active-auctions {color:#fff;}
+    }
+
+        
+    .create-auction-window {
+        background:rgb(26, 26, 26);
+
+        .auction-item-select {
+            .auction-item-select-header {
+                color:#fff;
+            }
+            .auction-item-select-inner {
+                box-shadow: inset 0px 0px 18px 5px #181818;
+                background:rgb(50, 51, 59);
+            }
+        }
+        .auction-item-input {
+            color:#fff;
+            .sell-quantity,
+            .minimum-bid {
+                input {
+                    border:1px solid rgb(58, 58, 58);
+                    color:#fff;
+                    background:rgb(20, 20, 20);
+                }
+            }
+            .expiration-outer {
+
+                input.expiration-time-input {
+                    background:rgb(17, 17, 17);
+                    color:#fff;
+                    border:1px solid $default;
+                }
+            }
+            .create-auction {
+                .create-auction-button {
+                    border:1px solid rgb(69, 199, 108);
+                    background:rgb(69, 199, 108);
+                }
+            }
+        }
+    }
+
+    .buy-auction-license {
+
+        background:rgb(32, 32, 32);
+        .buy-license-action {
+            color:#fff;
+    
+            .buy-license-header {
+                color:rgb(235, 96, 96);
+            }
+            .buy-license-price {
+                color:rgb(162, 204, 83);
+            }
+    
+        }
+    }
+
+    .auction-history {
+        .auction-price-history-chart {
+            background:rgb(13, 14, 26);
+            box-shadow: 0px 5px 19px -3px #000000;
+            border:3px solid rgb(243, 207, 88);
+            .close-price-chart {
+                height:30px;
+                .close-price-chart-button {
+                    color:rgb(250, 196, 78);
+                }
+            }
+            .price-chart-header {
+                color:#fff;
+            }
+        }
+        table {
+            color:#fff;
+            background:rgb(38, 25, 59);
+            thead {
+                tr td {
+                    background:rgb(255, 159, 50);
+                    color:rgb(25, 24, 32);
+                }
+            }
+            tbody {
+                tr td {
+                    border-bottom:1px solid rgb(77, 77, 77);
+                }
+                td.auction-history-bid {
+                    color:rgb(90, 207, 119);
+                }
+            }
+        }
+        .no-past-auctions {color:#fff;}
+    }
+
+        
+    .auction-detail-container {
+        .auctions-back {
+            a {
+                color:#fff;
+            }
+            &:hover {
+                background:rgb(255, 179, 135);
+                a {color:rgb(23, 36, 59);}
+            }
+        }
+        .auction-background {
+            background:$primary;
+            background: linear-gradient(135deg, rgb(255, 253, 133) 0%, rgb(138, 38, 35) 100%);
+        }
+        .auction-detail-outer {
+            border:4px solid rgb(248, 180, 78);
+            .auction-item-info {
+                background: rgb(81,96,122);
+                background: linear-gradient(157deg, rgb(245, 224, 130) 0%, rgb(201, 111, 76) 35%, rgb(94, 32, 30) 100%);
+                box-shadow: inset 0px 0px 15px 0px #000000b2;
+                .auction-item-name,
+                .auction-seller {
+                    background:rgb(22, 14, 43);
+                }
+                .auction-item-name {
+                    color:rgb(117, 255, 179);
+                }
+                .auction-seller {
+                    color:rgb(156, 156, 156);
+                }
+                .auction-item-image {
+                    .auction-item-image-container,
+                    .auction-item-quantity {
+                        background:rgb(32, 32, 32);
+                        box-shadow: 0px 0px 15px 0px #000000;
+                        color:rgb(143, 135, 253);
+                        border:4px solid rgb(231, 165, 66);
+                    }
+                }
+            }
+            .auction-actions {
+                background:rgb(13, 11, 17);
+                color:#fff;
+                .current-bid-amount {
+                    color:rgb(104, 223, 100);
+                }
+                .last-outbid-amount {
+                    color:rgb(109, 160, 108);
+                }
+                .current-bid-bidder {
+                    color:rgb(134, 145, 240);
+                }
+                .last-outbid-bidder {
+                    color:rgb(138, 134, 190);
+                }
+
+                .bid-metrics {
+                    .remaining-time {
+                        color:rgb(78, 214, 255);
+                    }
+                    .auction-watching {
+                        color:rgb(236, 159, 154);
+                    }
+                    .cancel-auction {
+                        background:rgb(255, 213, 73);
+                        color:rgb(31, 28, 28);
+                    }
+                }
+
+                .auction-log {
+                    border-top:1px solid rgb(31, 16, 51);
+                    background:rgb(12, 7, 20);
+                    .auction-log-item {
+                        color:rgb(216, 213, 213);
+                        span.auction-log-timestamp {
+                            color:rgb(139, 139, 139);
+                        }
+                        span.auction-log-username {
+                            color:rgb(138, 165, 255);
+                        }
+                        span.auction-log-amount {
+                            color:rgb(107, 221, 107);
+                        }
+                    }
+                }
+                .auction-bid-container {
+                    background:rgb(28, 20, 34);
+                    input {
+                        color:rgb(230, 230, 230);
+                        border:1px solid rgb(80, 80, 80);
+                        &:focus {
+                            outline:1px solid rgb(133, 174, 250);
+                        }
+                    }
+                    .submit-bid {
+                        background:rgb(60, 78, 238);
+                        color:rgb(255, 255, 255);
+                        &:hover {
+                            background:rgb(39, 204, 127);
+                        }
+                    }
+                }
+                .bid-error {
+                    background:rgb(24, 24, 24);
+                }
+            }
+        }
+    }
+        
+    .auction-notifications-outer {
+
+        .auction-notification-item {
+            border:3px solid rgb(252, 210, 71);
+            background:rgb(16, 12, 37);
+            color:rgb(255, 255, 255);
+            box-shadow: 0px 5px 15px -6px #000000;
+            .notif-desc {
+                .bid-amount {
+                    color:rgb(95, 236, 130);
+                }
+            }
+        }
+    }
+
+    .auction-info {
+        background:rgb(11, 7, 27);
+        border-color:rgb(255, 213, 179);
+        .auction-info-header {
+            color:#fff;
+        }
+        .auction-info-content {
+            color:#fff;
+            span.broker {color:rgb(231, 106, 67);}
+        }
+    }
 }
