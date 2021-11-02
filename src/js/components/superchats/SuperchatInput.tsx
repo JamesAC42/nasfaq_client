@@ -218,7 +218,7 @@ class SuperchatInputBind extends Component<ISuperchatInputProps> {
                 });
                 this.props.toggleInput();
             } else {
-                let errorMessage = "Invalid superchat";
+                let errorMessage = data.reason;
                 if(data.reason === 'filter') 
                     errorMessage = "You probably shouldn't say that.";
                 this.setState({
