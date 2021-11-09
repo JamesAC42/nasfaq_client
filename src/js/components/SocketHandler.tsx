@@ -374,7 +374,7 @@ class SocketHandlerBind extends Component<SocketHandlerProps> {
             } else {
                 for(let i = 0; i < activeAuctions.length; i++) {
                     if(activeAuctions[i].auctionID === auction.auctionID) {
-                        if(updateType === 'removeAuction') {
+                        if(updateType === 'removeAuction' || updateType === 'completeAuction') {
                             activeAuctions.splice(i, 1);
                         } else {
                             activeAuctions[i] = auction;

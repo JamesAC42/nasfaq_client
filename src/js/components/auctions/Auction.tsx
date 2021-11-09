@@ -179,7 +179,7 @@ class AuctionBind extends Component<AuctionProps> {
                 alert("You cannot cancel an expired auction, wait for it to be renewed.");
                 return;
             }
-            if(window.confirm("Are you sure? You will be charged a cancellation fee of $5000.")) {
+            if(window.confirm("Are you sure? You will be charged a cancellation fee of $5000 or 50% of the current highest bid (including the minimum bid), whichever is higher.")) {
                 let auction:IAuctionItem|null = this.getAuction(this.props.auctions.activeAuctions);
                 if(!auction) return;
     

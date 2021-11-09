@@ -880,6 +880,10 @@
             color:#fff;
             &:hover {background:rgb(187, 95, 52) !important;}
         }
+        .toggle-filters-button {
+            background:rgb(93, 75, 197);
+            &:hover {background:rgb(57, 38, 100);}
+        }
     }
 
     .auction-container {
@@ -1133,6 +1137,43 @@
         .auction-info-content {
             color:#fff;
             span.broker {color:rgb(231, 106, 67);}
+        }
+    }
+    
+    .auction-filter-controls {     
+        background:rgb(6, 4, 10);
+        box-shadow: 8px 5px 19px -5px #000000d0;
+        .auction-filter-control-row {
+            background:rgb(49, 49, 49);
+            .filter-label {
+                color:rgb(255, 243, 218);
+            }
+            .item-select,
+            .auction-control-button {
+                border:1px solid rgb(243, 146, 81);
+                color:rgb(255, 226, 199);
+                &:hover {
+                    background:rgb(255, 162, 99);
+                    color:rgb(0, 0, 0);
+                }
+            }
+            .checkbox {
+                border:3px solid rgb(240, 214, 67);
+                &.active {
+                    background:rgb(226, 175, 65);
+                }
+            }
+        }
+    }
+        
+    .item-select-container {
+        background: rgb(11, 12, 17);
+        box-shadow: 8px 5px 19px -5px #000000ec;
+        .item-item {
+            color:#fff;
+            &:hover {
+                background:rgb(255, 167, 53);
+            }
         }
     }
 }

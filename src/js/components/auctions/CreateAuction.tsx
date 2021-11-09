@@ -110,6 +110,10 @@ class CreateAuctionBind extends Component<CreateAuctionProps> {
                 return;
             }
 
+        if(!window.confirm("By setting up this auction, you will be liable for making extension payments of $1000 every 15 minutes past the auction's expiration if it expires without any bids or 50% of your minimum bid as a cancellation fee. You will go into debt if you cannot afford these fees. Are you sure you wish to continue?")) {
+            return;
+        }
+
         fetch('/api/placeAuctionSell/', {
             method: 'POST',
             headers: {
