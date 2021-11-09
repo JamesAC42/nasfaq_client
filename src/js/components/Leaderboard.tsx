@@ -181,7 +181,7 @@ class LeaderboardUserItem extends Component<LeaderboardUserProps> {
                 <div className="wallet-inner-coins">
                     {
                         coinsOwned.map((coin:string) =>
-                            <div 
+                            <div
                                 className="wallet-item"
                                 key={coin}>
                                 <Coin name={this.filterName(coin)}/>
@@ -238,11 +238,11 @@ class LeaderboardUserItem extends Component<LeaderboardUserProps> {
                 </div>
                 <div className="items-inner-items">
                     {
-                        itemList.map((item:IItem) => 
+                        itemList.map((item:IItem) =>
                             <div
-                                key={item.itemType} 
+                                key={item.itemType}
                                 className="user-item flex center-child">
-                                <div 
+                                <div
                                     className="item-image flex center-child"
                                     title={item.itemType}>
                                     <img src={ItemImages[item.itemType]} alt={item.itemType}/>
@@ -261,9 +261,9 @@ class LeaderboardUserItem extends Component<LeaderboardUserProps> {
         if(this.props.item.hat) {
             return(
                 <div className="user-hat-container">
-                    <img 
-                        src={ItemImages[this.props.item.hat]} 
-                        alt={this.props.item.hat} 
+                    <img
+                        src={ItemImages[this.props.item.hat]}
+                        alt={this.props.item.hat}
                         className={"user-hat " + this.props.item.hat}/>
                 </div>
             )
@@ -282,10 +282,10 @@ class LeaderboardUserItem extends Component<LeaderboardUserProps> {
         } else {
             nw = "$" + nw;
         }
-        let networthClass = this.props.item.networth <= 0 ? "net-worth debt" : "net-worth"; 
-        
+        let networthClass = this.props.item.networth <= 0 ? "net-worth debt" : "net-worth";
+
         return(
-            <div 
+            <div
                 className={lbclass}
                 key={this.props.item.username}>
                 <div className="user-rank-info">
@@ -296,7 +296,7 @@ class LeaderboardUserItem extends Component<LeaderboardUserProps> {
                         {this.renderHat()}
                         <Coin name={this.props.item.icon} />
                     </div>
-                    <div 
+                    <div
                         className={`username ${this.props.item.color}`}
                         title={this.props.item.username}>
                             <div className="username-inner">
@@ -305,16 +305,16 @@ class LeaderboardUserItem extends Component<LeaderboardUserProps> {
                     </div>
                     {
                         this.props.item.walletIsPublic ?
-                        <div 
+                        <div
                             className="show-wallet umami--click--view-wallet"
                             title="Show wallet"
                             onClick={() => this.toggleWalletVisible()}>
-                            <FaWallet style={{verticalAlign: 'middle'}}/>                            
+                            <FaWallet style={{verticalAlign: 'middle'}}/>
                         </div> : null
                     }
                     {
                         this.props.item.hasItems ?
-                        <div 
+                        <div
                             className="show-items"
                             title="Show items"
                             onClick={() => this.toggleItemsVisible()}>
@@ -326,9 +326,9 @@ class LeaderboardUserItem extends Component<LeaderboardUserProps> {
                     </div>
                 </div>
                 {
-                    this.state.walletVisible ? 
+                    this.state.walletVisible ?
                     <div className="user-rank-wallet">
-                        {this.state.loadingWallet ? 
+                        {this.state.loadingWallet ?
                             <div className="loading-container">
                                 <LoadingSmall/>
                             </div> : this.renderWallet()}
@@ -373,12 +373,12 @@ class OshiboardItem extends Component<OshiboardItemProps> {
     render() {
         if(this.props.data === undefined) return null;
         let name = this.props.name === "himemoriluna" ? "luna" : this.props.name;
-        
+
         let totalInCirculation = this.props.inCirculation === 0 ? 1 : this.props.inCirculation;
         let marketShare = this.props.data.totalOwned / totalInCirculation;
         marketShare = Math.round(marketShare * 10000) / 100;
         if(Number.isNaN(marketShare)) marketShare = 0;
-        
+
         return (
             <div className="oshiboard-item flex flex-row flex-stretch">
                 <div className="oshi-info flex flex-col flex-center">
@@ -389,23 +389,23 @@ class OshiboardItem extends Component<OshiboardItemProps> {
                         {name}
                     </div>
                     <div className="oshi-total-owned">
-                        Directors own  
+                        Directors own
                         <span className="oshi-stat">
-                            {" " + this.props.data.totalOwned + " "} 
+                            {" " + this.props.data.totalOwned + " "}
                         </span>
-                        coin{this.props.data.totalOwned === 1 ? " " : "s "} 
+                        coin{this.props.data.totalOwned === 1 ? " " : "s "}
                         total.
                     </div>
                     <div className="oshi-market-share">
                         <span className="oshi-stat">
-                        {marketShare + "% "} 
+                        {marketShare + "% "}
                         </span>
                         market share
                     </div>
                     <div className="oshi-in-circulation">
-                        out of 
+                        out of
                         <span className="oshi-stat">
-                            {" " + this.props.inCirculation + " "} 
+                            {" " + this.props.inCirculation + " "}
                         </span>
                         currently in circulation
                     </div>
@@ -418,8 +418,8 @@ class OshiboardItem extends Component<OshiboardItemProps> {
                         </div> : null
                     }
                     {
-                        this.props.data.directors.map((d:any, i:number) => 
-                            <div 
+                        this.props.data.directors.map((d:any, i:number) =>
+                            <div
                                 className="director flex flex-row flex-center"
                                 key={i}>
                                 <div className="director-badge">
@@ -427,9 +427,9 @@ class OshiboardItem extends Component<OshiboardItemProps> {
                                 </div>
                                 <div className="director-icon">
                                     <div className="user-hat-container">
-                                        <img 
-                                            src={ItemImages[d.hat]} 
-                                            alt={d.hat} 
+                                        <img
+                                            src={ItemImages[d.hat]}
+                                            alt={d.hat}
                                             className={"user-hat " + d.hat}/>
                                     </div>
                                     <Coin name={d.icon} />
@@ -439,7 +439,7 @@ class OshiboardItem extends Component<OshiboardItemProps> {
                                 </div>
                                 <div className="director-amt-owned">
                                     <span className="oshi-stat">
-                                        {d.amtOwned + " "} 
+                                        {d.amtOwned + " "}
                                     </span>
                                     coin{d.amtOwned === 1 ? "" : "s"}
                                 </div>
@@ -484,14 +484,55 @@ const mapStateToProps = (state:any, props:any) => ({
     settings: state.settings
 });
 
+class Filters {
+    username: string;
+    rankMin: number;
+    rankMax: number;
+    worthMin: number;
+    worthMax: number;
+    icon: string;
+    public: boolean;
+    private: boolean;
+    coin: string;
+    coinMin: number;
+    coinMax: number;
+    item: string;
+    itemMin: number;
+    itemMax: number;
+    filtersOn: boolean;
+    constructor() {
+        this.username = "";
+        this.rankMin = 0;
+        this.rankMax = 0;
+        this.worthMin = 0;
+        this.worthMax = 0;
+        this.icon = "";
+        this.public = true;
+        this.private = true;
+        this.coin = "";
+        this.coinMin = 0;
+        this.coinMax = 0;
+        this.item = "";
+        this.itemMin = 0;
+        this.itemMax = 0;
+        this.filtersOn = false;
+    }
+}
+
 class LeaderboardState {
     activeView:activeView;
     activePage: number;
     pageSize: number;
+    showFilters: boolean;
+    filters: Filters;
+    filteredLeaderboard: Array<LeaderboardUser>;
     constructor() {
         this.activeView = activeView.leaderboard;
         this.activePage = 0;
-        this.pageSize = 500;
+        this.pageSize = 1;
+        this.showFilters = false;
+        this.filters = new Filters();
+        this.filteredLeaderboard = [];
     }
 }
 
@@ -500,6 +541,29 @@ class LeaderboardBind extends Component<LeaderboardProps> {
     constructor(props:LeaderboardProps) {
         super(props);
         this.state = new LeaderboardState();
+    }
+    componentDidMount() {
+        this.applyFilters();
+    }
+    componentDidUpdate(props:LeaderboardProps) {
+        if(this.props.stats.leaderboard !== props.stats.leaderboard)
+            this.applyFilters();
+    }
+    applyFilters() {
+        let leaderboard = this.props.stats.leaderboard;
+        if(this.state.filters.filtersOn) {
+
+        }
+        this.setState({filteredLeaderboard:leaderboard})
+    }
+    updateFilter(propName:string, value:any) {
+        this.setState({
+            ...this.state,
+            filters: {
+                ...this.state.filters,
+                [propName]: value
+            }
+        })
     }
     changeActiveView(view:number) {
         this.setState({
@@ -525,7 +589,7 @@ class LeaderboardBind extends Component<LeaderboardProps> {
             let visibleUsers = this.getPagedUsers(this.props.stats.leaderboard);
             let pageOffset = this.state.pageSize * this.state.activePage;
             return (
-                visibleUsers.map((item:LeaderboardUser, index:number) => 
+                visibleUsers.map((item:LeaderboardUser, index:number) =>
                     <LeaderboardUserItem
                         key={item.username}
                         userinfo={this.props.userinfo}
@@ -552,11 +616,11 @@ class LeaderboardBind extends Component<LeaderboardProps> {
             return (
                 <div className="oshiboard-outer">
                     <div className="oshiboard-description">
-                        Each Holo's board of directors, made of the top 5 users 
+                        Each Holo's board of directors, made of the top 5 users
                         who hold the respective coin as their oshi.
                     </div>
                     {
-                        coinNames.map((coin:string, index:number) => 
+                        coinNames.map((coin:string, index:number) =>
                             <OshiboardItem
                                 key={index}
                                 name={coin}
@@ -583,6 +647,9 @@ class LeaderboardBind extends Component<LeaderboardProps> {
             cname += "witchsora";
         }
         return cname;
+    }
+    toggleFilters() {
+        this.setState({showFilters:!this.state.showFilters})
     }
     render() {
         let titles = ["LEADERBOARD", "OSHIBOARD"];
@@ -615,13 +682,33 @@ class LeaderboardBind extends Component<LeaderboardProps> {
                                 {activeTitle}
                             </div>
                             {
+                                this.state.activeView === activeView.leaderboard ?
+                                    <div className="filter-container">
+                                        <div className="filter-button" onClick={
+                                            () => this.toggleFilters()
+                                        }>
+                                            Filter
+                                        </div>
+                                        {
+                                            this.state.showFilters ?
+                                                <div>
+                                                    Here go the filters
+                                                    <button onClick={() => this.applyFilters()}>Apply Filters</button>
+                                                </div>
+                                            : null
+                                        }
+
+                                    </div>
+                                : null
+                            }
+                            {
                                 this.state.activeView === activeView.leaderboard
                                 && this.props.stats.leaderboard.length > this.state.pageSize ?
                                     <div className="pagenav">
                                     {
-                                        [...Array(pageAmt)].map((item:number, index:number) => 
-                                            <div 
-                                            className={`page-select 
+                                        [...Array(pageAmt)].map((item:number, index:number) =>
+                                            <div
+                                            className={`page-select
                                                 ${index === this.state.activePage ? "active-page" : ""}`
                                             }
                                             key={index}
