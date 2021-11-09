@@ -2,6 +2,7 @@
 
 .auction-page-container {
     overflow-y:scroll;
+    overflow-x:hidden;
 }
 
 .auctions-title {
@@ -77,14 +78,20 @@
             }
         }
     }
-    .add-auction-button,
-    .buy-auction-license-button {
+    .left-action-container {
         position:absolute;
         left:0;
         top:50%;
         transform:translate(0, -50%);
-        padding:10px;
         margin:0 20px;
+        display:flex;
+        flex-direction: row;
+        gap:10px;
+    }
+    .add-auction-button,
+    .buy-auction-license-button,
+    .toggle-filters-button {
+        padding:10px;
         border-radius:10px;
         background:rgb(75, 137, 218);
         color:#fff;
@@ -95,6 +102,14 @@
             background:rgb(75, 137, 218);
             color:#fff;
             &:hover {background:rgb(62, 68, 153);}
+        }
+    }
+    .toggle-filters-button {
+        background:rgb(74, 165, 192);
+        &:hover {background:rgb(73, 121, 160);}
+        .dark & {
+            background:rgb(74, 165, 192);
+            &:hover {background:rgb(73, 121, 160);}
         }
     }
     .info-button {
@@ -112,26 +127,200 @@
     }
 }
 
+.auction-content-outer {
+    display:flex;
+    flex-direction:row;
+    justify-content:space-between;
+}
+
+@keyframes filter-expand {
+    0% {
+        width:0;
+    }
+    100% {
+        width:20vw;
+    }
+}
+
+.item-select-container {
+    position:fixed;
+    top:50%;left:20vw;
+    transform:translate(0,calc(-50% + 70px));
+    height:70vh;width:20vw;
+    background:rgb(215, 228, 255);
+    z-index:40000;
+    animation:filter-expand .15s cubic-bezier(0.075, 0.82, 0.165, 1) 1;
+    box-shadow: 8px 5px 19px -5px #00000041;
+    overflow-y:scroll;
+    overflow-x:hidden;
+
+    padding:10px 0;
+    border-radius:7px;
+    display:flex;
+    flex-direction:column;
+    align-items:stretch;
+    .item-item {
+        padding:10px 0;
+        text-align:center;
+        cursor:pointer;
+        &:hover {
+            background:rgb(242, 245, 255);
+        }
+    }
+
+    .dark & {
+        background: rgb(26, 25, 25);
+        box-shadow: 8px 5px 19px -5px #000000ec;
+        .item-item {
+            color:#fff;
+            &:hover {
+                background:rgb(148, 148, 148);
+            }
+        }
+    }
+}
+
+.auction-filter-controls {
+
+    width:20vw;
+    height:calc(84vh + 10px);
+    background:rgb(255, 255, 255);
+    position:sticky; 
+    box-shadow: 8px 5px 19px -5px #00000041;
+    top:70px;
+    align-self: flex-start;
+    display:flex;
+    flex-direction: column;
+    align-items:stretch;
+    animation:filter-expand .15s cubic-bezier(0.075, 0.82, 0.165, 1) 1;
+
+    .auction-filter-control-row {
+        min-width:20vw;
+        max-width:20vw;
+        margin:5px 0;
+
+        padding:15px 0;
+        background:#eee;
+
+        display:flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items:center;
+        flex-wrap:wrap;
+
+        &.center {
+            justify-content: center;
+        }
+
+        &:first-child {
+            margin-top:10px;
+        }
+
+        .filter-label {
+            margin:0 20px;
+            font-family:WorkSansSemiBold;
+        }
+        .item-select {
+            margin:0 20px;
+            padding:5px 10px;
+            border:1px solid rgb(100, 100, 100);
+            cursor:pointer;
+            color:rgb(66, 80, 128);
+            border-radius:5px;
+            &:hover {
+                background:rgb(105, 116, 214);
+                color:#fff;
+            }
+        }
+        .checkbox {
+            position:relative;
+            height:15px;width:15px;
+            border:3px solid rgb(36, 67, 107);
+            border-radius:2px;
+            margin:0 20px;
+            cursor:pointer;
+            &.active {
+                background:rgb(142, 151, 235);
+            }
+        }
+        .dropdown-container {
+            margin:0 20px;
+        }
+        .auction-control-button {
+            padding:5px 10px;
+            border-radius:4px;
+            margin:5px;
+            border:1px solid rgb(136, 136, 136);
+            cursor:pointer;
+            transition:all .1s ease-in-out;
+            &:hover {
+                background:rgb(78, 78, 78);
+                color:#fff;
+            }
+        }
+    }
+
+    .dark & {     
+        background:rgb(26, 26, 26);
+        box-shadow: 8px 5px 19px -5px #0000009f;
+        .auction-filter-control-row {
+            background:rgb(49, 49, 49);
+            .filter-label {
+                color:#fff;
+            }
+            .item-select {
+                border:1px solid rgb(100, 100, 100);
+                color:rgb(255, 255, 255);
+                &:hover {
+                    background:rgb(115, 138, 151);
+                    color:#fff;
+                }
+            }
+            .checkbox {
+                border:3px solid rgb(119, 174, 245);
+                &.active {
+                    background:rgb(175, 221, 240);
+                }
+            }
+            .auction-control-button {
+                color:#fff;
+                border:1px solid rgb(165, 165, 165);
+                &:hover {
+                    background:rgb(115, 138, 151);
+                    color:#fff;
+                }
+            }
+        }
+    }
+}
+
 .auction-container {
+    flex:1;
     display:flex;
     flex-direction: row;
-    flex-wrap:wrap;
-
-    padding:20px;
     justify-content:space-around;
-    gap:10px;
-    
+    flex-wrap:wrap;
+    padding:20px 10px;
+    gap:8px;
+
+    .height-placeholder {
+        height:200vh;
+        width:100px;
+        background:gray;
+    }
+
     .auction-preview {
         display:flex;
         flex-direction: row;
         overflow:hidden;
 
-        flex-basis:500px;
+        flex-basis:400px;
         position:relative;
 
-        margin:10px;
+        margin-bottom:15px;
 
-        min-height:300px;
+        min-height:200px;
+        max-height:300px;
 
         border-radius:5px;
         border:3px solid rgb(75, 204, 236);
@@ -149,7 +338,7 @@
             margin-right:10px;
             cursor:pointer;
             svg {
-                font-size:2rem;
+                font-size:1.6rem;
                 color:#fff;
             }
         }
@@ -159,15 +348,15 @@
             background:rgb(255, 255, 255);
             cursor:pointer;
             img {
-                max-width:300px;
-                max-height: 250px;
+                max-width:150px;
+                max-height: 150px;
             }
             flex:1;
         }
         
         .auction-preview-info {
-            padding:30px 40px;
-            width:150px;
+            padding:20px 30px;
+            width:120px;
             max-width:150px;
             display:flex;
             flex-direction:column;
@@ -181,6 +370,7 @@
             .auction-preview-info-name {
                 font-family:WorkSansSemiBold;
                 cursor:pointer;
+                font-size:1rem;
                 a {
                     color:#fff;
                     text-decoration:none;
