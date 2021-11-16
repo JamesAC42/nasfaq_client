@@ -16,6 +16,7 @@ import witchsora from '../../images/witchsora.png';
 import { connect } from 'react-redux';
 import Coin from './Coin';
 import LoadingSmall from './LoadingSmall';
+import ToggleSwitch from './ToggleSwitch';
 
 import { ItemImages } from './ItemImages';
 
@@ -536,6 +537,7 @@ class LeaderboardState {
     }
 }
 
+type formEvent = React.ChangeEvent<HTMLInputElement>;
 class LeaderboardBind extends Component<LeaderboardProps> {
     state:LeaderboardState;
     constructor(props:LeaderboardProps) {
@@ -549,10 +551,42 @@ class LeaderboardBind extends Component<LeaderboardProps> {
         if(this.props.stats.leaderboard !== props.stats.leaderboard)
             this.applyFilters();
     }
+    filterOut(user:LeaderboardUser, i:number) {
+        let filters = this.state.filters;
+        if(filters.username !== "")
+            if(user.username.indexOf(filters.username) == -1)
+                return true;
+        if(filters.rankMin <= filters.rankMax && filters.rankMin > 0)
+            if(i < filters.rankMin || i > filters.rankMax)
+                return true;
+        if(filters.worthMin <= filters.worthMax)
+            if(user.networth < filters.worthMin || user.networth > filters.worthMax)
+                return true;
+        if(filters.icon !== "")
+            if(user.icon !== filters.icon)
+                return true;
+        // maybe rethink this one what happens if neither? empty?
+        // if(!(filters.public && filters.private))
+        //     if(filters.public && !user.walletIsPublic || filters.private && user.walletIsPublic)
+        //         return true;
+        // need fetch for wallet and items
+        // if(filters.coin !== "" && filters.coinMin <= filters.coinMax && filters.coinMin > 0) {
+        //     if()
+        // }
+        // if(filters.item !== "" && filters.itemMin <= filters.itemMax && filters.itemMin > 0) {
+        //     if()
+        // }
+        return false;
+    }
     applyFilters() {
         let leaderboard = this.props.stats.leaderboard;
-        if(this.state.filters.filtersOn) {
-
+        let filters = this.state.filters;
+        if(filters.filtersOn) {
+            for(let i = 0; i < leaderboard.length; i++)
+                if(this.filterOut(leaderboard[i], i + 1)) {
+                    leaderboard.splice(i, 1);
+                    i--;
+                }
         }
         this.setState({filteredLeaderboard:leaderboard})
     }
@@ -586,7 +620,7 @@ class LeaderboardBind extends Component<LeaderboardProps> {
     }
     renderLeaderboard() {
         if(this.state.activeView === activeView.leaderboard) {
-            let visibleUsers = this.getPagedUsers(this.props.stats.leaderboard);
+            let visibleUsers = this.getPagedUsers(this.state.filteredLeaderboard);
             let pageOffset = this.state.pageSize * this.state.activePage;
             return (
                 visibleUsers.map((item:LeaderboardUser, index:number) =>
@@ -657,7 +691,7 @@ class LeaderboardBind extends Component<LeaderboardProps> {
         let leaderboardClass = this.state.activeView === 0 ? "view-item-active" : "";
         let oshiboardClass = this.state.activeView === 1 ? "view-item-active" : "";
 
-        let leaderboardAmt = this.props.stats.leaderboard.length;
+        let leaderboardAmt = this.state.filteredLeaderboard.length;
         let pageAmt = Math.ceil(leaderboardAmt / this.state.pageSize);
 
         return(
@@ -691,10 +725,93 @@ class LeaderboardBind extends Component<LeaderboardProps> {
                                         </div>
                                         {
                                             this.state.showFilters ?
+                                            <div>
                                                 <div>
-                                                    Here go the filters
-                                                    <button onClick={() => this.applyFilters()}>Apply Filters</button>
+                                                    Search for user: <input
+                                                    className="text-input"
+                                                    type="text"
+                                                    value={this.state.filters.username}
+                                                    onChange={(e:formEvent) => {this.updateFilter("username", e.target.value)}} />
                                                 </div>
+                                                <div>
+                                                    Rank: <input
+                                                    className="text-input"
+                                                    type="text"
+                                                    value={this.state.filters.rankMin}
+                                                    onChange={(e:formEvent) => {
+                                                        let val = e.target.value == "" ? 0 : parseInt(e.target.value)
+                                                        if(!isNaN(val)) this.updateFilter("rankMin", val)
+                                                    }} /> - <input
+                                                    className="text-input"
+                                                    type="text"
+                                                    value={this.state.filters.rankMax}
+                                                    onChange={(e:formEvent) => {
+                                                        let val = e.target.value == "" ? 0 : parseInt(e.target.value)
+                                                        if(!isNaN(val)) this.updateFilter("rankMax", val)
+                                                    }} />
+                                                </div>
+                                                <div>
+                                                    Net worth: <input
+                                                    className="text-input"
+                                                    type="text"
+                                                    value={this.state.filters.worthMin}
+                                                    onChange={(e:formEvent) => {
+                                                        let val = e.target.value == "" ? 0 : parseFloat(e.target.value)
+                                                        if(!isNaN(val)) this.updateFilter("worthMin", val)
+                                                    }} /> - <input
+                                                    className="text-input"
+                                                    type="text"
+                                                    value={this.state.filters.worthMax}
+                                                    onChange={(e:formEvent) => {
+                                                        let val = e.target.value == "" ? 0 : parseFloat(e.target.value)
+                                                        if(!isNaN(val)) this.updateFilter("worthMax", val)
+                                                    }} />
+                                                </div>
+                                                <div>
+                                                    Icon selector (maybe new component)
+                                                </div>
+                                                <div>
+                                                    Has Coin: [coin dropdown] with quantity of <input
+                                                    className="text-input"
+                                                    type="text"
+                                                    value={this.state.filters.coinMin}
+                                                    onChange={(e:formEvent) => {
+                                                        let val = e.target.value == "" ? 0 : parseInt(e.target.value)
+                                                        if(!isNaN(val)) this.updateFilter("coinMin", val)
+                                                    }} /> - <input
+                                                    className="text-input"
+                                                    type="text"
+                                                    value={this.state.filters.coinMax}
+                                                    onChange={(e:formEvent) => {
+                                                        let val = e.target.value == "" ? 0 : parseInt(e.target.value)
+                                                        if(!isNaN(val)) this.updateFilter("coinMax", val)
+                                                    }} />
+                                                </div>
+                                                <div>
+                                                    Has Item: [item dropdown] with quantity of <input
+                                                    className="text-input"
+                                                    type="text"
+                                                    value={this.state.filters.itemMin}
+                                                    onChange={(e:formEvent) => {
+                                                        let val = e.target.value == "" ? 0 : parseInt(e.target.value)
+                                                        if(!isNaN(val)) this.updateFilter("itemMin", val)
+                                                    }} /> - <input
+                                                    className="text-input"
+                                                    type="text"
+                                                    value={this.state.filters.itemMax}
+                                                    onChange={(e:formEvent) => {
+                                                        let val = e.target.value == "" ? 0 : parseInt(e.target.value)
+                                                        if(!isNaN(val)) this.updateFilter("itemMax", val)
+                                                    }} />
+                                                </div>
+                                                Filtering:
+                                                <ToggleSwitch
+                                                onLabel={"ON"}
+                                                offLabel={"OFF"}
+                                                switchState={this.state.filters.filtersOn}
+                                                onToggle={() => this.updateFilter("filtersOn", !this.state.filters.filtersOn)} />
+                                                <button onClick={() => this.applyFilters()}>Apply Filters</button>
+                                            </div>
                                             : null
                                         }
 
@@ -703,7 +820,7 @@ class LeaderboardBind extends Component<LeaderboardProps> {
                             }
                             {
                                 this.state.activeView === activeView.leaderboard
-                                && this.props.stats.leaderboard.length > this.state.pageSize ?
+                                && this.state.filteredLeaderboard.length > this.state.pageSize ?
                                     <div className="pagenav">
                                     {
                                         [...Array(pageAmt)].map((item:number, index:number) =>
