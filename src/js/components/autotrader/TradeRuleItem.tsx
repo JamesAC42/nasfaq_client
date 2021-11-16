@@ -139,8 +139,8 @@ class TradeRuleItem extends Component<TradeRuleItemProps> {
         let inOrder = false;
         for(let i = 0; i < this.props.pendingOrder.length; i++) {
             let coin = this.props.pendingOrder[i].coin;
-            if(coin == "himemoriluna") coin = "luna"
-            if(coin == this.props.coin) {
+            if(coin === "himemoriluna") coin = "luna"
+            if(coin === this.props.coin) {
                 inOrder = true;
                 break;
             }

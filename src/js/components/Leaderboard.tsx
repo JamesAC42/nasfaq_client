@@ -504,18 +504,18 @@ class Filters {
     constructor() {
         this.username = "";
         this.rankMin = 0;
-        this.rankMax = 0;
+        this.rankMax = Infinity;
         this.worthMin = 0;
-        this.worthMax = 0;
+        this.worthMax = Infinity;
         this.icon = "";
         this.public = true;
         this.private = true;
         this.coin = "";
         this.coinMin = 0;
-        this.coinMax = 0;
+        this.coinMax = Infinity;
         this.item = "";
         this.itemMin = 0;
-        this.itemMax = 0;
+        this.itemMax = Infinity;
         this.filtersOn = false;
     }
 }
@@ -530,7 +530,7 @@ class LeaderboardState {
     constructor() {
         this.activeView = activeView.leaderboard;
         this.activePage = 0;
-        this.pageSize = 1;
+        this.pageSize = 500;
         this.showFilters = false;
         this.filters = new Filters();
         this.filteredLeaderboard = [];
@@ -554,7 +554,7 @@ class LeaderboardBind extends Component<LeaderboardProps> {
     filterOut(user:LeaderboardUser, i:number) {
         let filters = this.state.filters;
         if(filters.username !== "")
-            if(user.username.indexOf(filters.username) == -1)
+            if(user.username.indexOf(filters.username) === -1)
                 return true;
         if(filters.rankMin <= filters.rankMax && filters.rankMin > 0)
             if(i < filters.rankMin || i > filters.rankMax)
@@ -727,43 +727,43 @@ class LeaderboardBind extends Component<LeaderboardProps> {
                                             this.state.showFilters ?
                                             <div>
                                                 <div>
-                                                    Search for user: <input
+                                                    Search for user <input
                                                     className="text-input"
                                                     type="text"
                                                     value={this.state.filters.username}
                                                     onChange={(e:formEvent) => {this.updateFilter("username", e.target.value)}} />
                                                 </div>
                                                 <div>
-                                                    Rank: <input
+                                                    Rank <input
                                                     className="text-input"
                                                     type="text"
                                                     value={this.state.filters.rankMin}
                                                     onChange={(e:formEvent) => {
-                                                        let val = e.target.value == "" ? 0 : parseInt(e.target.value)
+                                                        let val = e.target.value === "" ? 0 : parseInt(e.target.value)
                                                         if(!isNaN(val)) this.updateFilter("rankMin", val)
                                                     }} /> - <input
                                                     className="text-input"
                                                     type="text"
                                                     value={this.state.filters.rankMax}
                                                     onChange={(e:formEvent) => {
-                                                        let val = e.target.value == "" ? 0 : parseInt(e.target.value)
+                                                        let val = e.target.value === "" ? 0 : parseInt(e.target.value)
                                                         if(!isNaN(val)) this.updateFilter("rankMax", val)
                                                     }} />
                                                 </div>
                                                 <div>
-                                                    Net worth: <input
+                                                    Net worth <input
                                                     className="text-input"
                                                     type="text"
                                                     value={this.state.filters.worthMin}
                                                     onChange={(e:formEvent) => {
-                                                        let val = e.target.value == "" ? 0 : parseFloat(e.target.value)
+                                                        let val = e.target.value === "" ? 0 : parseFloat(e.target.value)
                                                         if(!isNaN(val)) this.updateFilter("worthMin", val)
                                                     }} /> - <input
                                                     className="text-input"
                                                     type="text"
                                                     value={this.state.filters.worthMax}
                                                     onChange={(e:formEvent) => {
-                                                        let val = e.target.value == "" ? 0 : parseFloat(e.target.value)
+                                                        let val = e.target.value === "" ? 0 : parseFloat(e.target.value)
                                                         if(!isNaN(val)) this.updateFilter("worthMax", val)
                                                     }} />
                                                 </div>
@@ -771,36 +771,36 @@ class LeaderboardBind extends Component<LeaderboardProps> {
                                                     Icon selector (maybe new component)
                                                 </div>
                                                 <div>
-                                                    Has Coin: [coin dropdown] with quantity of <input
+                                                    Has [coin dropdown] with quantity <input
                                                     className="text-input"
                                                     type="text"
                                                     value={this.state.filters.coinMin}
                                                     onChange={(e:formEvent) => {
-                                                        let val = e.target.value == "" ? 0 : parseInt(e.target.value)
+                                                        let val = e.target.value === "" ? 0 : parseInt(e.target.value)
                                                         if(!isNaN(val)) this.updateFilter("coinMin", val)
                                                     }} /> - <input
                                                     className="text-input"
                                                     type="text"
                                                     value={this.state.filters.coinMax}
                                                     onChange={(e:formEvent) => {
-                                                        let val = e.target.value == "" ? 0 : parseInt(e.target.value)
+                                                        let val = e.target.value === "" ? 0 : parseInt(e.target.value)
                                                         if(!isNaN(val)) this.updateFilter("coinMax", val)
                                                     }} />
                                                 </div>
                                                 <div>
-                                                    Has Item: [item dropdown] with quantity of <input
+                                                    Has [item dropdown] with quantity <input
                                                     className="text-input"
                                                     type="text"
                                                     value={this.state.filters.itemMin}
                                                     onChange={(e:formEvent) => {
-                                                        let val = e.target.value == "" ? 0 : parseInt(e.target.value)
+                                                        let val = e.target.value === "" ? 0 : parseInt(e.target.value)
                                                         if(!isNaN(val)) this.updateFilter("itemMin", val)
                                                     }} /> - <input
                                                     className="text-input"
                                                     type="text"
                                                     value={this.state.filters.itemMax}
                                                     onChange={(e:formEvent) => {
-                                                        let val = e.target.value == "" ? 0 : parseInt(e.target.value)
+                                                        let val = e.target.value === "" ? 0 : parseInt(e.target.value)
                                                         if(!isNaN(val)) this.updateFilter("itemMax", val)
                                                     }} />
                                                 </div>
