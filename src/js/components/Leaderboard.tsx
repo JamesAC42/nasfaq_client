@@ -41,6 +41,7 @@ interface LeaderboardUser {
     hasItems:boolean,
     color:string,
     hat:string
+    rank:number
 }
 
 interface IOshiInfo {
@@ -291,7 +292,7 @@ class LeaderboardUserItem extends Component<LeaderboardUserProps> {
                 key={this.props.item.username}>
                 <div className="user-rank-info">
                     <div className="user-rank">
-                        {this.props.index + 1}
+                        {this.props.item.rank ? this.props.item.rank : this.props.index + 1}
                     </div>
                     <div className="user-icon center-child">
                         {this.renderHat()}
@@ -494,12 +495,12 @@ class Filters {
     icon: string;
     public: boolean;
     private: boolean;
-    coin: string;
-    coinMin: number;
-    coinMax: number;
-    item: string;
-    itemMin: number;
-    itemMax: number;
+    // coin: string;
+    // coinMin: number;
+    // coinMax: number;
+    // item: string;
+    // itemMin: number;
+    // itemMax: number;
     filtersOn: boolean;
     constructor() {
         this.username = "";
@@ -510,12 +511,12 @@ class Filters {
         this.icon = "";
         this.public = true;
         this.private = true;
-        this.coin = "";
-        this.coinMin = 0;
-        this.coinMax = Infinity;
-        this.item = "";
-        this.itemMin = 0;
-        this.itemMax = Infinity;
+        // this.coin = "";
+        // this.coinMin = 0;
+        // this.coinMax = Infinity;
+        // this.item = "";
+        // this.itemMin = 0;
+        // this.itemMax = Infinity;
         this.filtersOn = false;
     }
 }
@@ -527,6 +528,7 @@ class LeaderboardState {
     showFilters: boolean;
     filters: Filters;
     filteredLeaderboard: Array<LeaderboardUser>;
+    showIconFilter: boolean;
     constructor() {
         this.activeView = activeView.leaderboard;
         this.activePage = 0;
@@ -534,6 +536,7 @@ class LeaderboardState {
         this.showFilters = false;
         this.filters = new Filters();
         this.filteredLeaderboard = [];
+        this.showIconFilter = false;
     }
 }
 
@@ -556,7 +559,7 @@ class LeaderboardBind extends Component<LeaderboardProps> {
         if(filters.username !== "")
             if(user.username.indexOf(filters.username) === -1)
                 return true;
-        if(filters.rankMin <= filters.rankMax && filters.rankMin > 0)
+        if(filters.rankMin <= filters.rankMax)
             if(i < filters.rankMin || i > filters.rankMax)
                 return true;
         if(filters.worthMin <= filters.worthMax)
@@ -565,10 +568,9 @@ class LeaderboardBind extends Component<LeaderboardProps> {
         if(filters.icon !== "")
             if(user.icon !== filters.icon)
                 return true;
-        // maybe rethink this one what happens if neither? empty?
-        // if(!(filters.public && filters.private))
-        //     if(filters.public && !user.walletIsPublic || filters.private && user.walletIsPublic)
-        //         return true;
+        if(!(filters.public && filters.private))
+            if((filters.public && !user.walletIsPublic) || (filters.private && user.walletIsPublic))
+                return true;
         // need fetch for wallet and items
         // if(filters.coin !== "" && filters.coinMin <= filters.coinMax && filters.coinMin > 0) {
         //     if()
@@ -579,14 +581,16 @@ class LeaderboardBind extends Component<LeaderboardProps> {
         return false;
     }
     applyFilters() {
-        let leaderboard = this.props.stats.leaderboard;
-        let filters = this.state.filters;
-        if(filters.filtersOn) {
-            for(let i = 0; i < leaderboard.length; i++)
-                if(this.filterOut(leaderboard[i], i + 1)) {
+        let leaderboard = [...this.props.stats.leaderboard];
+        if(this.state.filters.filtersOn) {
+            let j = 1;
+            for(let i = 0; i < leaderboard.length; i++) {
+                if(this.filterOut(leaderboard[i], j++)) {
                     leaderboard.splice(i, 1);
                     i--;
-                }
+                } else
+                    leaderboard[i].rank = j - 1
+            }
         }
         this.setState({filteredLeaderboard:leaderboard})
     }
@@ -682,8 +686,32 @@ class LeaderboardBind extends Component<LeaderboardProps> {
         }
         return cname;
     }
+    renderIcons() {
+        let coinNames:Array<string> = [];
+        lineage.forEach((gen:Array<string>) => {
+            coinNames = [...coinNames, ...gen]
+        })
+        coinNames.push("blank")
+        return (
+            <div>
+                {coinNames.map((coin:string, index:number) =>
+                    <Coin name={coin} key={coin} onClick={() => {
+                        this.updateFilter("icon", coin)
+                        this.toggleIconFilter()
+                    }}/>)}
+                <button onClick={() => {
+                        this.updateFilter("icon", "")
+                        this.toggleIconFilter()
+                    }}>
+                    Don't use icon for filtering
+                </button>
+            </div>)
+    }
     toggleFilters() {
         this.setState({showFilters:!this.state.showFilters})
+    }
+    toggleIconFilter() {
+        this.setState({showIconFilter:!this.state.showIconFilter})
     }
     render() {
         let titles = ["LEADERBOARD", "OSHIBOARD"];
@@ -768,9 +796,31 @@ class LeaderboardBind extends Component<LeaderboardProps> {
                                                     }} />
                                                 </div>
                                                 <div>
-                                                    Icon selector (maybe new component)
+                                                    Icon {this.state.filters.icon === "" ?
+                                                    <button onClick={() => this.toggleIconFilter()}>
+                                                        Not using icon for filtering
+                                                    </button>:<Coin 
+                                                    name={this.state.filters.icon}
+                                                    onClick={() => this.toggleIconFilter()}/>}
+                                                    {this.state.showIconFilter ? this.renderIcons()
+                                                    : null}
                                                 </div>
                                                 <div>
+                                                    Wallet status <input
+                                                    type="checkbox"
+                                                    checked={this.state.filters.public}
+                                                    disabled={!this.state.filters.private} 
+                                                    onChange={(e:formEvent) => {
+                                                        this.updateFilter("public", !this.state.filters.public)
+                                                    }} /> Public <input
+                                                    type="checkbox"
+                                                    checked={this.state.filters.private}
+                                                    disabled={!this.state.filters.public} 
+                                                    onChange={(e:formEvent) => {
+                                                        this.updateFilter("private", !this.state.filters.private)
+                                                    }} /> Private
+                                                </div>
+                                                {/* <div>
                                                     Has [coin dropdown] with quantity <input
                                                     className="text-input"
                                                     type="text"
@@ -803,7 +853,7 @@ class LeaderboardBind extends Component<LeaderboardProps> {
                                                         let val = e.target.value === "" ? 0 : parseInt(e.target.value)
                                                         if(!isNaN(val)) this.updateFilter("itemMax", val)
                                                     }} />
-                                                </div>
+                                                </div> */}
                                                 Filtering:
                                                 <ToggleSwitch
                                                 onLabel={"ON"}
