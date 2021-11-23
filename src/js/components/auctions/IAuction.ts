@@ -24,9 +24,15 @@ export interface IAuctionHistoryEntry {
 }
 
 export interface IAuctionFeedItem {
+    timestamp:number,
     username:string,
-    amount:number,
-    timestamp:number
+    bid:number
+}
+
+export interface IAuctionMessage {
+    timestamp:number,
+    username:string,
+    message:string
 }
 
 export interface IAuctionNotificationItem {
