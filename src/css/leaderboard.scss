@@ -583,5 +583,45 @@ div.oshiboard-item {
         width:70px;
         transform:translate(50%, -55%);
     }
+    &.SubaruHat {
+        width:100px;
+        transform:translate(8%, -20%);
+    }
+    &.VoidGlasses {
+        width:125px;
+        transform:translate(13%, 25%);
+    }
+    &.AzkiHat {
+        width:70px;
+        transform:translate(65%, -20%);
+    }
+    &.PochiHat {
+        width:220px;
+        transform:translate(25%, 2%) rotate(-3deg);
+    }
+    &.FlareHat {
+        width:120px;
+        transform:translate(20%, -20%);
+    }
+    &.OllieHat {
+        width:70px;
+        transform:translate(40%, -12%);
+    }
+    &.KoroneHat {
+        width:100px;
+        transform:translate(40%, -20%);
+    }
+    &.LamyHat {
+        width:125px;
+        transform:translate(5%, -31%);
+    }
+    &.MelHat {
+        width:110px;
+        transform:translate(30%, -18%);
+    }
+    &.NekoHat {
+        width:120px;
+        transform:translate(30%, -60%) rotate(17deg);
+    }
 
 }
