@@ -21,7 +21,8 @@ import ToggleSwitch from './ToggleSwitch';
 import { ItemImages } from './ItemImages';
 
 import {
-    FaWallet
+    FaWallet,
+    FaFilter
 } from 'react-icons/fa';
 import {
     BsBagFill
@@ -591,6 +592,9 @@ class LeaderboardBind extends Component<LeaderboardProps> {
                 } else
                     leaderboard[i].rank = j - 1
             }
+            let previousPageUpTo = this.state.pageSize * this.state.activePage;
+            if(leaderboard.length <= previousPageUpTo)
+                this.setActivePage(0)
         }
         this.setState({filteredLeaderboard:leaderboard})
     }
@@ -693,13 +697,13 @@ class LeaderboardBind extends Component<LeaderboardProps> {
         })
         coinNames.push("blank")
         return (
-            <div>
+            <div className="icon-selector">
                 {coinNames.map((coin:string, index:number) =>
                     <Coin name={coin} key={coin} onClick={() => {
                         this.updateFilter("icon", coin)
                         this.toggleIconFilter()
                     }}/>)}
-                <button onClick={() => {
+                <button className="filter-button" onClick={() => {
                         this.updateFilter("icon", "")
                         this.toggleIconFilter()
                     }}>
@@ -709,6 +713,8 @@ class LeaderboardBind extends Component<LeaderboardProps> {
     }
     toggleFilters() {
         this.setState({showFilters:!this.state.showFilters})
+        if(this.state.showIconFilter)
+            this.toggleIconFilter()
     }
     toggleIconFilter() {
         this.setState({showIconFilter:!this.state.showIconFilter})
@@ -746,31 +752,31 @@ class LeaderboardBind extends Component<LeaderboardProps> {
                             {
                                 this.state.activeView === activeView.leaderboard ?
                                     <div className="filter-container">
-                                        <div className="filter-button" onClick={
-                                            () => this.toggleFilters()
-                                        }>
-                                            Filter
+                                        <div className="filter-toggle">
+                                            <span onClick={
+                                                () => this.toggleFilters()
+                                            }><FaFilter /></span>
                                         </div>
                                         {
                                             this.state.showFilters ?
-                                            <div>
+                                            <div className="filter-container-2">
                                                 <div>
-                                                    Search for user <input
+                                                    <span>Search for user</span><input
                                                     className="text-input"
                                                     type="text"
                                                     value={this.state.filters.username}
                                                     onChange={(e:formEvent) => {this.updateFilter("username", e.target.value)}} />
                                                 </div>
                                                 <div>
-                                                    Rank <input
-                                                    className="text-input"
+                                                    <span>Rank</span><input
+                                                    className="text-input num"
                                                     type="text"
                                                     value={this.state.filters.rankMin}
                                                     onChange={(e:formEvent) => {
                                                         let val = e.target.value === "" ? 0 : parseInt(e.target.value)
                                                         if(!isNaN(val)) this.updateFilter("rankMin", val)
                                                     }} /> - <input
-                                                    className="text-input"
+                                                    className="text-input num"
                                                     type="text"
                                                     value={this.state.filters.rankMax}
                                                     onChange={(e:formEvent) => {
@@ -779,15 +785,15 @@ class LeaderboardBind extends Component<LeaderboardProps> {
                                                     }} />
                                                 </div>
                                                 <div>
-                                                    Net worth <input
-                                                    className="text-input"
+                                                    <span>Net worth</span><input
+                                                    className="text-input num"
                                                     type="text"
                                                     value={this.state.filters.worthMin}
                                                     onChange={(e:formEvent) => {
                                                         let val = e.target.value === "" ? 0 : parseFloat(e.target.value)
                                                         if(!isNaN(val)) this.updateFilter("worthMin", val)
                                                     }} /> - <input
-                                                    className="text-input"
+                                                    className="text-input num"
                                                     type="text"
                                                     value={this.state.filters.worthMax}
                                                     onChange={(e:formEvent) => {
@@ -796,17 +802,17 @@ class LeaderboardBind extends Component<LeaderboardProps> {
                                                     }} />
                                                 </div>
                                                 <div>
-                                                    Icon {this.state.filters.icon === "" ?
-                                                    <button onClick={() => this.toggleIconFilter()}>
+                                                    <span>Icon</span>{this.state.filters.icon === "" ?
+                                                    <button className="filter-button" onClick={() => this.toggleIconFilter()}>
                                                         Not using icon for filtering
                                                     </button>:<Coin 
                                                     name={this.state.filters.icon}
                                                     onClick={() => this.toggleIconFilter()}/>}
-                                                    {this.state.showIconFilter ? this.renderIcons()
-                                                    : null}
                                                 </div>
+                                                {this.state.showIconFilter ? this.renderIcons()
+                                                : null}
                                                 <div>
-                                                    Wallet status <input
+                                                    <span>Wallet status</span><input
                                                     type="checkbox"
                                                     checked={this.state.filters.public}
                                                     disabled={!this.state.filters.private} 
@@ -854,24 +860,24 @@ class LeaderboardBind extends Component<LeaderboardProps> {
                                                         if(!isNaN(val)) this.updateFilter("itemMax", val)
                                                     }} />
                                                 </div> */}
-                                                Filtering:
-                                                <ToggleSwitch
-                                                onLabel={"ON"}
-                                                offLabel={"OFF"}
-                                                switchState={this.state.filters.filtersOn}
-                                                onToggle={() => this.updateFilter("filtersOn", !this.state.filters.filtersOn)} />
-                                                <button onClick={() => this.applyFilters()}>Apply Filters</button>
+                                                <div>
+                                                    <span>Filtering</span><ToggleSwitch
+                                                    onLabel={"ON"}
+                                                    offLabel={"OFF"}
+                                                    switchState={this.state.filters.filtersOn}
+                                                    onToggle={() => this.updateFilter("filtersOn", !this.state.filters.filtersOn)} />
+                                                    <button className="filter-button" onClick={() => this.applyFilters()}>Apply Filters</button>
+                                                </div>
                                             </div>
                                             : null
                                         }
-
                                     </div>
                                 : null
                             }
                             {
                                 this.state.activeView === activeView.leaderboard
                                 && this.state.filteredLeaderboard.length > this.state.pageSize ?
-                                    <div className="pagenav">
+                                    <div className="pagenav leaderboard-nav">
                                     {
                                         [...Array(pageAmt)].map((item:number, index:number) =>
                                             <div

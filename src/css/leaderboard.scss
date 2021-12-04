@@ -587,10 +587,94 @@ div.oshiboard-item {
 }
 
 .filter-container {
-    .filter-button {
+    padding: 10px;
+    border-bottom: 1px solid lightgray;
+    .filter-toggle {
         text-align: right;
+    }
+    .filter-toggle span {
+        cursor: pointer;
     }
     .dark & {
         color: $text-light;
+        border-color: $ui-dark-subtle;
+    }
+    .filter-container-2 {
+        > div:first-child {
+            margin-top: -10px;
+        }
+        > div {
+            margin: 10px 0;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+        > div > span:first-child {
+            width: 150px;
+        }
+        .num {
+            text-align: center;
+        }
+        .num:first-of-type {
+            margin-right: 5px;
+        }
+        .num:last-of-type {
+            margin-left: 5px;
+        }    
+        .icon-selector {
+            display: block;
+            height: fit-content;
+            margin: -8px 0 0 148px;
+            > * {
+                display: inline-block;
+                margin: 2px;
+                vertical-align: middle;
+            }
+        }
+        > div, .text-input, .coin, .filter-button {
+            height: 30px;
+        }
+        .text-input, .coin {
+            box-sizing: border-box;
+        }
+        .coin, .filter-button {
+            border-radius: 10px;
+            border-width: 2px;
+            border-bottom-width: 4px;
+            cursor: pointer;
+        }
+        .coin {
+            width: 40px;
+            img, svg {
+                width: 50%;
+            }
+        }
+        .filter-button {
+            padding: 0 10px;
+            background: white;
+            border-color: $default;
+            border-style: solid;
+            font: 14px Worksans;
+        }
+        input[type=checkbox] {
+            margin-right: 5px;
+        }
+        input[type=checkbox]:not(:first-of-type) {
+            margin-left: 20px;
+        }
+        > div:last-child .filter-button {
+            margin-left: 5px;
+        }
+        .toggle-outer {
+            margin-left: -10px;
+        }
+    }
+}
+.leaderboard-nav {
+    margin-top: 10px !important;
+    padding-bottom: 10px;
+    border-bottom: 1px solid lightgray;
+    .dark & {
+        border-color: $ui-dark-subtle;
     }
 }
