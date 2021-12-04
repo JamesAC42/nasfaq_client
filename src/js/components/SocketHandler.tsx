@@ -361,6 +361,25 @@ class SocketHandlerBind extends Component<SocketHandlerProps> {
             this.props.setWallet(wallet);
         })
 
+        socket.on('auctionFeed', (data:any) => {
+
+            const feedData = JSON.parse(data);
+            
+            const auctionID = feedData.auctionID;
+            let auctionFeeds:any = {...this.props.auctions.auctionFeeds};
+            let feedItem;
+            if(feedData.bidLog) {
+                feedItem = feedData.bidLog;
+            } else {
+                feedItem = feedData.messageItem;
+            }
+            if(auctionFeeds[auctionID]) {
+                auctionFeeds[auctionID].push(feedItem);
+            }
+            this.props.setAuctionFeeds(auctionFeeds);
+
+        })
+
         socket.on('auctionUpdate', (data:any) => {
 
             const message = JSON.parse(data);
@@ -410,19 +429,6 @@ class SocketHandlerBind extends Component<SocketHandlerProps> {
             }
 
             if(updateType === 'newBid') {
-                let auctionFeeds:any = {...this.props.auctions.auctionFeeds};
-                let feedItem:IAuctionFeedItem = {
-                    username: auction.bidder,
-                    amount: auction.currentBid,
-                    timestamp: new Date().getTime()
-                }
-                if(auctionFeeds[auction.auctionID] === undefined) {
-                    auctionFeeds[auction.auctionID] = [feedItem];
-                } else {
-                    auctionFeeds[auction.auctionID].push(feedItem);
-                }
-                this.props.setAuctionFeeds(auctionFeeds);
-
                 if(this.props.auctions.subscriptions.indexOf(auction.auctionID) !== -1) {
                     let auctionNotification:IAuctionNotificationItem = {
                         seller:auction.seller,
@@ -438,10 +444,7 @@ class SocketHandlerBind extends Component<SocketHandlerProps> {
                     ];
                     this.props.setAuctionNotifications(auctionNotifications);
                 }
-
-
             }
-
 
         })
     }

@@ -65,6 +65,16 @@ import MioHat from '../../images/items/MioHat.png';
 import NabiHat from '../../images/items/NabiHat.png';
 import ReineHat from '../../images/items/ReineHat.png';
 import SanaHat from '../../images/items/SanaHat.png';
+import AzkiHat from '../../images/items/AzkiHat.png';
+import FlareHat from '../../images/items/FlareHat.png';
+import KoroneHat from '../../images/items/KoroneHat.png';
+import LamyHat from '../../images/items/LamyHat.png';
+import MelHat from '../../images/items/MelHat.png';
+import NekoHat from '../../images/items/NekoHat.png';
+import OllieHat from '../../images/items/OllieHat.png';
+import PochiHat from '../../images/items/PochiHat.png';
+import SubaruHat from '../../images/items/SubaruHat.png';
+import VoidGlasses from '../../images/items/VoidGlasses.png';
 
 export const ItemList = [
     "KiryuKaiBadge",
@@ -133,6 +143,16 @@ export const ItemList = [
     "NabiHat",
     "ReineHat",
     "SanaHat",
+    "AzkiHat",
+    "FlareHat",
+    "KoroneHat",
+    "LamyHat",
+    "MelHat",
+    "NekoHat",
+    "OllieHat",
+    "PochiHat",
+    "SubaruHat",
+    "VoidGlasses",
     "Cash",
 ]
 
@@ -203,5 +223,15 @@ export const ItemImages:{[type:string]:any} = {
     NabiHat, 
     ReineHat,
     SanaHat,
+    AzkiHat,
+    FlareHat,
+    KoroneHat,
+    LamyHat,
+    MelHat,
+    NekoHat,
+    OllieHat,
+    PochiHat,
+    SubaruHat,
+    VoidGlasses,
     Cash
 }

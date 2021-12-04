@@ -11,14 +11,21 @@ import {
     AiFillEye
 } from 'react-icons/ai';
 import {
+    RiSendPlaneFill
+} from 'react-icons/ri';
+import {
+    GiPayMoney
+} from 'react-icons/gi';
+import {
     IoIosArrowBack
 } from 'react-icons/io';
 import { Link } from 'react-router-dom';
-import { IAuctionItem, IAuctionFeedItem } from './IAuction';
+import { IAuctionItem, IAuctionFeedItem, IAuctionMessage } from './IAuction';
 import numberWithCommas from '../../numberWithCommas';
 import { IWallet } from '../../interfaces/IWallet';
 import { auctionsActions, userinfoActions } from '../../actions/actions';
 import storageAvailable from '../../checkStorage';
+import fetchData from '../../fetchData';
 
 const mapStateToProps = (state:any) => ({
     auctions:state.auctions,
@@ -31,6 +38,7 @@ const mapDispatchToProps = {
     setWallet: userinfoActions.setWallet,
     setItems: userinfoActions.setItems,
     setAuctionSubscriptions: auctionsActions.setAuctionSubscriptions,
+    setAuctionFeeds: auctionsActions.setAuctionFeeds,
 }
 
 interface AuctionProps {
@@ -52,19 +60,22 @@ interface AuctionProps {
     },
     setWallet: (wallet:IWallet) => {},
     setItems: (items:any) => {},
-    setAuctionSubscriptions: (subscriptions:any) => {}
+    setAuctionSubscriptions: (subscriptions:any) => {},
+    setAuctionFeeds: (feeds:any) => {}
 }
 
 class AuctionState {
     timeRemaining:string;
     timeColor:string;
     bid:string;
+    message:string;
     bidError:string;
     redirect:boolean;
     constructor() {
         this.timeRemaining = "";
         this.timeColor = "";
         this.bid = "";
+        this.message = "";
         this.bidError = "";
         this.redirect = false;
     }
@@ -83,6 +94,17 @@ class AuctionBind extends Component<AuctionProps> {
         this.intervalId = setInterval(() => {
             this.updateTimeRemaining()
         }, 1000)
+        let auctionFeeds:any = {...this.props.auctions.auctionFeeds};
+        let auctionid:string = this.props.match.params.auctionid;
+        if(!auctionFeeds[auctionid]) {
+            fetchData('/api/getAuctionFeed?auctionid=' + auctionid)
+            .then((data:any) => {
+                if(data.success) {
+                    auctionFeeds[auctionid] = data.feed;
+                    this.props.setAuctionFeeds(auctionFeeds);
+                }
+            })
+        }
     }
     componentWillUnmount() {
         clearInterval(this.intervalId);
@@ -149,6 +171,7 @@ class AuctionBind extends Component<AuctionProps> {
                             this.toggleSubscribed();
                         }
                         this.props.setWallet(data.wallet);
+                        this.setState({bid:''})
                     }
                 })
                 .catch(error => {
@@ -162,6 +185,41 @@ class AuctionBind extends Component<AuctionProps> {
             return;
         }
         
+    }
+    sendMessage() {
+        if(this.state.message.length > 100) {
+            this.setState({bidError:"Message too long"});
+            return;
+        }
+        if(this.state.message.length === 0) {
+            this.setState({bidError:"Invalid message"});
+            return;
+        }
+        fetch('/api/sendAuctionMessage/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                auctionID:this.props.match.params.auctionid,
+                message:this.state.message
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if(!data.success) {
+                this.setState({
+                    bidError:data.reason
+                })
+            } else {
+                this.setState({
+                    message:""
+                })
+            }
+        })
+        .catch(error => {
+            console.error('Error: ' +  error);
+        })
     }
 
     myItem() {
@@ -254,7 +312,7 @@ class AuctionBind extends Component<AuctionProps> {
         return (
             <>
             {
-                this.props.auctions.auctionFeeds[auctionID].map((feedItem:IAuctionFeedItem) =>     
+                this.props.auctions.auctionFeeds[auctionID].map((feedItem:IAuctionFeedItem | IAuctionMessage) =>     
                 <div className="auction-log-item" key={feedItem.timestamp}>
                     <span className="auction-log-timestamp">
                         {new Date(feedItem.timestamp).toLocaleString()}
@@ -262,10 +320,17 @@ class AuctionBind extends Component<AuctionProps> {
                     <span className="auction-log-username">
                     {feedItem.username}{" "}
                     </span>
-                    bid {" "}
-                    <span className="auction-log-amount">
-                    ${numberWithCommas(feedItem.amount)}
-                    </span>
+                    {
+                        'bid' in feedItem ?
+                        <>
+                        bid {" "}
+                        <span className="auction-log-amount">
+                        ${numberWithCommas(feedItem.bid)}
+                        </span>
+                        </>
+                        :
+                        <span className="auction-log-message">{feedItem.message}</span>
+                    }
                 </div>
                 )
             }
@@ -394,11 +459,25 @@ class AuctionBind extends Component<AuctionProps> {
                             <input 
                                 type="text" 
                                 placeholder="Enter bid $ amount..."
+                                value={this.state.bid}
                                 onChange={(e) => this.setState({bid:e.target.value})}/>
                             <div 
                                 className="submit-bid"
                                 onClick={() => this.sendBid()}>
-                                Place Bid
+                                <GiPayMoney  style={{verticalAlign: 'middle'}}/>
+                            </div>
+                        </div>
+                        <div className="auction-message-container">
+                            <input 
+                                type="text"
+                                placeholder="Send message..."
+                                maxLength={100}
+                                value={this.state.message}
+                                onChange={(e) => this.setState({message:e.target.value})}/>
+                            <div 
+                                className="send-message-btn"
+                                onClick={() => this.sendMessage()}>
+                                <RiSendPlaneFill style={{verticalAlign: 'middle'}}/>
                             </div>
                         </div>
                         {

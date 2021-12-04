@@ -211,6 +211,7 @@
                     font-size:1rem;
                     font-family: WorkSans;
                     color:rgb(71, 71, 71);
+                    line-height:1.4rem;
                     span {font-family:WorkSansSemiBold;}
                     span.auction-log-timestamp {
                         color:rgb(63, 63, 63);
@@ -225,7 +226,8 @@
                 }
             }
 
-            .auction-bid-container {
+            .auction-bid-container,
+            .auction-message-container {
                 display:flex;
                 flex-direction: row;
                 align-items:center;
@@ -249,9 +251,10 @@
                         outline:1px solid rgb(133, 174, 250);
                     }
                 }
-                .submit-bid {
-                    width:100px;
-                    padding:10px;
+                .submit-bid,
+                .send-message-btn {
+                    width:auto;
+                    padding:10px 30px;
                     background:rgb(60, 78, 238);
                     text-align:center;
                     font-size:1.3rem;
@@ -262,6 +265,17 @@
                     &:hover {
                         background:rgb(39, 204, 127);
                     }
+                }
+            }
+            .auction-message-container {
+                input {
+                    font-size:1rem;
+                    padding:5px;
+                    height:30px;
+                }
+                .send-message-btn {
+                    width:auto;
+                    padding:7px 30px;
                 }
             }
             .bid-error {
@@ -358,7 +372,8 @@
                         }
                     }
                 }
-                .auction-bid-container {
+                .auction-bid-container,
+                .auction-message-container {
                     background:rgb(24, 24, 24);
                     input {
                         color:rgb(230, 230, 230);
@@ -367,7 +382,8 @@
                             outline:1px solid rgb(133, 174, 250);
                         }
                     }
-                    .submit-bid {
+                    .submit-bid,
+                    .send-message-btn {
                         background:rgb(60, 78, 238);
                         color:rgb(255, 255, 255);
                         &:hover {
