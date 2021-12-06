@@ -94,7 +94,7 @@ div.user-rank-items {
                 font-size:18px;
                 font-family:WorkSansSemiBold;
                 @media (max-width:1300px) {
-                   font-size:16px; 
+                   font-size:16px;
                 }
                 .dark & {
                     color:rgb(191, 211, 255);
@@ -140,7 +140,7 @@ div.user-rank-items {
             color:$text-dark;
             @media (max-width:1300px) {
                 height:60px;
-                font-size:18px; 
+                font-size:18px;
             }
             .dark & {
                 color:$text-light;
@@ -196,7 +196,7 @@ div.user-rank-info {
         font-family:WorkSansSemiBold;
         font-size:24px;
         @media (max-width:1300px) {
-           font-size:18px; 
+           font-size:18px;
         }
     }
     .user-rank {
@@ -206,7 +206,7 @@ div.user-rank-info {
         border-right:1px solid $ui-subtle;
         @media (max-width:1300px) {
            width:80px;
-           font-size:20px; 
+           font-size:20px;
         }
     }
     .user-icon {
@@ -216,7 +216,7 @@ div.user-rank-info {
         @media (max-width:1300px) {
            width:100px;
         }
-        
+
         .coin {
             position:relative;
             z-index:1;
@@ -251,7 +251,7 @@ div.user-rank-info {
             text-overflow:ellipsis;
             overflow:hidden;
         }
-        
+
     }
     .show-wallet,
     .show-items {
@@ -259,7 +259,7 @@ div.user-rank-info {
         font-size:25px;
         @media (max-width:1300px) {
            width:40px;
-           font-size:20px; 
+           font-size:20px;
         }
         cursor:pointer;
         transition:opacity .1s ease-in-out;
@@ -399,7 +399,7 @@ div.oshiboard-item {
             }
         }
     }
-    
+
     span.oshi-stat {
         font-family:WorkSansSemiBold;
         color:rgb(61, 72, 228);
@@ -430,7 +430,7 @@ div.oshiboard-item {
     position:absolute;
     top:0;right:0;
     z-index:1000;
-    
+
     &.FubukiHat {
         width:70px;
         transform:translate(38%, -50%) rotate(23deg);
@@ -624,4 +624,97 @@ div.oshiboard-item {
         transform:translate(30%, -60%) rotate(17deg);
     }
 
+}
+
+.filter-container {
+    padding: 10px;
+    border-bottom: 1px solid lightgray;
+    .filter-toggle {
+        text-align: right;
+    }
+    .filter-toggle span {
+        cursor: pointer;
+    }
+    .dark & {
+        color: $text-light;
+        border-color: $ui-dark-subtle;
+    }
+    .filter-container-2 {
+        > div:first-child {
+            margin-top: -10px;
+        }
+        > div {
+            margin: 10px 0;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+        > div > span:first-child {
+            width: 150px;
+        }
+        .num {
+            text-align: center;
+        }
+        .num:first-of-type {
+            margin-right: 5px;
+        }
+        .num:last-of-type {
+            margin-left: 5px;
+        }    
+        .icon-selector {
+            display: block;
+            height: fit-content;
+            margin: -8px 0 0 148px;
+            > * {
+                display: inline-block;
+                margin: 2px;
+                vertical-align: middle;
+            }
+        }
+        > div, .text-input, .coin, .filter-button {
+            height: 30px;
+        }
+        .text-input, .coin {
+            box-sizing: border-box;
+        }
+        .coin, .filter-button {
+            border-radius: 10px;
+            border-width: 2px;
+            border-bottom-width: 4px;
+            cursor: pointer;
+        }
+        .coin {
+            width: 40px;
+            img, svg {
+                width: 50%;
+            }
+        }
+        .filter-button {
+            padding: 0 10px;
+            background: white;
+            border-color: $default;
+            border-style: solid;
+            font: 14px Worksans;
+        }
+        input[type=checkbox] {
+            margin-right: 5px;
+        }
+        input[type=checkbox]:not(:first-of-type) {
+            margin-left: 20px;
+        }
+        > div:last-child .filter-button {
+            margin-left: 5px;
+        }
+        .toggle-outer {
+            margin-left: -10px;
+        }
+    }
+}
+.leaderboard-nav {
+    margin-top: 10px !important;
+    padding-bottom: 10px;
+    border-bottom: 1px solid lightgray;
+    .dark & {
+        border-color: $ui-dark-subtle;
+    }
 }
