@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 
 import ina from '../../../images/ina.png';
 import miohood from '../../../images/miohood.png';
+import xmasrushia from '../../../images/xmasrushia.png';
 import {lineage} from '../Icons';
 
 import Coin from '../Coin';
@@ -425,6 +426,8 @@ class ActivityBind extends Component<ActivityProps> {
     getCornerImg() {
         if(this.props.settings.theme === Themes.HALLOWEEN) {
             return miohood;
+        } else if (this.props.settings.theme === Themes.CHRISTMAS) {
+            return xmasrushia;
         } else {
             return ina;
         }
@@ -434,6 +437,8 @@ class ActivityBind extends Component<ActivityProps> {
         let cname = "corner-img bl ina-bino ";
         if(this.props.settings.theme === Themes.HALLOWEEN) {
             cname += "miohood";
+        } else if(this.props.settings.theme === Themes.CHRISTMAS) {
+            cname += "xmasrushia";
         }
         return cname;
     }

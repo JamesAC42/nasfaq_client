@@ -12,6 +12,7 @@ import bronzemedal from '../../images/bronzemedal.svg';
 
 import botangangimari from '../../images/botangangimari.png';
 import witchsora from '../../images/witchsora.png';
+import xmasokakoro from '../../images/xmasokakoro.png';
 
 import { connect } from 'react-redux';
 import Coin from './Coin';
@@ -573,6 +574,8 @@ class LeaderboardBind extends Component<LeaderboardProps> {
     getCornerImage() {
         if(this.props.settings.theme === Themes.HALLOWEEN) {
             return witchsora;
+        } else if(this.props.settings.theme === Themes.CHRISTMAS) {
+            return xmasokakoro;
         } else {
             return botangangimari;
         }
@@ -581,6 +584,8 @@ class LeaderboardBind extends Component<LeaderboardProps> {
         let cname = "corner-img bl ";
         if(this.props.settings.theme === Themes.HALLOWEEN) {
             cname += "witchsora";
+        } else if(this.props.settings.theme === Themes.CHRISTMAS) {
+            cname += "xmasokakoro";
         }
         return cname;
     }

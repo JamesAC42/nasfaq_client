@@ -10,6 +10,7 @@ import {IWallet} from '../interfaces/IWallet';
 import tako from '../../images/tako.png';
 import fubogki from '../../images/fubogki.png';
 import witchmiko from '../../images/witchmiko.png';
+import xmasmatsuri from '../../images/xmasmatsuri.png';
 
 import BoardItem from './BoardItem';
 import DropdownInput from './DropdownInput';
@@ -731,6 +732,8 @@ class MarketBind extends Component<MarketProps> {
     getCornerImage() {
         if(this.props.settings.theme === Themes.HALLOWEEN) {
             return witchmiko;
+        } else if(this.props.settings.theme === Themes.CHRISTMAS) {
+            return xmasmatsuri;
         } else {
             return tako;
         }

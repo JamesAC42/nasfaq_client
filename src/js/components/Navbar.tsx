@@ -11,12 +11,14 @@ import storageAvailable from '../checkStorage';
 import sun from '../../images/sun-black.png';
 import moon from '../../images/moon-white.png';
 import web from '../../images/web-white.png';
+import stocking from '../../images/stocking-red.png';
 
 import {withRouter} from 'react-router-dom';
 
 import { Themes } from '../Themes';
 import {
-    settingsActions
+    settingsActions,
+    snowfallActions
 } from '../actions/actions';
 
 import {
@@ -30,11 +32,14 @@ import {
 const mapStateToProps = (state:any, props:any) => ({
     settings: state.settings,
     session: state.session,
-    userinfo: state.userinfo
+    userinfo: state.userinfo,
+    snowfall: state.snowfall
 });
 
 const mapDispatchToProps = {
-    setTheme: settingsActions.setTheme
+    setTheme: settingsActions.setTheme,
+    setShowSnowNotification: snowfallActions.setShowSnowNotification,
+    setShowSnowSettings: snowfallActions.setShowSnowSettings
 }
 
 interface NavbarProps {
@@ -55,7 +60,12 @@ interface NavbarProps {
         loaded:boolean,
         admin:boolean
     },
-    setTheme: (theme: Themes) => {}
+    snowfall: {
+        showSnowSettings:boolean
+    },
+    setTheme: (theme: Themes) => {},
+    setShowSnowNotification: (show:any) => {},
+    setShowSnowSettings: (show:any) => {}
 }
 
 class NavbarState {
@@ -123,11 +133,23 @@ class NavbarBind extends Component<NavbarProps> {
             this.setState({collapsed:true});
         }
     }
+    handleRightClick = (e:any) => {
+        this.props.setShowSnowSettings(!this.props.snowfall.showSnowSettings);
+        e.preventDefault();
+    }
     handleClick = () => {
         let nextTheme = this.props.settings.theme + 1;
         if(Themes[nextTheme] === undefined) nextTheme = 0;
         if(storageAvailable()) {
             localStorage.setItem('nasfaq:theme', JSON.stringify(nextTheme));
+
+            if(nextTheme === Themes.CHRISTMAS) {
+                let xmasFirstTime = localStorage.getItem('nasfaq:snownotif');
+                if(!xmasFirstTime) {
+                    this.props.setShowSnowNotification(true);
+                    localStorage.setItem('nasfaq:snownotif', "true");
+                }
+            }
         }
         this.props.setTheme(nextTheme);
     }
@@ -136,8 +158,10 @@ class NavbarBind extends Component<NavbarProps> {
             return sun;
         } else if(this.props.settings.theme === Themes.DARK) {
             return moon;
-        } else {
+        } else if(this.props.settings.theme === Themes.HALLOWEEN) {
             return web;
+        } else if(this.props.settings.theme === Themes.CHRISTMAS) {
+            return stocking;
         }
     }
     render() {
@@ -262,7 +286,8 @@ class NavbarBind extends Component<NavbarProps> {
                         className="darkmode-img" 
                         onClick={(
                             ev: React.MouseEvent,
-                        ): void => {this.handleClick()}}/>
+                        ): void => {this.handleClick()}}
+                        onContextMenu={(e) => this.handleRightClick(e)}/>
                     </div>
                 </div>
                 {

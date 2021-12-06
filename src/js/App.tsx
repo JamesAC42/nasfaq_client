@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 
 import '../css/master.scss';
-import '../css/themes.scss';
+import '../css/themes/halloween.scss';
+import '../css/themes/christmas.scss';
 
 import Home from './components/Home';
 import Profile from './components/profile/Profile';
@@ -44,7 +45,8 @@ import {
   itemcatalogueActions,
   multicoinSaveActions,
   itemmarketpricesActions,
-  auctionsActions
+  auctionsActions,
+  snowfallActions
 } from './actions/actions';
 
 import {
@@ -55,10 +57,14 @@ import Info from './components/Info';
 import LoginAdmin from './components/LoginAdmin';
 import { Themes } from './Themes';
 import AuctionNotifications from './components/auctions/AuctionNotification';
+import Snowfall from './components/christmas/Snowfall';
+import SnowfallSettings from './components/christmas/SnowfallSettings';
+import SnowfallNotification from './components/christmas/SnowfallNotification';
 
 const mapStateToProps = (state:any, props:any) => ({
   settings: state.settings,
-  session: state.session
+  session: state.session,
+  snowfall: state.snowfall
 });
 
 const mapDispatchToProps = {
@@ -75,7 +81,10 @@ const mapDispatchToProps = {
   setItemMarketPrices: itemmarketpricesActions.setItemMarketPrices,
   setActiveAuctions: auctionsActions.setActiveAuctions,
   setPastAuctions: auctionsActions.setPastAuctions,
-  setAuctionSubscriptions: auctionsActions.setAuctionSubscriptions
+  setAuctionSubscriptions: auctionsActions.setAuctionSubscriptions,
+  setSnowSize: snowfallActions.setSnowSize,
+  setSnowSpeed: snowfallActions.setSnowSpeed,
+  setSnowAmount: snowfallActions.setSnowAmount
 }
 
 interface AppProps {
@@ -84,6 +93,10 @@ interface AppProps {
   },
   session: {
     loggedin: boolean
+  },
+  snowfall: {
+    showSnowSettings: boolean,
+    showSnowNotification: boolean,
   },
   setStats: (stats:{}) => {},
   setHistory: (coinHistory:{}) => {},
@@ -99,6 +112,9 @@ interface AppProps {
   setPastAuctions: (pastAuctions:any) => {},
   setAuctionSubscriptions: (subscriptions:any) => {}
   setBrokerFee: (brokerFee:number) => {},
+  setSnowSize: (snowSize:number) => {},
+  setSnowSpeed: (snowSpeed:number) => {},
+  setSnowAmount: (snowAmount:number) => {},
 }
 
 const adjustmentTime = {
@@ -221,6 +237,13 @@ class AppBind extends Component<AppProps> {
         this.props.setAuctionSubscriptions(JSON.parse(subscriptions));
       }
 
+      let snowfallSettings:any = localStorage.getItem("nasfaq:snowfallSettings");
+      if(snowfallSettings) {
+        snowfallSettings = JSON.parse(snowfallSettings);
+        this.props.setSnowSize(snowfallSettings.snowSize);
+        this.props.setSnowSpeed(snowfallSettings.snowSpeed);
+        this.props.setSnowAmount(snowfallSettings.snowAmount);
+      }
     }
   }
 
@@ -242,8 +265,10 @@ class AppBind extends Component<AppProps> {
       return "";
     } else if(this.props.settings.theme === Themes.DARK) {
       return "dark";
-    } else {
+    } else if(this.props.settings.theme === Themes.HALLOWEEN) {
       return "halloween";
+    } else if(this.props.settings.theme === Themes.CHRISTMAS) {
+      return "christmas";
     }
   }
 
@@ -251,6 +276,18 @@ class AppBind extends Component<AppProps> {
 
     return(
       <div className={this.themeClass()}>
+
+        { this.props.settings.theme === Themes.CHRISTMAS ?        
+          <Snowfall /> : null
+        }
+        {
+          this.props.snowfall.showSnowNotification ?
+          <SnowfallNotification /> : null
+        }
+        { 
+          this.props.snowfall.showSnowSettings ?
+          <SnowfallSettings /> : null
+        }
 
         <SessionHandler />
         <SocketHandler />

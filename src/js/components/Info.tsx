@@ -10,6 +10,7 @@ import {Link} from 'react-router-dom';
 
 import okayu from '../../images/okayuquestion.png';
 import mummygura from '../../images/mummygura.png';
+import xmasroboco from '../../images/xmasroboco.png';
 import { Themes } from '../Themes';
 
 const mapStateToProps = (state:any) => ({
@@ -119,10 +120,21 @@ class InfoBind extends Component<InfoProps> {
     getCornerImg() {
         if(this.props.settings.theme === Themes.HALLOWEEN) {
             return mummygura;
+        } else if(this.props.settings.theme === Themes.CHRISTMAS) {
+            return xmasroboco;
         } else {
             return okayu;
         }
     }
+
+    getImageClass() {
+        let cname = "corner-img br okayu-question";
+        if(this.props.settings.theme === Themes.CHRISTMAS) {
+            cname += " xmasroboco";
+        }
+        return cname;
+    }
+
     render() {
         const brokerFee = Math.round(this.props.stats.brokerFee * 10000) / 100;
         return(
@@ -499,7 +511,7 @@ class InfoBind extends Component<InfoProps> {
                         </div>
                     </a>
                 </div>
-                <img className="corner-img br okayu-question" src={this.getCornerImg()} alt="okayu"/>
+                <img className={this.getImageClass()} src={this.getCornerImg()} alt="okayu"/>
             </div>
         )
     }

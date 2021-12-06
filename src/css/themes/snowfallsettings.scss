@@ -1,0 +1,54 @@
+@import '../settings.scss';
+
+.snowfall-settings {
+    position:fixed;
+    top:$nav-height;
+    right:0;
+    margin:15px;
+    margin-right:30px;
+    padding:15px;
+    z-index:10000;
+    background:#fff;
+    border-radius:10px;
+    overflow:hidden;
+    max-height: 50vh;
+    max-width:50vw;
+    box-shadow: 0px 5px 17px -4px #000000;
+    .snowfall-settings-header {
+        text-align:center;
+        font-size:1.1rem;
+        margin-bottom:10px;
+        font-family: WorkSansSemiBold;
+    }
+    .snowfall-settings-row {
+        gap:10px;
+        justify-content:space-between;
+        .set-snowfall-settings {
+            text-align:center;
+            padding:5px 10px;
+            border-radius:7px;
+            background:rgb(80, 211, 119);
+            color:#fff;
+            cursor:pointer;
+            &:hover {
+                background:rgb(38, 175, 45);
+            }
+        }
+        input {
+            cursor:pointer;
+        }
+    }
+}
+
+.snowfall-notification {
+    position:fixed;
+    z-index:10000;
+    top:$nav-height;
+    right:0;
+    margin:15px;
+    margin-right:30px;
+    padding:15px;
+    background:#fff;
+    color:rgb(30, 133, 56);
+    border-radius:10px;
+}

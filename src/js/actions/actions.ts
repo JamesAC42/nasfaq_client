@@ -130,6 +130,16 @@ export const adminActions = createActions(
     }
 )
 
+export const snowfallActions = createActions(
+    {
+        SET_SHOW_SNOW_NOTIFICATION: showSnowNotification => ({ showSnowNotification }),
+        SET_SNOW_SIZE: snowSize => ({ snowSize }),
+        SET_SHOW_SNOW_SETTINGS: showSnowSettings => ({ showSnowSettings}),
+        SET_SNOW_SPEED: snowSpeed => ({ snowSpeed }),
+        SET_SNOW_AMOUNT: snowAmount => ({ snowAmount }),
+    }
+)
+
 export const gachaActions = createActions(
     {
         SET_RECEIVED_ITEMS: receivedItems => ({ receivedItems })

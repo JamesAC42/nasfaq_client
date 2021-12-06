@@ -1,5 +1,6 @@
 export enum Themes {
     LIGHT,
     DARK,
-    HALLOWEEN
+    HALLOWEEN,
+    CHRISTMAS
 }

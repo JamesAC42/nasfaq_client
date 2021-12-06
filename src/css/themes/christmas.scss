@@ -1,0 +1,1226 @@
+@import "../settings.scss";
+
+.christmas {
+
+    $festive-blue: rgb(34, 56, 85);
+    $festive-light-blue: rgb(160, 212, 255);
+    $festive-red: rgb(216, 77, 77);
+    $festive-green: rgb(43, 148, 57);
+
+    .container {
+        background-color:$festive-blue;
+        .container-content {
+            .container-section {
+                .section-background {
+                    background:rgb(51, 137, 250);
+                    background: linear-gradient(135deg, rgb(248, 74, 74) 0%, rgb(206, 44, 98) 100%);
+                }
+                .section-content {
+                    border-color:rgb(21, 153, 54);
+                    background:rgb(216, 222, 233);
+                }
+            }
+            p, .header, .subheader {
+                color:rgb(199, 47, 47);
+                .broker {color:rgb(25, 124, 50)}
+            }
+        }
+    }
+
+    .nasfaq {
+        color:rgb(43, 126, 35);
+    }
+    
+    .circle {
+        &.circle-md {
+            background: linear-gradient(135deg, rgb(252, 255, 253) 0%, rgb(79, 250, 116) 9%, rgb(33, 126, 41) 100%);
+        }
+        &.circle-lg {
+            background: linear-gradient(135deg, rgb(228, 81, 81) 0%, rgb(190, 10, 10) 100%);
+        }
+    }
+
+    .title-banner {
+        background: linear-gradient(135deg, rgba(17, 36, 90, 0.966) 0%,rgba(17, 51, 90, 0.925) 15%,rgb(55, 48, 143) 100%);
+        box-shadow: 0px 0px 13px 5px rgba(48, 93, 189, 0.54);
+    }
+
+    .button {
+        .button-background {
+            background:rgb(57, 172, 29);
+        }
+        .button-container {
+            border-color:none;
+            background:rgb(255, 82, 82);
+        }
+        &.inverse {
+            .button-container,
+            .button-increment,
+            .button-decrement {
+                background: rgb(44, 51, 77);
+                color:none;
+            }
+        }
+    }
+
+    .info-container {
+        li {
+            color:rgb(10, 77, 19);
+        }
+        a {color:rgb(231, 66, 66);}
+    }
+
+    .vertical-tab {
+        color:rgb(92, 12, 12);
+        background:rgb(7, 7, 7);
+        border-color:rgb(26, 141, 45);
+        &.vertical-tab-active {
+            border-color:rgb(230, 44, 31);
+        }
+    }
+
+    .navbar {
+        background:rgb(228, 237, 255);
+        .nav-item, .nav-dropdown {
+            a {color:rgb(40, 141, 48);}
+        }
+        .nav-pages {
+            @media (max-width: 1500px) {
+                & {
+                    background:rgb(25, 66, 155);
+                    .nav-item, .nav-dropdown {
+                        a {color:rgb(140, 243, 119);}
+                        &:hover {
+                            background:rgb(15, 34, 97);
+                            a {color:rgb(102, 228, 77);}
+                        }
+                    }
+                }
+            }
+        }
+        .navbar-collapse {color:rgb(161, 27, 27);}
+        .username-nav {color:rgb(212, 51, 51);}
+        .datetime {color:rgb(204, 31, 31);}
+    }
+
+    .tabbed-view-select {
+        .view-item {
+            color:none;
+            color:rgb(111, 236, 159);
+            &.view-item-active, &:hover {
+                &::after {
+                    background:rgb(236, 82, 82);
+                }
+            }
+        }
+    }
+    .tabbed-content {
+        .tabbed-content-container {
+            .tabbed-content-background {
+                background: linear-gradient(135deg, rgb(255, 98, 98) 0%, rgb(204, 35, 35) 100%);
+            }
+            .tabbed-content-content {
+                border-color:rgb(50, 184, 95);
+                background:rgb(241, 242, 255);
+                color:rgb(33, 104, 19);
+            }
+        }
+    }
+
+    .coin-sidebar {
+        background:rgb(16, 26, 80);
+    }
+
+    .dropdown-label {
+        color:rgb(22, 128, 18);
+    }
+
+    .selected-option,
+    .dropdown-arrow {
+        color:rgb(56, 133, 25);
+    }
+
+    .dropdown-options {
+        background:rgb(252, 252, 255);
+        color:rgb(170, 24, 24);
+    }
+
+    .dropdown-option:hover {
+        background:rgb(252, 252, 255);
+        color:rgb(18, 129, 33);
+    }
+
+    .coin-searchbar {
+        background:rgb(216, 227, 255);
+        .searchbar-tab {
+            background:rgb(155, 202, 255) !important;
+        }
+        input.search-input {color:rgb(25, 109, 22) !important;}
+        .coin-searchbar-inner {
+            .sort-method {
+                color:rgb(14, 87, 38);
+            }
+        }
+        .toggle-all-boards {
+            div {
+                color:$festive-green !important;
+                border-color:$festive-green !important;
+                &:hover {
+                    background:$festive-green !important;
+                    color:#fff !important;
+                }
+            }
+        }
+
+        .price-range {
+            .price-input-container {
+                .price-filter-label {
+                    color:$festive-green !important;
+                }
+            }
+            input.price-filter {
+                background:rgb(216, 227, 255) !important;
+            }
+        }
+
+        .apply-filter-outer {
+            .apply-filter-btn {
+                color:$festive-red !important;
+                border-color:$festive-red !important;
+                &:hover {
+                    background:$festive-red !important;
+                    color:#fff !important;
+                }
+            }
+        }
+
+        .toggle-auto-trader {
+            .toggle-auto-trader-button {
+                color:rgb(211, 39, 39) !important;
+                &:hover {
+                    color:rgb(40, 139, 27) !important;
+                }
+            }
+        }
+
+        .broker-fee-total {
+            color:#000 !important;
+        }
+
+    }
+
+    
+    .board-outer {
+        .no-coins {color:rgb(154, 255, 184);}
+        .compact-board-container {
+            table {
+                color:rgb(224, 223, 253);
+                th {background:rgb(53, 66, 139);}
+                tr {background:none;}
+                td {
+                    &.compact-name {color:rgb(194, 200, 255);}
+                }
+            }
+        }
+    }
+
+    .toggle-outer {
+        background:none;
+        .tp-label {color:#fff;}
+        .tp-switch-outer{
+            .tp-switch-circle {background:$festive-green;}
+        }
+    }
+
+    .board-item {
+        .board-item-background {
+            background: linear-gradient(135deg, rgb(219, 74, 69) 0%, rgb(201, 42, 68) 100%);
+        }
+    }
+    .board-item-content {
+        background:rgb(26, 42, 54);
+        background:rgb(209, 236, 255);
+        border-color:rgb(32, 197, 32);
+        .action-section {
+            .action-container {
+                .shares {
+                    color:rgb(24, 112, 16);
+                }
+            }
+            .toggle-outer {
+                background:rgb(209, 236, 255);
+            }
+            .tp-label {color:$festive-red;}
+        }
+    }
+    .stats-container {
+        background:rgb(219, 226, 255);
+        .stat-row {
+            color:$festive-red;
+            &:hover {
+                background:rgb(160, 186, 255);
+            }
+        }
+    }
+    .toggle-stats-button {
+        background:rgb(188, 207, 247);
+    }
+
+    .auto-trader-editor {
+        .auto-trader-background {
+            background:rgba(121, 121, 121, 0.726);
+        }
+        .auto-trader-inner {
+            background:rgb(255, 245, 245);
+            border-color:rgb(248, 92, 92);
+            color:rgb(20, 112, 28);
+        }
+        .tp-label {
+            color:rgb(9, 80, 15);
+        }
+    }
+    .trade-rules-container {
+        .trade-rules-list {
+            .trade-rule-item {
+                background:rgb(230, 230, 230);
+                color:rgb(201, 33, 33);
+                .trade-rule-item-cooldown {
+                    background:rgb(194, 194, 194);
+                }
+                .trade-rule-volume,
+                .trade-rule-quant {
+                    color:rgb(151, 50, 50);
+                }
+                .trade-rule-type {
+                    div {background:rgb(24, 29, 97);}
+                }
+                .trade-rule-step-quant {
+                    .step-outer {
+                        background:rgb(216, 228, 255);
+                        .step-change-quant-outer {
+                            .step-increase, .step-decrease {
+                                background:rgb(190, 215, 236);
+                            }
+                        }
+                    }
+                }
+                .trade-rule-target {
+                    .target-input {
+                        input {
+                            color:rgb(11, 56, 15);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .login-backdrop {
+        background:rgb(160, 44, 44);
+    }
+    .login-modal {
+        border-color:$festive-green;
+    }
+    .login, .register {
+        background:rgb(227, 237, 255);
+        color:none;
+        input {
+            background:rgb(227, 237, 255);
+            border:2px solid $festive-green;
+            color:rgb(49, 153, 23);
+        }
+    }
+    .modal-header,
+    .input-label {
+        color:$festive-red;
+        background:none;
+    }
+    .register {
+        .register-filter {
+            background:rgb(227, 237, 255);
+            .hide-filter-pane {
+                color:none;
+            }
+            input {color:$festive-green;}
+        }
+    }
+    .reset-link {a {color:$festive-red;}}
+    .placeholder-link {a {color:rgb(227, 237, 255) !important;}}
+
+    .admin-header,
+    .admin-space,
+    .word-filters-container,
+    .reports-container,
+    .adjustment-container,
+    .admin-users-pane,
+    .download-pane,
+    .control-header,
+    .control-description {
+        background:rgb(72, 90, 119);
+        color:rgb(170, 255, 153);
+    }
+    textarea.admin-textarea {
+        background:none;
+        color:rgb(199, 240, 218);
+    }
+    .admin-users-container {
+        background:rgb(222, 228, 255);
+        background:none;
+        color:$festive-green;
+        table {
+            background:none !important;
+            tr, thead {background:none !important;}
+            tr.users-container-header {
+                background:none !important;
+                th {background:none;}
+            }
+            td,th{
+                background:none;
+                color:rgb(255, 255, 255);
+            }
+        }
+    }
+
+    .delete-dialogue,
+    .settings-dialogue,
+    .mute-dialogue {
+        background:rgb(224, 229, 255);
+        color:$festive-green;
+        z-index:12000;
+    }
+    .mute-dialogue {
+        .mute-message textarea {background:rgb(30, 36, 70) !important; color:rgb(255, 255, 255)}
+        .mute-until-input {
+            .date-updater-calendar {
+                button {
+                    background:rgb(212, 229, 255);
+                    color:rgb(34, 48, 175);
+                }
+                .react-calendar__tile {
+                    color:rgb(39, 41, 145);
+                }
+                .react-calendar__tile--active {
+                    color:rgb(221, 34, 34);
+                }
+                .react-calendar__navigation__label {
+                    color:rgb(255, 59, 59);
+                }
+            }
+        }
+    }
+    .market-switch{color:rgb(250, 183, 183);}
+    table.adjustment-table,
+    table.spam-table {
+        color:#fff;
+        tr.table-subheader {
+            td {
+                background:rgb(42, 55, 66);
+                color:rgb(232, 252, 235);
+            }
+        }
+        input {
+            background:rgb(237, 239, 255);
+            color:$festive-green;
+        }
+    }
+    .adjustment-container {
+        .adjust-params-container {
+            color:rgb(201, 247, 183);
+            input {
+                background:rgb(230, 229, 255);
+                color:$festive-green;
+            }
+        }
+    }
+
+    .report-item {
+        color:#fff;
+        .report-message-text {
+            background:rgb(233, 237, 255);
+            color:rgb(161, 37, 37);
+        }
+    }
+
+    .transaction-container {
+        .transaction-name {
+            color:rgb(255, 161, 161);
+        }
+        .transaction-userid {
+            color:rgb(255, 125, 125);
+        }
+    }
+    .date-updater {
+        background:rgb(250, 251, 255);
+    }
+    .date-updater-calendar {
+        button {
+            background:rgb(250, 251, 255);
+            color:rgb(194, 31, 31);
+        }
+    }
+
+    .floor-outer {
+        border-color:rgb(194, 46, 46);
+    }
+    .submit-message-button {
+        color:rgb(158, 37, 37);
+        border-color:$festive-red;
+        &:hover {
+            background:none;
+            color:rgb(37, 87, 24);
+        }
+    }
+    .message {
+        background:rgb(227, 234, 255);
+        color:rgb(13, 109, 13);
+        border-color:rgb(179, 33, 33);
+        .message-info {
+            .message-id:hover {
+                color:rgb(219, 69, 69);
+            }
+            .message-user {
+                color:rgb(224, 21, 21);
+            }
+            .report-msg-btn {
+                .report-btn-confirm {
+                    background:rgb(90, 113, 161);
+                    color:#fff;
+                }
+            }
+            .delete-message {
+                color:rgb(228, 19, 19);
+            }
+        }
+        .message-text {
+            span.quotation {color:rgb(209, 27, 179);}
+            a.mention {color:rgb(28, 59, 126)}
+            a.msg-link {color:rgb(20, 90, 107);}
+        }
+        .message-replies {
+            color:rgb(20, 16, 43);
+        }
+        &.op {
+            background:rgb(45, 58, 100);
+            color:rgb(161, 255, 158);
+            .message-info {
+                .message-user {color:rgb(157, 255, 161);}
+                .delete-message {color:rgb(255, 50, 50);}
+            }
+            .message-text {
+                color:rgb(255, 142, 142);
+                span.quotation {color:rgb(76, 117, 79);}
+                a {color:rgb(159, 175, 255);}
+            }
+        }
+        &.you, &.me {
+            border-color:rgb(255, 127, 127);
+        }
+    }
+    .no-messages,
+    .no-room {color:#fff !important;}
+    .new-messages-notif {
+        background:rgb(28, 30, 63);
+        color:#fff;
+    }
+    .cooldown-timer {
+        border-color:#fff !important;
+    }
+    .message-container-background {
+        background: linear-gradient(135deg, rgb(44, 167, 61) 0%, rgb(61, 120, 197) 100%);
+    }
+    .replies-container {
+        background:rgba(243, 246, 255, 0.479);
+    }
+    .replies-modal {
+        .replies-modal-inner {
+            .replies-modal-content {
+                background:rgb(246, 248, 255);
+                border-color:#ff2828;
+            }
+            .replies-modal-background {
+                background: linear-gradient(135deg, rgb(98, 175, 88) 0%, rgb(70, 145, 27) 100%);
+            }
+            .replies-up {
+                background:#fff;
+                border-color:rgb(255, 86, 86);
+                color:rgb(36, 170, 36);
+            }
+        }
+    }
+    .room-container {
+        .room-header {
+            color:rgb(181, 255, 172);
+            background:rgb(30, 42, 97);
+        }
+    }
+    .message-input {
+        .message-input-inner {
+            background:rgb(221, 223, 255);
+        }
+        textarea {
+            background:rgb(241, 240, 255);
+            color:rgb(33, 90, 11);
+        }
+        .input-control {
+            .character-count {
+                color:$festive-red;
+            }
+        }
+    }
+    .toggle-message-input {
+        background:rgb(221, 223, 255);
+        color:rgb(252, 54, 54);
+        border-color:rgb(255, 81, 81);
+    }
+    .room-select {
+        background:rgb(34, 59, 107);
+        .room-item {
+            background:rgb(236, 234, 255);
+            a{
+                color:$festive-green;
+                .room-info-bar {color:$festive-red;}
+            }
+            &:hover {
+                background:rgb(162, 164, 255);
+            }
+        }
+        .room-list-header {
+            background:rgb(203, 211, 255);
+            .new-room-outer {
+                input, textarea {
+                    background:rgb(246, 244, 255);
+                    color:rgb(13, 83, 31);
+                }
+            }
+            .room-list-filter {
+                .room-list-refresh {
+                    color:$festive-blue;
+                }
+                input {
+                    color:$festive-green;
+                    border-color:$festive-red;
+                }
+            }
+        }
+    }
+    .room-item-select {
+        &:hover {
+            background:rgb(199, 204, 250);
+        }
+    }
+
+    .superchats-billboard {
+        background:rgb(10, 15, 32);
+        .superchats-title {color:rgb(32, 221, 95);}
+        .superchats-view-select {
+            .superchats-view-tab {
+                color:rgb(40, 187, 27);
+            }
+        }
+        .superchat-settings {
+            color:$festive-red;
+        }
+        .superchats-leaders {
+            .top-donator-container {
+                .top-donator.first-donator {
+                    color:rgb(255, 57, 57);
+                }
+                .top-donator.second-donator {
+                    color:rgb(223, 43, 43);
+                }
+                .top-donator.third-donator {
+                    color:rgb(255, 74, 74);
+                }
+                .top-donator {
+                    color:$festive-red;
+                }
+            }
+        }
+    }
+
+    .superchat-item {
+        border-color:rgb(16, 124, 12);
+        box-shadow: 0px 7px 20px -6px #2b2b2b;
+        .superchat-list-container {
+            background:rgb(185, 210, 235);
+            .no-superchats {
+                color:rgb(16, 114, 37);
+            }
+        }
+        .superchat-input-container {
+            .sc-open-input-outer {
+                .toggle-rank-view {color:rgb(255, 70, 70);}
+            }
+        }
+    }
+    .rank-view-header,
+    .donator-rank-item {
+        color:$festive-green;
+    }
+    .sc-input-outer {
+        background:rgb(202, 221, 255);
+        .sc-input-header {
+            background:rgb(136, 156, 245);
+            color:none;
+        }
+        .sc-input-info {color:rgb(190, 10, 10);}
+        .sc-input-amount {
+            color:rgb(16, 150, 16);
+            input {
+                color:rgb(14, 167, 39);
+                border-color:rgb(28, 165, 16);
+            }
+        }
+    }
+    .sc-ranking-table {
+        td.rank-number {color:$festive-green;}
+    }
+
+    .user-row {
+        .user-rank-info {
+            .user-rank {color:$festive-green;}
+            .username {color:none;}
+            .show-wallet {
+                color:rgb(226, 26, 26);
+            }
+            .show-items {
+                color:rgb(7, 112, 33);
+            }
+        }
+        &.user-row-me {
+            .user-rank-info {
+                background:rgb(40, 128, 59);
+                .user-rank {color:#fff;}
+                .net-worth {color:rgb(144, 247, 158);}
+                .show-wallet,
+                .show-items {
+                    color:rgb(171, 233, 101);
+                }
+            }
+        }
+    }
+    .user-rank-wallet,
+    .user-rank-items {
+        .wallet-inner,
+        .items-inner {
+            .user-item {
+                border-color:$festive-red;
+                .item-image {
+                    background:rgb(241, 246, 255);
+                }
+                .item-quantity {
+                    background:rgb(241, 245, 255);
+                    color:rgb(41, 122, 25);
+                }
+            }
+            .wallet-item {
+                .wallet-coin-amt {color:rgb(49, 146, 37);}
+            }
+            .wallet-statistics,
+            .item-statistics {
+                color:rgb(34, 117, 23);
+                .wallet-stat-item,
+                .item-stat-item {
+                    span.stat-number {color:rgb(255, 56, 56);}
+                }
+            }
+        }
+    }
+    .oshiboard-item {
+        .oshi-info {
+            .oshi-name {color:rgb(16, 116, 16);}
+        }
+        span.oshi-stat {color:rgb(255, 60, 60);}
+    }
+
+    .gacha-container {
+        .gacha-header-container {
+            background:rgb(15, 27, 68);
+            .gacha-header-inner {
+                .gacha-header-title {
+                    color:rgb(22, 167, 29);
+                }
+            }
+            .gacha-view-control {
+                .view-tab-active::after {
+                    background:rgb(79, 209, 62);
+                }
+            }
+        }
+        .gacha-panel {
+            .button-row {
+                background:rgb(217, 221, 241);
+                box-shadow: inset 0px 0px 9px -1px #242424;
+            }
+            .drop-container {
+                background:rgb(226, 231, 255);
+                box-shadow: inset 0px 0px 9px -1px #2b2b2b;
+                .drop-container-header {
+                    color:rgb(13, 112, 21);
+                }
+                .drop-container-items {
+                    .drop-item {
+                        border-color:rgb(216, 37, 37);
+                        background:rgb(241, 245, 255);
+                        .drop-item-name {
+                            background:rgb(170, 169, 255);
+                            color:rgb(11, 80, 22);
+                        }
+                    }
+                    .no-items {color:rgb(199, 25, 25);}
+                }
+            }
+        }
+    }
+    .gacha-button {
+        .gacha-button-inner { 
+            background:rgb(255, 243, 243);
+        }
+    }
+
+    .gachaboard-outer {
+        .gachaboard-description {color:rgb(255, 218, 218);}
+        table {
+            td.gachaboard-rank {color:rgb(198, 255, 181);}
+        }
+        .refresh-gachaboard {
+            color:#fff;
+        }
+    }
+
+    .transaction-stats {
+        .stat-details {
+            color:$festive-green;
+            span.stat-quant {color:$festive-red;}
+        }
+    }
+
+    .transactions-container {
+        .transaction-item {
+            background:rgb(223, 227, 255);
+            border-color:rgb(235, 31, 31);
+            .transaction-message{color:rgb(15, 102, 19);}
+        }
+    }
+    .transaction-container {
+        &.transaction-mine {
+            background:rgb(44, 117, 34);
+        }
+    }
+
+    .profile-card {color:$festive-blue;}
+    .profile-name,
+    .profile-email {
+        input {
+            border-color:rgb(204, 77, 77);
+            color:rgb(22, 99, 32);
+            background:rgb(236, 236, 255);
+            &:hover, &:focus {
+                border-color:rgb(83, 167, 28);
+            }
+        }
+    }
+    .reset-password {a{color:$festive-green;}}
+    .delete-dialogue {
+        .delete-message {
+            color:$festive-green !important;
+        }
+        input {
+            background:rgb(233, 227, 255);
+            border-color:$festive-red;
+            color:rgb(11, 58, 5);
+        }
+    }
+    .profile-balance-items {
+        .profile-balance-item {
+            border-color:$festive-red;
+        }
+    }
+    div.not-verified-msg,
+    div.muted-msg {
+        color:$festive-green;
+    }
+    .dialogue {
+        .dialogue-container {
+            background:rgb(213, 216, 255);
+            border-color:$festive-red;
+            .dialogue-header {
+                color:$festive-green;
+            }
+            .settings-row {
+                .settings-label {color:$festive-green;}
+            }
+        }
+        .tp-label{color:$festive-blue;}
+    }
+    .no-assets {color:$festive-green;}
+    .profile-view-select {
+        .profile-view-tab {
+            color:#fff;
+            &.active::after {
+                background:rgb(90, 199, 75);
+            }
+        }
+    }
+    .asset-header {
+        color:rgb(228, 53, 30);
+    }
+    .asset-row {
+        .asset-item {
+            .asset-item-name {
+                color:rgb(19, 133, 4);
+            }
+        }
+        .asset-shares {
+            color:rgb(206, 51, 51);
+        }
+    }
+
+    .items {
+        table {
+            thead tr {
+                color:none;
+            }
+            tbody tr {
+                td {
+                    color:none;
+                    border-color: rgb(207, 22, 22);
+                    .item-name {
+                        color:rgb(40, 119, 16);
+                    }
+                }
+            }
+        }
+    }
+
+    .auctions-title {
+        background:rgb(34, 63, 97);
+        color:rgb(101, 255, 216);
+    }
+    .auction-filters {
+        background:rgb(244, 244, 255);
+        .info-button {
+            color:$festive-blue;
+        }
+        .view-select {
+            border:1px solid rgb(255, 81, 81);
+            .view-select-tab {
+                background:rgba(196, 241, 210, 0.212);
+                color:rgb(37, 126, 10);
+                &.active { 
+                    background:rgb(201, 38, 38);
+                    color:rgb(255, 255, 255);
+                }
+                &:first-child {
+                    border-right:1px solid rgb(184, 44, 44);
+                }
+            }
+        }
+    
+        .add-auction-button,
+        .buy-auction-license-button {
+            background:rgb(74, 170, 30) !important;
+            color:#fff;
+            &:hover {background:rgb(18, 131, 28) !important;}
+        }
+        .toggle-filters-button {
+            background:rgb(214, 35, 35);
+            &:hover {background:rgb(134, 23, 23);}
+        }
+    }
+
+    .auction-container {
+        .auction-preview {
+            border:3px solid rgb(255, 59, 59);
+            &:hover {
+                box-shadow: 0px 9px 18px -3px #000000;
+            }
+            .item-auction-thumbnail {
+                background:rgb(245, 248, 255);
+            }
+            .auction-preview-info {
+                
+                background:rgb(28, 35, 100);
+                color:rgb(167, 255, 186);
+                
+                .auction-preview-info-name {
+                    a {
+                        color:rgb(255, 130, 130);
+                        &:hover {color:rgb(199, 41, 41);}
+                    }
+                }
+            }
+        }
+        .no-active-auctions {color:#fff;}
+    }
+
+        
+    .create-auction-window {
+        background:rgb(27, 28, 34);
+
+        .auction-item-select {
+            .auction-item-select-header {
+                color:#fff;
+            }
+            .auction-item-select-inner {
+                box-shadow: inset 0px 0px 18px 5px #181818;
+                background:rgb(50, 51, 59);
+            }
+        }
+        .auction-item-input {
+            color:#fff;
+            .sell-quantity,
+            .minimum-bid {
+                input {
+                    border:1px solid rgb(58, 58, 58);
+                    color:#fff;
+                    background:rgb(20, 20, 20);
+                }
+            }
+            .expiration-outer {
+
+                input.expiration-time-input {
+                    background:rgb(17, 17, 17);
+                    color:#fff;
+                    border:1px solid $default;
+                }
+            }
+            .create-auction {
+                .create-auction-button {
+                    border:1px solid rgb(69, 199, 108);
+                    background:rgb(69, 199, 108);
+                }
+            }
+        }
+    }
+
+    .buy-auction-license {
+
+        background:rgb(228, 231, 255);
+        .buy-license-action {
+            color:rgb(14, 95, 18);
+    
+            .buy-license-header {
+                color:rgb(255, 86, 86);
+            }
+            .buy-license-price {
+                color:rgb(41, 136, 17);
+            }
+    
+        }
+    }
+
+    .auction-history {
+        .auction-price-history-chart {
+            background:rgb(49, 54, 116);
+            box-shadow: 0px 5px 19px -3px #000000;
+            border:3px solid rgb(40, 177, 75);
+            .close-price-chart {
+                height:30px;
+                .close-price-chart-button {
+                    color:rgb(255, 94, 94);
+                }
+            }
+            .price-chart-header {
+                color:#fff;
+            }
+        }
+        table {
+            color:rgb(10, 33, 53);
+            background:rgb(206, 221, 255);
+            thead {
+                tr td {
+                    background:rgb(24, 117, 37);
+                    color:rgb(245, 244, 255);
+                }
+            }
+            tbody {
+                tr td {
+                    border-bottom:1px solid rgb(146, 33, 33);
+                }
+                td.auction-history-bid {
+                    color:rgb(13, 80, 29);
+                }
+            }
+        }
+        .no-past-auctions {color:#fff;}
+    }
+
+        
+    .auction-detail-container {
+        .auctions-back {
+            a {
+                color:#fff;
+            }
+            &:hover {
+                background:rgb(28, 143, 24);
+                a {color:rgb(255, 255, 255);}
+            }
+        }
+        .auction-background {
+            background:$primary;
+            background: linear-gradient(135deg, rgb(216, 37, 37) 0%, rgb(124, 25, 55) 100%);
+        }
+        .auction-detail-outer {
+            border:4px solid rgb(199, 43, 43);
+            .subscription-button {
+                color:$festive-blue;
+            }
+            .auction-item-info {
+                background: rgb(81,96,122);
+                background: linear-gradient(157deg, rgb(187, 255, 142) 0%, rgb(62, 182, 38) 35%, rgb(12, 114, 34) 100%);
+                box-shadow: inset 0px 0px 15px 0px #000000b2;
+                .auction-item-name,
+                .auction-seller {
+                    background:rgb(224, 235, 255);
+                }
+                .auction-item-name {
+                    color:rgb(11, 78, 16);
+                }
+                .auction-seller {
+                    color:rgb(163, 33, 33);
+                }
+                .auction-item-image {
+                    .auction-item-image-container,
+                    .auction-item-quantity {
+                        background:rgb(248, 249, 255);
+                        box-shadow: 0px 0px 15px 0px #000000;
+                        color:rgb(14, 102, 36);
+                        border:4px solid rgb(216, 38, 38);
+                    }
+                }
+            }
+            .auction-actions {
+                background:rgb(23, 33, 68);
+                color:#fff;
+                .current-bid-amount {
+                    color:rgb(140, 233, 136);
+                }
+                .last-outbid-amount {
+                    color:rgb(76, 172, 75);
+                }
+                .current-bid-bidder {
+                    color:rgb(255, 129, 129);
+                }
+                .last-outbid-bidder {
+                    color:rgb(240, 69, 69);
+                }
+
+                .bid-metrics {
+                    .remaining-time {
+                        color:rgb(104, 202, 79);
+                    }
+                    .auction-watching {
+                        color:rgb(233, 84, 73);
+                    }
+                    .cancel-auction {
+                        background:rgb(255, 93, 93);
+                        color:rgb(31, 28, 28);
+                    }
+                }
+
+                .auction-log {
+                    border-top:1px solid rgb(148, 41, 41);
+                    background:rgb(131, 28, 28);
+                    .auction-log-item {
+                        color:rgb(216, 213, 213);
+                        span.auction-log-timestamp {
+                            color:rgb(255, 255, 255);
+                        }
+                        span.auction-log-username {
+                            color:rgb(210, 220, 255);
+                        }
+                        span.auction-log-amount {
+                            color:rgb(158, 255, 158);
+                        }
+                    }
+                }
+                .auction-bid-container,
+                .auction-message-container {
+                    background:rgb(23, 33, 68);
+                    input {
+                        color:rgb(230, 230, 230);
+                        border:1px solid rgb(120, 252, 131);
+                        &:focus {
+                            outline:1px solid rgb(120, 252, 131);
+                        }
+                    }
+                    .submit-bid {
+                        background:rgb(60, 78, 238);
+                        color:rgb(255, 255, 255);
+                        &:hover {
+                            background:rgb(39, 204, 127);
+                        }
+                    }
+                }
+                .bid-error {
+                    background:rgb(23, 33, 68);
+                }
+            }
+        }
+    }
+        
+    .auction-notifications-outer {
+
+        .auction-notification-item {
+            border:3px solid rgb(12, 133, 18);
+            background:rgb(225, 225, 255);
+            color:rgb(129, 4, 4);
+            box-shadow: 0px 5px 15px -6px #000000;
+            .notif-desc {
+                .bid-amount {
+                    color:rgb(31, 131, 56);
+                }
+            }
+        }
+    }
+
+    .auction-info {
+        background:rgb(235, 240, 255);
+        border-color:rgb(17, 97, 23);
+        .auction-info-header {
+            color:rgb(201, 39, 39);
+        }
+        .auction-info-content {
+            color:rgb(12, 80, 4);
+            span.broker {color:rgb(247, 67, 67);}
+        }
+    }
+    
+    .auction-filter-controls {     
+        background:rgb(31, 38, 105);
+        box-shadow: 8px 5px 19px -5px #000000d0;
+        .auction-filter-control-row {
+            background:rgb(20, 28, 56);
+            .filter-label {
+                color:rgb(255, 243, 218);
+            }
+            .item-select,
+            .auction-control-button {
+                border:1px solid rgb(55, 177, 25);
+                color:rgb(59, 226, 59);
+                &:hover {
+                    background:rgb(38, 179, 25);
+                    color:rgb(255, 255, 255);
+                }
+            }
+            .checkbox {
+                border:3px solid rgb(255, 67, 67);
+                &.active {
+                    background:rgb(255, 56, 56);
+                }
+            }
+        }
+    }
+        
+    .item-select-container {
+        background: rgb(25, 45, 100);
+        box-shadow: 8px 5px 19px -5px #000000ec;
+        .item-item {
+            color:rgb(109, 231, 120);
+            &:hover {
+                background:rgb(199, 23, 23);
+            }
+        }
+    }
+}

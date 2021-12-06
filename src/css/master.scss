@@ -475,6 +475,20 @@ img.corner-img {
   &.miohood {
     height:310px !important;
   }
+  &.xmasrushia {
+    width:320px;
+    height:auto !important;
+    transform:translate(-17px);
+  }
+  &.xmasokakoro {
+    width:300px;
+    height:auto !important;
+  }
+  &.xmasroboco {
+    width:220px;
+    height:auto !important;
+    transform:translate(-17px, 40%);
+  }
   &.witchsora {
     height:340px !important;
   }
@@ -925,4 +939,29 @@ div.pagenav {
 .baelz {
   background: $ba-primary;
   border-color: $ba-secondary;
+}
+
+.laplus {
+  background: $lp-primary;
+  border-color: $lp-secondary;
+}
+
+.lui {
+  background: $lu-primary;
+  border-color: $lu-secondary;
+}
+
+.koyori {
+  background: $ky-primary;
+  border-color: $ky-secondary;
+}
+
+.chloe {
+  background: $cl-primary;
+  border-color: $cl-secondary;
+}
+
+.iroha {
+  background: $ih-primary;
+  border-color: $ih-secondary;
 }

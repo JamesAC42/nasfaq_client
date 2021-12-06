@@ -18,6 +18,7 @@ import gacha from './reducers/gacha';
 import multicoinSave from './reducers/multicoinSave';
 import itemmarketprices from './reducers/itemMarketPrices';
 import auctions from './reducers/auctions';
+import snowfall from './reducers/snowfall';
 
 let initState = {
     socket: {
@@ -118,7 +119,14 @@ let initState = {
     gacha: {
         receivedItems: []
     },
-    multicoinSave: {}
+    multicoinSave: {},
+    snowfall: {
+        showSnowNotification:false,
+        showSnowSettings:false,
+        snowSize:0.1,
+        snowSpeed:0.3,
+        snowAmount:0.5
+    }
 }
 
 const holoReducer = combineReducers({
@@ -136,6 +144,7 @@ const holoReducer = combineReducers({
     auctions,
     admin,
     gacha,
+    snowfall,
     multicoinSave
 });
 
