@@ -35,6 +35,10 @@ export const links:{[name:string]:{[link:string]:string}} = {
         youtube: 'https://www.youtube.com/channel/UCL_qhgtOy0dy1Agp8vkySQg',
         twitter: 'https://twitter.com/moricalliope'
     },
+    chloe: {
+        youtube: 'https://www.youtube.com/channel/UCIBY1ollUsauvVi4hW4cumw',
+        twitter: 'https://twitter.com/sakamatachloe'
+    },
     choco: {
         youtube: 'https://www.youtube.com/channel/UC1suqwovbL1kzsoaZgFZLKg',
         twitter: 'https://twitter.com/yuzukichococh'
@@ -79,6 +83,10 @@ export const links:{[name:string]:{[link:string]:string}} = {
         youtube: 'https://www.youtube.com/channel/UCAoy6rzhSf4ydcYjJw3WoVg',
         twitter: 'https://twitter.com/airaniiofifteen'
     },
+    iroha: {
+        youtube: 'https://www.youtube.com/channel/UC_vMYWcDjmfdpH6r4TTn1MQ',
+        twitter: 'https://twitter.com/kazamairohach'
+    },
     irys: {
         youtube: 'https://www.youtube.com/channel/UC8rcEBzJSleTkf_-agPM20g',
         twitter: 'https://twitter.com/irys_en'
@@ -95,6 +103,10 @@ export const links:{[name:string]:{[link:string]:string}} = {
         youtube: 'https://www.youtube.com/channel/UChAnqc_AY5_I3Px5dig3X1Q',
         twitter: 'https://twitter.com/inugamikorone'
     },
+    koyori: {
+        youtube: 'https://www.youtube.com/channel/UC6eWCld0KwmyHFbAqK3V-Rw',
+        twitter: 'https://twitter.com/hakuikoyori'
+    },
     kronii: {
         youtube: 'https://www.youtube.com/channel/UCmbs8T6MWqUHP1tIQvSgKrg',
         twitter: 'https://twitter.com/ourokronii'
@@ -102,6 +114,14 @@ export const links:{[name:string]:{[link:string]:string}} = {
     lamy: {
         youtube: 'https://www.youtube.com/channel/UCFKOVgVbGmX65RxO3EtH3iw/',
         twitter: 'https://twitter.com/yukihanalamy'
+    },
+    laplus: {
+        youtube: 'https://www.youtube.com/channel/UCENwRMx5Yh42zWpzURebzTw',
+        twitter: 'https://twitter.com/LaplusDarknesss'
+    },
+    lui: {
+        youtube: 'https://www.youtube.com/channel/UCs9_O1tRPMQTHQ-N_L6FU2g',
+        twitter: 'https://twitter.com/takanelui'
     },
     luna: {
         youtube: 'https://www.youtube.com/channel/UCa9Y57gfeY0Zro_noHRVrnw',

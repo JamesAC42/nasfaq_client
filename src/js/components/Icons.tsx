@@ -7,6 +7,7 @@ import azki from "../../images/holosymbols/azki.svg";
 import baelz from "../../images/holosymbols/baelz.svg";
 import botan from "../../images/holosymbols/botan.svg";
 import calliope from "../../images/holosymbols/calliope.svg";
+import chloe from "../../images/holosymbols/chloe.svg";
 import choco from "../../images/holosymbols/choco.svg";
 import civia from "../../images/holosymbols/civia.svg";
 import coco from "../../images/holosymbols/coco.svg";
@@ -18,12 +19,16 @@ import haato from "../../images/holosymbols/haato.svg";
 import hololive from "../../images/holosymbols/hololive.png";
 import inanis from "../../images/holosymbols/inanis.svg";
 import iofi from "../../images/holosymbols/iofi.svg";
+import iroha from "../../images/holosymbols/iroha.svg";
 import irys from "../../images/holosymbols/irys.svg";
 import kanata from "../../images/holosymbols/kanata.svg";
 import kiara from "../../images/holosymbols/kiara.svg";
 import korone from "../../images/holosymbols/korone.svg";
+import koyori from "../../images/holosymbols/koyori.svg";
 import kronii from "../../images/holosymbols/kronii.svg";
 import lamy from "../../images/holosymbols/lamy.svg";
+import laplus from "../../images/holosymbols/laplus.svg";
+import lui from "../../images/holosymbols/lui.svg";
 import luna from "../../images/holosymbols/luna.svg";
 import marine from "../../images/holosymbols/marine.svg";
 import matsuri from "../../images/holosymbols/matsuri.svg";
@@ -70,6 +75,7 @@ const iconMap: IIconMap = {
     "baelz": baelz,
     "botan": botan,
     "calliope": calliope,
+    "chloe":chloe,
     "choco": choco,
     "civia": civia,
     "coco": coco,
@@ -81,12 +87,16 @@ const iconMap: IIconMap = {
     "hololive": hololive,
     "inanis": inanis,
     "iofi": iofi,
+    "iroha": iroha,
     "irys": irys,
     "kanata": kanata,
     "kiara": kiara,
     "korone": korone,
+    "koyori":koyori,
     "kronii": kronii,
     "lamy": lamy,
+    "laplus":laplus,
+    "lui":lui,
     "luna": luna,
     "marine": marine,
     "matsuri": matsuri,
@@ -169,6 +179,13 @@ export const lineage = [
         "nene",
         "botan",
         "polka"
+    ],
+    [
+        "laplus",
+        "lui",
+        "koyori",
+        "chloe",
+        "iroha"
     ],
     [
         "calliope",
