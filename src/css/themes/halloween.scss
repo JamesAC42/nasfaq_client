@@ -701,6 +701,14 @@
         }
         span.oshi-stat {color:rgb(243, 104, 99);}
     }
+    .filter-container {
+        input {
+            background:#000;
+            color:#fff;
+            border-color:$orange;
+            &:focus {outline:1px solid $orange;}
+        }
+    }
 
     .gacha-container {
         .gacha-header-container {

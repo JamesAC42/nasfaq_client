@@ -627,8 +627,9 @@ div.oshiboard-item {
 }
 
 .filter-container {
-    padding: 10px;
+    padding: 30px 10px;
     border-bottom: 1px solid lightgray;
+    margin-bottom:10px;
     .filter-toggle {
         text-align: right;
     }
@@ -682,6 +683,8 @@ div.oshiboard-item {
             border-width: 2px;
             border-bottom-width: 4px;
             cursor: pointer;
+            
+            &:hover {opacity:0.7;}
         }
         .coin {
             width: 40px;
