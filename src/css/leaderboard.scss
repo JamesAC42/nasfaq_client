@@ -627,10 +627,10 @@ div.oshiboard-item {
 }
 
 .filter-container {
-    padding: 30px 10px;
+    padding: 10px;
     border-bottom: 1px solid lightgray;
-    margin-bottom:10px;
     .filter-toggle {
+        padding: 5px 0 0;
         text-align: right;
     }
     .filter-toggle span {
@@ -641,6 +641,7 @@ div.oshiboard-item {
         border-color: $ui-dark-subtle;
     }
     .filter-container-2 {
+        padding-bottom: 40px;
         > div:first-child {
             margin-top: -10px;
         }
@@ -661,7 +662,7 @@ div.oshiboard-item {
         }
         .num:last-of-type {
             margin-left: 5px;
-        }    
+        }
         .icon-selector {
             display: block;
             height: fit-content;
@@ -683,7 +684,7 @@ div.oshiboard-item {
             border-width: 2px;
             border-bottom-width: 4px;
             cursor: pointer;
-            
+
             &:hover {opacity:0.7;}
         }
         .coin {
@@ -714,7 +715,8 @@ div.oshiboard-item {
     }
 }
 .leaderboard-nav {
-    margin-top: 10px !important;
+    max-width: 100% !important;
+    margin: 10px 0 0 !important;
     padding-bottom: 10px;
     border-bottom: 1px solid lightgray;
     .dark & {
